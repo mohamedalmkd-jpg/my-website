@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030302">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<title>Mein Konto – VONUMO</title>
+<link rel="icon" type="image/webp" href="/assets/6925aa020ce5116c12186e64c389ccd4.webp">
+<link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
+<link rel="stylesheet" href="/assets/auth.css">
+<script src="/assets/auth-common.js" defer></script>
+</head>
+<body>
+<div class="aura" aria-hidden="true"><span class="strand"></span><span class="strand"></span><span class="strand"></span></div>
+<div class="shell">
+  <header class="top">
+    <a class="brand" href="/" aria-label="VONUMO Startseite"><img src="/assets/6925aa020ce5116c12186e64c389ccd4.webp" alt="" width="36" height="36"><img class="word" src="/assets/12aef5909d926daba20bbcf57370bc93.webp" alt="VONUMO" width="94" height="18"></a>
+    <span style="display:flex;gap:8px;align-items:center">
+      <a class="back" href="/">← Zur Website</a>
+      <button class="btn hidden" type="button" id="b-logout" style="min-height:44px;padding:8px 18px;font-size:14px"><span class="spin" aria-hidden="true"></span><span class="lbl">Abmelden</span></button>
+    </span>
+  </header>
+
+  <!-- Laden -->
+  <main class="card" id="c-loading" aria-busy="true">
+    <div class="skeleton" style="width:60%;height:28px;margin-bottom:16px"></div>
+    <div class="skeleton" style="width:90%;margin-bottom:10px"></div>
+    <div class="skeleton" style="width:75%"></div>
+    <p class="sr-only hidden">Wird geladen …</p>
+  </main>
+
+  <!-- Neues Passwort -->
+  <main class="card hidden" id="c-password" aria-labelledby="pw-title">
+    <h1 id="pw-title">Neues <em>Passwort.</em></h1>
+    <p class="sub">Legen Sie ein neues Passwort für Ihr Konto fest.</p>
+    <div id="pw-note" class="note"></div>
+    <form id="f-password" novalidate>
+      <input type="email" autocomplete="username" id="pw-user" class="hidden" readonly tabindex="-1" aria-hidden="true">
+      <div class="f"><label for="np">Neues Passwort</label><div class="pw"><input class="fld" id="np" type="password" autocomplete="new-password" minlength="10" required><button type="button" class="eye" aria-controls="np" aria-label="Passwort anzeigen">Zeigen</button></div><span class="hint">Mindestens 10 Zeichen, mit Buchstaben und Ziffern.</span><span class="err" id="np-err"></span></div>
+      <button class="btn main full" type="submit" id="b-password"><span class="spin" aria-hidden="true"></span><span class="lbl">Passwort speichern</span></button>
+    </form>
+  </main>
+
+  <!-- Telefon bestätigen -->
+  <main class="card hidden" id="c-phone" aria-labelledby="ph-title">
+    <div class="steps" aria-hidden="true"><span class="on"></span><span class="on" id="step2"></span><span id="step3"></span></div>
+    <h1 id="ph-title">Telefon <em>bestätigen.</em></h1>
+    <p class="sub" id="ph-sub">Zum Schutz Ihres Kontos bestätigen Sie bitte Ihre Telefonnummer. Wir senden Ihnen einen 6-stelligen Code per SMS.</p>
+    <div id="ph-note" class="note"></div>
+    <form id="f-phone" novalidate>
+      <div class="f"><label for="ph">Telefonnummer</label><input class="fld" id="ph" type="tel" inputmode="tel" autocomplete="tel" placeholder="+49 151 23456789" required><span class="hint">Deutsche Nummern ohne Vorwahl werden automatisch mit +49 ergänzt.</span><span class="err" id="ph-err"></span></div>
+      <button class="btn main full" type="submit" id="b-send"><span class="spin" aria-hidden="true"></span><span class="lbl">Code senden</span></button>
+    </form>
+    <form id="f-code" class="hidden" novalidate>
+      <p class="hint" style="margin:0">Code gesendet an <b id="ph-target"></b>. <button type="button" class="link" id="ph-change">Nummer ändern</button></p>
+      <fieldset style="border:0;margin:0;padding:0"><legend class="f" style="font-size:14px;color:#D8D0C2;margin-bottom:6px">6-stelliger Code</legend>
+        <div class="otp" id="otp"></div>
+      </fieldset>
+      <input type="text" id="otp-full" autocomplete="one-time-code" inputmode="numeric" class="hidden" aria-hidden="true" tabindex="-1">
+      <span class="err" id="otp-err" role="alert"></span>
+      <button class="btn main full" type="submit" id="b-verify"><span class="spin" aria-hidden="true"></span><span class="lbl">Bestätigen</span></button>
+      <div class="row"><span class="hint" id="resend-info"></span><button type="button" class="link" id="b-resend" disabled>Code erneut senden</button></div>
+    </form>
+  </main>
+
+  <!-- Konto -->
+  <main class="card wide hidden" id="c-account" aria-labelledby="ac-title">
+    <div id="ac-note" class="note"></div>
+    <div class="who">
+      <div class="avatar" id="avatar" aria-hidden="true"></div>
+      <div style="min-width:0">
+        <h1 id="ac-title" style="font-size:clamp(28px,5vw,40px)">Hallo, <em id="ac-name"></em></h1>
+        <span class="mono" style="color:var(--muted)" id="ac-since"></span>
+      </div>
+      <span style="flex:1"></span>
+      <a class="btn main" href="/#kontakt"><span class="lbl">Neue Anfrage</span></a>
+    </div>
+    <div class="grid2">
+      <section class="panel" aria-labelledby="h-req">
+        <h2 id="h-req">Meine Anfragen</h2>
+        <p class="hint" style="margin:0 0 14px">Anfragen, die Sie angemeldet senden, erscheinen hier mit aktuellem Status.</p>
+        <div class="list" id="req-list"><div class="skeleton"></div><div class="skeleton" style="width:70%"></div></div>
+      </section>
+      <section class="panel" aria-labelledby="h-prof">
+        <h2 id="h-prof">Profil</h2>
+        <dl class="kv" style="margin:14px 0 18px">
+          <dt>E-Mail</dt><dd><span id="p-email"></span><span id="p-email-b"></span></dd>
+          <dt>Telefon</dt><dd><span id="p-phone"></span><span id="p-phone-b"></span></dd>
+          <dt>Anmeldung</dt><dd id="p-prov"></dd>
+          <dt>Konto seit</dt><dd id="p-created"></dd>
+          <dt>Zuletzt</dt><dd id="p-last"></dd>
+        </dl>
+        <form id="f-name" novalidate>
+          <div class="f"><label for="nm">Name</label><input class="fld" id="nm" type="text" autocomplete="name" required><span class="err" id="nm-err"></span></div>
+          <button class="btn" type="submit" id="b-name"><span class="spin" aria-hidden="true"></span><span class="lbl">Name speichern</span></button>
+        </form>
+        <details style="margin-top:18px">
+          <summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--gold)">Passwort ändern</summary>
+          <form id="f-password2" novalidate style="margin-top:10px">
+            <div class="f"><label for="np2">Neues Passwort</label><div class="pw"><input class="fld" id="np2" type="password" autocomplete="new-password" minlength="10" required><button type="button" class="eye" aria-controls="np2" aria-label="Passwort anzeigen">Zeigen</button></div><span class="err" id="np2-err"></span></div>
+            <button class="btn" type="submit" id="b-password2"><span class="spin" aria-hidden="true"></span><span class="lbl">Passwort ändern</span></button>
+          </form>
+        </details>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  function ready(fn) { if (window.VO) fn(); else document.addEventListener('DOMContentLoaded', fn); }
+  var STATUS = { new: 'Eingegangen', in_progress: 'In Bearbeitung', quoted: 'Angebot gesendet', won: 'Beauftragt', closed: 'Abgeschlossen', spam: 'Abgeschlossen' };
+  var TYPE = { project: 'Projektanfrage', website_check: 'Website-Check', callback: 'Rückrufbitte' };
+  var PROV = { email: 'E-Mail', google: 'Google', apple: 'Apple', phone: 'Telefon' };
+  function fmt(d) { if (!d) return '–'; try { return new Date(d).toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) { return d; } }
+
+  ready(function () {
+    var VO = window.VO, q = new URLSearchParams(location.search), user = null, phoneTarget = '', timer = null;
+    function card(id) { ['c-loading', 'c-password', 'c-phone', 'c-account'].forEach(function (c) { $(c).classList.toggle('hidden', c !== id); }); $('b-logout').classList.toggle('hidden', id === 'c-loading'); }
+    function toLogin(err) { location.replace('/anmelden?next=' + encodeURIComponent('/konto') + (err ? '&fehler=' + err : '')); }
+
+    // Sitzung aus E-Mail-Link (Hash-Fragment) sicher an den Server übergeben, Hash sofort entfernen
+    function adoptHash() {
+      var h = new URLSearchParams(location.hash.slice(1));
+      if (!h.get('access_token') && !h.get('error_code') && !h.get('error')) return Promise.resolve();
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+      if (h.get('error_code') || h.get('error')) { toLogin(h.get('error_code') || h.get('error')); return new Promise(function () {}); }
+      return VO.api('/api/auth/adopt', { access_token: h.get('access_token'), refresh_token: h.get('refresh_token') });
+    }
+
+    function load() {
+      return VO.api('/api/auth/me').then(function (j) {
+        if (j.status === 503) { card('c-account'); VO.note($('ac-note'), 'info', VO.msg('auth_not_configured')); return; }
+        if (!j.ok) { toLogin(); return; }
+        user = j.user;
+        if (q.get('passwort') === 'neu') { $('pw-user').value = user.email; card('c-password'); return; }
+        if (j.needsPhone) { showPhone(); return; }
+        showAccount();
+      });
+    }
+
+    /* ---------- Passwort ---------- */
+    function savePassword(input, btn, errId, after) {
+      var v = input.value, e = v.length < 10 ? VO.msg('password_too_short') : (!/\d/.test(v) || !/[A-Za-zÄÖÜäöüß]/.test(v) ? VO.msg('password_weak') : '');
+      VO.fieldErr(input, e); if (e || btn.disabled) return;
+      VO.busy(btn, true, 'Wird gespeichert …');
+      VO.api('/api/auth/password', { password: v }).then(function (j) {
+        VO.busy(btn, false);
+        if (j.ok) { input.value = ''; after(); return; }
+        if (j.error === 'not_signed_in') return toLogin();
+        VO.fieldErr(input, j.fields ? VO.msg(j.fields.password) : VO.msg(j.error));
+      });
+    }
+    $('f-password').addEventListener('submit', function (e) {
+      e.preventDefault();
+      savePassword($('np'), $('b-password'), 'np-err', function () {
+        q.delete('passwort'); try { history.replaceState(null, '', '/konto'); } catch (er) {}
+        load().then(function () { VO.note($('ac-note'), 'good', 'Ihr neues Passwort ist gespeichert.'); VO.note($('ph-note'), 'good', 'Ihr neues Passwort ist gespeichert.'); });
+      });
+    });
+    $('f-password2').addEventListener('submit', function (e) {
+      e.preventDefault();
+      savePassword($('np2'), $('b-password2'), 'np2-err', function () { VO.note($('ac-note'), 'good', 'Ihr Passwort wurde geändert.'); $('f-password2').closest('details').open = false; });
+    });
+    document.querySelectorAll('.eye').forEach(function (b) {
+      b.onclick = function () { var i = $(b.getAttribute('aria-controls')); var s = i.type === 'password'; i.type = s ? 'text' : 'password'; b.textContent = s ? 'Verbergen' : 'Zeigen'; };
+    });
+
+    /* ---------- Telefon ---------- */
+    var boxes = [];
+    for (var i = 0; i < 6; i++) {
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.inputMode = 'numeric'; inp.maxLength = 1; inp.pattern = '[0-9]*';
+      inp.setAttribute('aria-label', 'Ziffer ' + (i + 1));
+      if (i === 0) inp.autocomplete = 'one-time-code';
+      boxes.push(inp); $('otp').appendChild(inp);
+    }
+    function fillCode(str, from) {
+      var d = String(str).replace(/\D/g, '').slice(0, 6 - from);
+      for (var k = 0; k < d.length; k++) boxes[from + k].value = d[k];
+      var n = Math.min(5, from + d.length); boxes[n].focus();
+      if (code().length === 6) $('f-code').requestSubmit ? $('f-code').requestSubmit() : $('b-verify').click();
+    }
+    function code() { return boxes.map(function (b) { return b.value; }).join(''); }
+    boxes.forEach(function (b, idx) {
+      b.addEventListener('input', function () { var v = b.value.replace(/\D/g, ''); b.value = ''; if (v) fillCode(v, idx); });
+      b.addEventListener('keydown', function (e) { if (e.key === 'Backspace' && !b.value && idx > 0) { boxes[idx - 1].value = ''; boxes[idx - 1].focus(); e.preventDefault(); } });
+      b.addEventListener('paste', function (e) { e.preventDefault(); fillCode((e.clipboardData || window.clipboardData).getData('text'), 0); });
+    });
+    function startTimer(sec) {
+      clearInterval(timer); $('b-resend').disabled = true;
+      var left = sec || 60;
+      function tick() { if (left <= 0) { clearInterval(timer); $('resend-info').textContent = ''; $('b-resend').disabled = false; return; } $('resend-info').textContent = 'Neuer Code in ' + left + ' s'; left--; }
+      tick(); timer = setInterval(tick, 1000);
+    }
+    function showPhone() {
+      card('c-phone');
+      if (user.pendingPhone) $('ph').value = user.pendingPhone;
+      else if (user.phone) $('ph').value = user.phone;
+    }
+    function sendCode(btn) {
+      var v = $('ph').value.trim();
+      if (v.replace(/\D/g, '').length < 7) { VO.fieldErr($('ph'), 'Bitte eine gültige Telefonnummer eingeben.'); return; }
+      VO.fieldErr($('ph'), ''); VO.note($('ph-note'));
+      if (btn.disabled) return;
+      VO.busy(btn, true, 'Wird gesendet …');
+      VO.api('/api/auth/phone-send', { phone: v }).then(function (j) {
+        VO.busy(btn, false);
+        if (j.ok) {
+          phoneTarget = j.phone; $('ph-target').textContent = j.phone;
+          $('f-phone').classList.add('hidden'); $('f-code').classList.remove('hidden'); $('step3').classList.add('on');
+          boxes.forEach(function (b) { b.value = ''; }); boxes[0].focus(); $('otp-err').textContent = '';
+          VO.note($('ph-note'), 'good', 'Code gesendet. Er ist einige Minuten gültig.');
+          startTimer(j.retryAfter || 60); return;
+        }
+        if (j.error === 'not_signed_in') return toLogin();
+        if (j.error === 'wait') { startTimer(j.retryAfter || 60); }
+        if (j.fields && j.fields.phone) VO.fieldErr($('ph'), 'Bitte eine gültige Telefonnummer mit Ländervorwahl eingeben, z. B. +49 151 23456789.');
+        else VO.note($('ph-note'), 'bad', VO.msg(j.error));
+      });
+    }
+    $('f-phone').addEventListener('submit', function (e) { e.preventDefault(); sendCode($('b-send')); });
+    $('b-resend').onclick = function () { $('ph').value = phoneTarget; sendCode($('b-resend')); };
+    $('ph-change').onclick = function () { $('f-code').classList.add('hidden'); $('f-phone').classList.remove('hidden'); $('step3').classList.remove('on'); $('ph').focus(); };
+    $('f-code').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var c = code(), b = $('b-verify');
+      if (c.length !== 6) { $('otp-err').textContent = 'Bitte alle 6 Ziffern eingeben.'; return; }
+      if (b.disabled) return;
+      VO.busy(b, true, 'Wird geprüft …'); $('otp-err').textContent = '';
+      VO.api('/api/auth/phone-verify', { phone: phoneTarget, code: c }).then(function (j) {
+        VO.busy(b, false);
+        if (j.ok) { user = j.user; clearInterval(timer); showAccount(); VO.note($('ac-note'), 'good', 'Telefonnummer bestätigt. Ihr Konto ist vollständig aktiv.'); return; }
+        if (j.error === 'not_signed_in') return toLogin();
+        $('otp-err').textContent = VO.msg(j.error);
+        boxes.forEach(function (x) { x.value = ''; }); boxes[0].focus();
+      });
+    });
+
+    /* ---------- Konto ---------- */
+    function showAccount() {
+      card('c-account');
+      var name = user.fullName || user.email.split('@')[0];
+      $('ac-name').textContent = name.split(' ')[0] + '.';
+      $('ac-since').textContent = 'Kundenkonto';
+      var av = $('avatar'); av.textContent = '';
+      if (user.avatarUrl && /^https:\/\//.test(user.avatarUrl)) { var im = document.createElement('img'); im.src = user.avatarUrl; im.alt = ''; im.referrerPolicy = 'no-referrer'; im.onerror = function () { av.textContent = name.charAt(0).toUpperCase(); }; av.appendChild(im); }
+      else av.textContent = name.charAt(0).toUpperCase();
+      $('p-email').textContent = user.email || '–';
+      $('p-email-b').innerHTML = user.email ? (user.emailConfirmed ? '<span class="badge ok">✓ bestätigt</span>' : '<span class="badge no">unbestätigt</span>') : '';
+      $('p-phone').textContent = user.phone || '–';
+      $('p-phone-b').innerHTML = user.phone ? (user.phoneConfirmed ? '<span class="badge ok">✓ bestätigt</span>' : '<span class="badge no">unbestätigt</span>') : '';
+      $('p-prov').textContent = (user.providers || []).map(function (p) { return PROV[p] || p; }).join(', ') || '–';
+      $('p-created').textContent = fmt(user.createdAt);
+      $('p-last').textContent = fmt(user.lastSignInAt);
+      $('nm').value = user.fullName || '';
+      if (q.get('willkommen')) VO.note($('ac-note'), 'good', 'Willkommen bei VONUMO! Ihr Konto ist eingerichtet.');
+      loadRequests();
+    }
+    function loadRequests() {
+      var list = $('req-list');
+      VO.api('/api/account/inquiries').then(function (j) {
+        list.textContent = '';
+        if (!j.ok) {
+          var e = document.createElement('div'); e.className = 'empty';
+          e.textContent = j.error === 'phone_unverified' ? 'Bitte bestätigen Sie zuerst Ihre Telefonnummer.' : 'Anfragen konnten nicht geladen werden. Bitte später erneut versuchen.';
+          list.appendChild(e); return;
+        }
+        if (!j.items.length) { var em = document.createElement('div'); em.className = 'empty'; em.textContent = 'Noch keine Anfragen. Senden Sie Ihre erste Anfrage über die Website, während Sie angemeldet sind.'; list.appendChild(em); return; }
+        j.items.forEach(function (it) {
+          var d = document.createElement('article'); d.className = 'req';
+          var r = document.createElement('div'); r.className = 'row';
+          var a = document.createElement('span'); a.className = 'mono'; a.textContent = it.reference;
+          var s = document.createElement('span'); s.className = 'st st-' + it.status; s.textContent = STATUS[it.status] || it.status;
+          r.appendChild(a); r.appendChild(s); d.appendChild(r);
+          var t = document.createElement('span'); t.style.fontWeight = '600'; t.textContent = (TYPE[it.type] || it.type) + (it.service ? ' · ' + it.service : '') + (it.website ? ' · ' + it.website : '');
+          d.appendChild(t);
+          if (it.message) { var m = document.createElement('span'); m.className = 'hint'; m.textContent = it.message.length > 160 ? it.message.slice(0, 160) + ' …' : it.message; d.appendChild(m); }
+          var w = document.createElement('span'); w.className = 'hint'; w.textContent = 'Gesendet ' + fmt(it.created_at); d.appendChild(w);
+          list.appendChild(d);
+        });
+      });
+    }
+    $('f-name').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = $('nm').value.trim(), b = $('b-name');
+      if (v.length < 2) { VO.fieldErr($('nm'), 'Bitte Ihren Namen eingeben.'); return; }
+      VO.fieldErr($('nm'), ''); if (b.disabled) return;
+      VO.busy(b, true, 'Wird gespeichert …');
+      VO.api('/api/auth/profile', { fullName: v }).then(function (j) {
+        VO.busy(b, false);
+        if (j.ok) { user = Object.assign(user, j.user); showAccount(); VO.note($('ac-note'), 'good', 'Name gespeichert.'); return; }
+        if (j.error === 'not_signed_in') return toLogin();
+        VO.note($('ac-note'), 'bad', VO.msg(j.error));
+      });
+    });
+    $('b-logout').onclick = function () {
+      var b = this; if (b.disabled) return;
+      VO.busy(b, true, 'Abmelden …');
+      VO.api('/api/auth/logout', {}).then(function () { location.replace('/anmelden'); });
+    };
+
+    adoptHash().then(load);
+  });
+})();
+</script>
+</body>
+</html>

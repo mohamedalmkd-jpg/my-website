@@ -350,6 +350,7 @@ header.site-hdr.compact nav{padding-top:8px !important;padding-bottom:8px !impor
 .totop svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
 .totop:hover{background:rgba(255,190,90,.14)}
 .page-mode .totop{display:none}
+@media (max-width: 640px){ .acct-link .acct-txt{display:none} .acct-link{padding:10px 13px !important} }
 @media (max-width: 640px){ header.site-hdr nav{flex-wrap:nowrap !important;gap:8px !important} header.site-hdr nav > div{gap:8px !important;flex-wrap:nowrap !important} .brand{gap:9px} .brand-mark-wrap{width:34px;height:34px} .brand-word-wrap{height:16px} }
 @media (max-width: 760px){ .hide-sm{display:none} .ba-cube{flex:0 0 96px !important} .ba-cube .cube{scale:.6} }
 @media (hover: none){
@@ -578,6 +579,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
         <sc-for list="{{navItems}}" as="nv" hint-placeholder-count="4">
           <a href="{{nv.href}}" onClick="{{nv.open}}" class="navlink hide-sm" style="text-decoration: none; color: #C2BAAD">{{nv.t}}</a>
         </sc-for>
+        <a href="{{acctHref}}" class="pill-btn acct-link" aria-label="{{acctLabel}}" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; color: #D8D0C2; background: rgba(255,255,255,.04); border: 1px solid rgba(201,164,92,.3); border-radius: 999px; padding: 10px 14px; min-height: 44px; box-sizing: border-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span class="acct-txt">{{acctLabel}}</span></a>
         <button type="button" class="pill-btn" onClick="{{openPal}}" aria-label="Suche öffnen" style="display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 14px; color: #D8D0C2; background: rgba(255,255,255,.04); border: 1px solid rgba(201,164,92,.3); border-radius: 999px; padding: 10px 14px; min-height: 44px; cursor: pointer">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><span class="hide-sm">Suchen</span>
         </button>
@@ -2258,6 +2260,7 @@ function boot(self) {
   if (self.booted || !self.root) return;
   self.booted = true;
   apiCall('/api/status').then(function (j) { if (j && j.ok) self.setState({ aiOn: !!j.ai, dbOn: !!j.db }); });
+  try { if (/(?:^|;\s*)vo_li=1/.test(document.cookie)) self.setState({ signedIn: true }); } catch (e) {}
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
   self.reduce = reduce;
@@ -3000,6 +3003,7 @@ class Component extends DCLogic {
       mailUrl: mailLink(S.outSubject || 'Projektanfrage', S.outMsg || ''),
       copyOut: function () { copyText(self, self.state.outMsg, 'Text'); },
       toast: S.toast, hasToast: !!S.toast,
+      acctHref: S.signedIn ? '/konto' : '/anmelden', acctLabel: S.signedIn ? 'Konto' : 'Anmelden',
       aiLabel: S.aiOn ? '● KI online' : '● FAQ-Modus',
       aiTitle: S.aiOn ? 'Antworten werden live von einem KI-Modell erzeugt.' : 'Antworten aus unseren häufigen Fragen (ohne KI-Modell).',
       contacts: [

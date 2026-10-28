@@ -5,6 +5,7 @@
  * vergibt eine eindeutige Referenz und benachrichtigt per E-Mail (sofern eingerichtet).
  */
 const C = require('./_lib/core');
+const A = require('./_lib/auth');
 
 const TYPES = ['project', 'website_check', 'callback'];
 const SERVICES = ['Website-Entwicklung', 'UI/UX-Design', 'KI-Lösungen', 'Noch offen'];
@@ -73,14 +74,28 @@ module.exports = async function handler(req, res) {
     if (cnt >= 5) return C.send(res, 429, { ok: false, error: 'rate_limited' });
 
     const d = v.data;
+    // Angemeldete Nutzer: Anfrage dem Konto zuordnen (sichtbar unter /konto)
+    let userId = null;
+    if (A.enabled() && A.parseCookies(req)[A.RT]) {
+      try { const s = await A.currentUser(req, res); if (s && s.user) userId = s.user.id; } catch (e) { C.log('inquiry_user_lookup_failed', {}); }
+    }
     let row = null, ref = '';
     for (let attempt = 0; attempt < 3 && !row; attempt++) {
       ref = C.reference();
       try {
-        const ins = await C.sb('inquiries', {
-          method: 'POST', prefer: 'return=representation',
-          body: Object.assign({}, d, { reference: ref, ip_hash: ip, user_agent: C.oneLine((req.headers || {})['user-agent'], 300) })
-        });
+        const rec = Object.assign({}, d, { reference: ref, ip_hash: ip, user_agent: C.oneLine((req.headers || {})['user-agent'], 300) });
+        if (userId) rec.user_id = userId;
+        let ins;
+        try {
+          ins = await C.sb('inquiries', { method: 'POST', prefer: 'return=representation', body: rec });
+        } catch (e) {
+          // Migration 002 (Spalte user_id) noch nicht ausgeführt: ohne Zuordnung speichern statt Anfrage zu verlieren
+          if (userId && e.dbStatus === 400 && /user_id/.test(JSON.stringify(e.detail || ''))) {
+            C.log('inquiry_user_id_column_missing', {});
+            delete rec.user_id;
+            ins = await C.sb('inquiries', { method: 'POST', prefer: 'return=representation', body: rec });
+          } else throw e;
+        }
         row = Array.isArray(ins.data) ? ins.data[0] : ins.data;
       } catch (e) {
         if (e.dbStatus === 409 && attempt < 2) continue; // Referenz bereits vergeben

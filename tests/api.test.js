@@ -197,3 +197,40 @@ test('Admin ohne ADMIN_KEY ist komplett deaktiviert', async () => {
   const r = await call(admin, { method: 'GET', url: '/api/admin/inquiries', headers: { authorization: 'Bearer ' } });
   assert.strictEqual(r.status, 503);
 });
+
+/* ---------- Anmeldung ---------- */
+test('Auth: Telefonnummern werden korrekt nach E.164 normalisiert', () => {
+  const A = fresh('../api/_lib/auth');
+  assert.strictEqual(A.normalizePhone('0151 234 56789'), '+4915123456789');
+  assert.strictEqual(A.normalizePhone('+49 (151) 234-56789'), '+4915123456789');
+  assert.strictEqual(A.normalizePhone('0049 30 1234567'), '+49301234567');
+  assert.strictEqual(A.normalizePhone('+1 415 555 0100'), '+14155550100');
+  assert.strictEqual(A.normalizePhone('12'), '');
+  assert.strictEqual(A.normalizePhone('abc'), '');
+});
+
+test('Auth: Passwortregeln und sichere Weiterleitungsziele', () => {
+  const H = fresh('../api/auth/[action].js');
+  assert.strictEqual(H.passwordProblem('kurz1'), 'password_too_short');
+  assert.strictEqual(H.passwordProblem('nurbuchstabenlang'), 'password_weak');
+  assert.strictEqual(H.passwordProblem('Sicher2026Passwort'), null);
+  assert.strictEqual(H.safeNext('/konto?x=1'), '/konto?x=1');
+  assert.strictEqual(H.safeNext('//evil.example'), '/konto');
+  assert.strictEqual(H.safeNext('https://evil.example'), '/konto');
+  assert.strictEqual(H.safeNext('/\\evil'), '/konto');
+});
+
+test('Auth: ohne Supabase-Schlüssel ehrlich deaktiviert, fremde Herkunft abgelehnt', async () => {
+  setEnv({ SUPABASE_ANON_KEY: null });
+  const H = fresh('../api/auth/[action].js');
+  const c = await call(H, { method: 'GET', url: '/api/auth/config' });
+  assert.deepStrictEqual(c.json, { ok: true, enabled: false });
+  const l = await call(H, { url: '/api/auth/login', body: { email: 'a@b.de', password: 'x' } });
+  assert.strictEqual(l.status, 503);
+  setEnv({ SUPABASE_ANON_KEY: 'anon' });
+  const H2 = fresh('../api/auth/[action].js');
+  const o = await call(H2, { url: '/api/auth/login', headers: { origin: 'https://evil.example', host: 'vonumo.vercel.app' }, body: { email: 'a@b.de', password: 'x' } });
+  assert.strictEqual(o.status, 403);
+  const m = await call(H2, { method: 'GET', url: '/api/auth/me', headers: { host: 'vonumo.vercel.app' } });
+  assert.strictEqual(m.status, 401);
+});

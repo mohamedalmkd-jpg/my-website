@@ -53,7 +53,6 @@ begin
   if exists (select 1 from pg_roles where rolname = 'anon') then
     execute 'revoke all on public.inquiries from anon';
   end if;
-  if exists (select 1 from pg_roles where rolname = 'authenticated') then
-    execute 'revoke all on public.inquiries from authenticated';
-  end if;
+  -- Rechte für "authenticated" regelt 002_auth_profiles.sql (nur eigene Zeilen, nur freigegebene Spalten).
+  -- Ohne 002 gibt es für authenticated keine Policy, RLS liefert dann keine Zeilen.
 end $$;
