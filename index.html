@@ -12,19 +12,21 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="/assets/2ab16d61bb1a049ccbf14a74c6543b24.webp">
 <link rel="icon" type="image/webp" href="/assets/6925aa020ce5116c12186e64c389ccd4.webp">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="/assets/2ab16d61bb1a049ccbf14a74c6543b24.webp" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/01b111064b513d59aacee271607ef9af.webp">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&amp;family=Manrope:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<style>html,body{margin:0;background:#030302;color:#F6EFE2}</style>
+<link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
+<link rel="preload" as="font" type="font/woff" href="/assets/fonts/cormorant.woff" crossorigin>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/cormorant.woff) format('woff')}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url(/assets/fonts/cormorant-italic.woff) format('woff')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/assets/fonts/manrope.woff) format('woff')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url(/assets/fonts/jetbrainsmono.woff) format('woff')}
+html,body{margin:0;background:#030302;color:#F6EFE2}</style>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&amp;family=Manrope:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 <style>
 html{scroll-behavior:smooth}
 body{margin:0;background:#030302}
@@ -836,7 +838,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
             <span style="font-weight: 600; font-size: 15px">VONUMO-Assistent</span>
             <span style="font-size: 12px; color: #C2BAAD">Hilft sofort · verbindet Sie bei Bedarf persönlich</span>
           </span>
-          <span class="mono pulse" style="margin-left: auto; font-size: 11px; color: #E8C57A">● online</span>
+          <span class="mono pulse" title="{{aiTitle}}" style="margin-left: auto; font-size: 11px; color: #E8C57A">{{aiLabel}}</span>
         </div>
         <div ref="{{setChatBox}}" aria-live="polite" style="height: 420px; overflow-y: auto; padding: 22px 20px; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth">
           <sc-for list="{{chat}}" as="m" hint-placeholder-count="1">
@@ -881,7 +883,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
                     <sc-if value="{{m.hasCbErr}}" hint-placeholder-val="{{false}}">
                       <span class="cb-err cb-wide" role="alert">{{m.cbErr}}</span>
                     </sc-if>
-                    <button type="submit" class="btn btn-main cb-wide cb-submit">Rückruf anfordern</button>
+                    <button type="submit" class="btn btn-main cb-wide cb-submit" disabled="{{cbSending}}">{{cbLabel}}</button>
                   </form>
                 </sc-if>
                 <sc-if value="{{m.hasHelp}}" hint-placeholder-val="{{false}}">
@@ -1418,13 +1420,14 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
           <sc-if value="{{checkSent}}" hint-placeholder-val="{{false}}">
             <div class="rise" style="display: flex; flex-direction: column; gap: 14px">
               <span style="width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: #E8C57A; color: #030302; font-size: 22px">✓</span>
-              <span style="font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 500">Fast geschafft.</span>
-              <span style="font-size: 15px; line-height: 1.6; color: #D8D0C2">Senden Sie die Anfrage per E-Mail. Ihr Video kommt innerhalb von zwei Werktagen.</span>
+              <span style="font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 500">{{checkTitle}}</span>
+              <span style="font-size: 15px; line-height: 1.6; color: #D8D0C2">{{checkText}}</span>
+              <sc-if value="{{checkOnline}}" hint-placeholder-val="{{false}}"><span class="mono" style="font-size: 15px; color: #FFFFFF">Referenz: {{checkRef}}</span></sc-if>
               <div style="display: flex; flex-wrap: wrap; gap: 10px">
-                <a href="{{checkMail}}" class="btn btn-main" style="text-decoration: none; background: #E2C27D; color: #030302; font-weight: 600; padding: 14px 22px; border-radius: 999px; min-height: 50px; box-sizing: border-box; display: inline-flex; align-items: center"><span style="position: relative; z-index: 2">Per E-Mail senden</span></a>
+                <sc-if value="{{checkOffline}}" hint-placeholder-val="{{false}}"><a href="{{checkMail}}" class="btn btn-main" style="text-decoration: none; background: #E2C27D; color: #030302; font-weight: 600; padding: 14px 22px; border-radius: 999px; min-height: 50px; box-sizing: border-box; display: inline-flex; align-items: center"><span style="position: relative; z-index: 2">Per E-Mail senden</span></a></sc-if>
                 <a href="tel:+4915906712485" class="btn btn-ghost" style="text-decoration: none; color: #FFFFFF; font-weight: 500; padding: 14px 22px; border-radius: 999px; border: 1px solid rgba(201,164,92,.45); min-height: 50px; box-sizing: border-box; display: inline-flex; align-items: center">Anrufen</a>
               </div>
-              <button type="button" onClick="{{checkReset}}" class="pill-btn" style="align-self: start; font: inherit; font-size: 14px; color: #DDD6C6; background: none; border: 1px solid rgba(201,164,92,.3); border-radius: 999px; padding: 10px 16px; min-height: 44px; cursor: pointer">Angaben ändern</button>
+              <button type="button" onClick="{{checkReset}}" class="pill-btn" style="align-self: start; font: inherit; font-size: 14px; color: #DDD6C6; background: none; border: 1px solid rgba(201,164,92,.3); border-radius: 999px; padding: 10px 16px; min-height: 44px; cursor: pointer">{{checkResetLabel}}</button>
             </div>
           </sc-if>
           <sc-if value="{{checkOpen}}" hint-placeholder-val="{{true}}">
@@ -1435,7 +1438,8 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
               <label for="c-mail" style="font-size: 14px; color: #D8D0C2">E-Mail für das Video</label>
               <input id="c-mail" class="fld" type="email" autocomplete="email" placeholder="name@unternehmen.de" aria-invalid="{{cErrMailStr}}">
               <sc-if value="{{cErrMail}}" hint-placeholder-val="{{false}}"><span role="alert" style="font-size: 13px; color: #E8A598">Bitte geben Sie eine gültige E-Mail-Adresse ein.</span></sc-if>
-              <button type="button" onClick="{{sendCheck}}" class="btn btn-main magnet" style="margin-top: 4px; font: inherit; font-weight: 600; background: #FFFFFF; color: #030302; border: 0; border-radius: 999px; padding: 16px 30px; min-height: 54px; cursor: pointer"><span style="position: relative; z-index: 2">Kostenlosen Check anfordern →</span></button>
+              <sc-if value="{{hasCheckErr}}" hint-placeholder-val="{{false}}"><span role="alert" style="font-size: 14px; line-height: 1.5; color: #E8A598">{{checkErr}}</span></sc-if>
+              <button type="button" onClick="{{sendCheck}}" disabled="{{checkSending}}" aria-busy="{{checkSendingStr}}" class="btn btn-main magnet" style="margin-top: 4px; font: inherit; font-weight: 600; background: #FFFFFF; color: #030302; border: 0; border-radius: 999px; padding: 16px 30px; min-height: 54px; cursor: pointer"><span style="position: relative; z-index: 2">{{checkLabel}}</span></button>
               <span style="font-size: 12px; line-height: 1.5; color: #BFA676">Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Angaben gemäß unserer <a href="#datenschutz">Datenschutzerklärung</a> zu.</span>
             </form>
           </sc-if>
@@ -1492,11 +1496,15 @@ E-Mail: almoakedmohammad@gmail.com</p>
         </div>
         <div style="display: flex; flex-direction: column; gap: 8px; padding: 22px 24px; border-radius: 10px; border: 1px solid rgba(201,164,92,.16); background: rgba(9,8,6,.85)">
           <h3 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 500">2. Hosting und Server-Logfiles</h3>
-          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #DDD6C6; white-space: pre-line">Diese Website wird bei [Hosting-Anbieter, z. B. Vercel Inc.] betrieben. Beim Aufruf der Seiten werden technisch notwendige Daten verarbeitet: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite und Browsertyp. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, unser berechtigtes Interesse an einem sicheren und stabilen Betrieb.</p>
+          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #DDD6C6; white-space: pre-line">Diese Website wird bei Vercel Inc. (440 N Barranca Ave #4133, Covina, CA 91723, USA) betrieben. Beim Aufruf der Seiten werden technisch notwendige Daten verarbeitet: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite und Browsertyp. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, unser berechtigtes Interesse an einem sicheren und stabilen Betrieb.</p>
         </div>
         <div style="display: flex; flex-direction: column; gap: 8px; padding: 22px 24px; border-radius: 10px; border: 1px solid rgba(201,164,92,.16); background: rgba(9,8,6,.85)">
           <h3 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 500">3. Kontaktaufnahme</h3>
-          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #DDD6C6; white-space: pre-line">Wenn Sie uns per E-Mail, Telefon oder über ein Formular dieser Website kontaktieren, verarbeiten wir Ihre Angaben, um Ihre Anfrage zu bearbeiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Wir löschen die Daten, sobald sie für die Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #DDD6C6; white-space: pre-line">Wenn Sie uns per E-Mail, Telefon oder über ein Formular dieser Website kontaktieren, verarbeiten wir Ihre Angaben, um Ihre Anfrage zu bearbeiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Angaben aus den Formularen (Projektanfrage, Website-Check, Rückrufbitte) speichern wir in einer Datenbank bei Supabase Inc. (Server in der EU, sofern so eingerichtet) und erhalten eine Benachrichtigung per E-Mail über den Versanddienst Resend (Plus Five Five, Inc., USA). Zum Schutz vor Missbrauch speichern wir außerdem einen nicht umkehrbaren Hashwert Ihrer IP-Adresse und die Browserkennung. Wir löschen die Daten, sobald sie für die Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; padding: 22px 24px; border-radius: 10px; border: 1px solid rgba(201,164,92,.16); background: rgba(9,8,6,.85)">
+          <h3 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 500">3a. KI-Assistent</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #DDD6C6; white-space: pre-line">Wenn der Assistent als „KI online“ gekennzeichnet ist und Sie ihm schreiben, werden Ihre Nachrichten des laufenden Gesprächs zur Erzeugung der Antwort an Anthropic PBC (USA) übermittelt. Wir speichern die Chat-Inhalte nicht. Bitte geben Sie im Chat keine sensiblen Daten ein. Im „FAQ-Modus“ werden die Antworten ohne Übermittlung direkt in Ihrem Browser erzeugt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, unser berechtigtes Interesse an einer schnellen Beantwortung Ihrer Fragen.</p>
         </div>
         <div style="display: flex; flex-direction: column; gap: 8px; padding: 22px 24px; border-radius: 10px; border: 1px solid rgba(201,164,92,.16); background: rgba(9,8,6,.85)">
           <h3 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 500">4. Schriftarten</h3>
@@ -1549,19 +1557,29 @@ E-Mail: almoakedmohammad@gmail.com</p>
         <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
           <div class="rise" style="display: flex; flex-direction: column; gap: 16px; padding: 8px 0">
             <span style="width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: #E2C27D; color: #030302; font-size: 24px">✓</span>
-            <span style="font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 500; line-height: 1.1">Ihre Anfrage ist bereit.</span>
-            <span style="font-size: 16px; line-height: 1.6; color: #D8D0C2">Senden Sie sie mit einem Klick per E-Mail oder rufen Sie uns direkt an. Wir antworten innerhalb von zwei Werktagen.</span>
+            <span style="font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 500; line-height: 1.1">{{sentTitle}}</span>
+            <span style="font-size: 16px; line-height: 1.6; color: #D8D0C2">{{sentText}}</span>
+            <sc-if value="{{sentOnline}}" hint-placeholder-val="{{false}}">
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(232,197,122,.4); background: rgba(232,197,122,.07)">
+                <span class="mono" style="font-size: 12px; color: #E8C57A">Ihre Referenz</span>
+                <span class="mono" style="font-size: 18px; font-weight: 500; letter-spacing: .04em; color: #FFFFFF">{{sentRef}}</span>
+                <button type="button" onClick="{{copyRef}}" class="pill-btn" style="margin-left: auto; font: inherit; font-size: 13px; color: #DDD6C6; background: none; border: 1px solid rgba(201,164,92,.3); border-radius: 999px; padding: 8px 14px; min-height: 40px; cursor: pointer">Kopieren</button>
+              </div>
+            </sc-if>
             <div style="display: flex; flex-wrap: wrap; gap: 10px">
-              <a href="{{mailUrl}}" class="btn btn-main" style="text-decoration: none; background: #E2C27D; color: #030302; font-weight: 600; padding: 14px 22px; border-radius: 999px; min-height: 50px; box-sizing: border-box; display: inline-flex; align-items: center"><span style="position: relative; z-index: 2">Per E-Mail senden</span></a>
+              <sc-if value="{{sentOffline}}" hint-placeholder-val="{{false}}"><a href="{{mailUrl}}" class="btn btn-main" style="text-decoration: none; background: #E2C27D; color: #030302; font-weight: 600; padding: 14px 22px; border-radius: 999px; min-height: 50px; box-sizing: border-box; display: inline-flex; align-items: center"><span style="position: relative; z-index: 2">Per E-Mail senden</span></a></sc-if>
               <a href="tel:+4915906712485" class="btn btn-ghost" style="text-decoration: none; color: #FFFFFF; font-weight: 500; padding: 14px 22px; border-radius: 999px; border: 1px solid rgba(201,164,92,.45); min-height: 50px; box-sizing: border-box; display: inline-flex; align-items: center">Anrufen: +49 159 06712485</a>
             </div>
-            <div class="mono" style="white-space: pre-wrap; font-size: 13px; line-height: 1.6; color: #DDD6C6; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(201,164,92,.18); background: rgba(3,3,2,.7); max-height: 200px; overflow: auto">{{outMsg}}</div>
-            <span style="font-size: 13px; line-height: 1.5; color: #BFA676">Falls sich kein E-Mail-Programm öffnet: Schreiben Sie direkt an almoakedmohammad@gmail.com.</span>
+            <sc-if value="{{sentOffline}}" hint-placeholder-val="{{false}}">
+              <div class="mono" style="white-space: pre-wrap; font-size: 13px; line-height: 1.6; color: #DDD6C6; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(201,164,92,.18); background: rgba(3,3,2,.7); max-height: 200px; overflow: auto">{{outMsg}}</div>
+              <span style="font-size: 13px; line-height: 1.5; color: #BFA676">Falls sich kein E-Mail-Programm öffnet: Schreiben Sie direkt an almoakedmohammad@gmail.com.</span>
+            </sc-if>
             <button type="button" onClick="{{reset}}" class="btn btn-ghost" style="align-self: start; font: inherit; color: #FFFFFF; background: none; border: 1px solid rgba(201,164,92,.45); border-radius: 999px; padding: 12px 22px; min-height: 44px; cursor: pointer">Neue Anfrage</button>
           </div>
         </sc-if>
         <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
-          <form class="form-grid" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px">
+          <form class="form-grid" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px" novalidate>
+            <div aria-hidden="true" style="position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden"><label for="f-hp">Bitte leer lassen</label><input id="f-hp" type="text" tabindex="-1" autocomplete="off"></div>
             <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><label for="f-name" style="font-size: 14px; color: #D8D0C2">Name</label><input id="f-name" class="fld" type="text" autocomplete="name" placeholder="Vor- und Nachname" aria-invalid="{{errNameStr}}"><sc-if value="{{errName}}" hint-placeholder-val="{{false}}"><span role="alert" style="font-size: 13px; color: #E8A598">Bitte geben Sie Ihren Namen ein.</span></sc-if></div>
             <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><label for="f-firma" style="font-size: 14px; color: #D8D0C2">Unternehmen</label><input id="f-firma" class="fld" type="text" autocomplete="organization" placeholder="Optional"></div>
             <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0; grid-column: 1 / -1"><label for="f-mail" style="font-size: 14px; color: #D8D0C2">E-Mail</label><input id="f-mail" class="fld" type="email" autocomplete="email" placeholder="name@unternehmen.de" aria-invalid="{{errMailStr}}"><sc-if value="{{errMail}}" hint-placeholder-val="{{false}}"><span role="alert" style="font-size: 13px; color: #E8A598">Bitte geben Sie eine gültige E-Mail-Adresse ein, z. B. name@firma.de.</span></sc-if></div>
@@ -1576,7 +1594,10 @@ E-Mail: almoakedmohammad@gmail.com</p>
             <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0; grid-column: 1 / -1"><label for="f-msg" style="font-size: 14px; color: #D8D0C2">Ihr Vorhaben</label><textarea id="f-msg" class="fld" rows="5" placeholder="Was soll entstehen, und bis wann?" style="resize: vertical" aria-invalid="{{errMsgStr}}"></textarea><sc-if value="{{errMsg}}" hint-placeholder-val="{{false}}"><span role="alert" style="font-size: 13px; color: #E8A598">Beschreiben Sie Ihr Vorhaben in ein paar Worten (mindestens 10 Zeichen).</span></sc-if></div>
             <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px">
               <span style="display: flex; flex-direction: column; gap: 6px; max-width: 44ch"><label for="f-ok" style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: #D8D0C2; cursor: pointer"><input id="f-ok" type="checkbox" aria-invalid="{{errOkStr}}" style="width: 20px; height: 20px; flex: none; margin: 1px 0 0; accent-color: #E8C57A"><span>Ich stimme zu, dass meine Angaben zur Bearbeitung der Anfrage verarbeitet werden. Details in der <a href="#datenschutz">Datenschutzerklärung</a>.</span></label><sc-if value="{{errOk}}" hint-placeholder-val="{{false}}"><span role="alert" style="font-size: 13px; color: #E8A598">Bitte stimmen Sie der Verarbeitung zu.</span></sc-if></span>
-              <button type="button" onClick="{{send}}" class="btn btn-main magnet" style="font: inherit; font-weight: 600; background: #E2C27D; color: #030302; border: 0; border-radius: 999px; padding: 16px 30px; min-height: 54px; cursor: pointer"><span style="position: relative; z-index: 2">Anfrage senden →</span></button>
+              <button type="button" onClick="{{send}}" disabled="{{sending}}" aria-busy="{{sendingStr}}" class="btn btn-main magnet" style="font: inherit; font-weight: 600; background: #E2C27D; color: #030302; border: 0; border-radius: 999px; padding: 16px 30px; min-height: 54px; cursor: pointer"><span style="position: relative; z-index: 2">{{sendLabel}}</span></button>
+            </div>
+            <div style="grid-column: 1 / -1">
+              <sc-if value="{{hasSendErr}}" hint-placeholder-val="{{false}}"><span role="alert" style="display: block; font-size: 14px; line-height: 1.5; color: #E8A598">{{sendErr}}</span></sc-if>
             </div>
           </form>
         </sc-if>
@@ -2167,9 +2188,24 @@ function countUp(el) {
   }
   requestAnimationFrame(step);
 }
-var CONTACT = { mail: 'almoakedmohammad@gmail.com', tel: '+49 159 06712485', telHref: 'tel:+4915906712485', wa: 'https://wa.me/4915906712485' };
+var CONTACT = { mail: 'almoakedmohammad@gmail.com', tel: '+49 159 06712485', telHref: 'tel:+4915906712485' };
 var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-function waLink(t) { return CONTACT.wa + '?text=' + encodeURIComponent(t); }
+/* ---------- Server-API (echte Speicherung, echte KI) ---------- */
+var API_ERR = {
+  rate_limited: 'Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in ein paar Minuten erneut oder rufen Sie uns an.',
+  validation: 'Bitte prüfen Sie Ihre Angaben.',
+  rejected: 'Die Anfrage konnte nicht angenommen werden.'
+};
+function apiCall(path, body) {
+  var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  var t = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+  return fetch(path, { method: body ? 'POST' : 'GET', headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined, signal: ctrl ? ctrl.signal : undefined })
+    .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j.status = r.status; return j; }); })
+    .catch(function () { return { ok: false, status: 0, error: 'network' }; })
+    .then(function (j) { if (t) clearTimeout(t); return j; });
+}
+/* Online-Speicherung nicht möglich (nicht eingerichtet, Serverfehler, offline) → ehrlicher E-Mail-Weg */
+function apiOffline(j) { return !j || j.status === 0 || j.status === 503 || j.status >= 500; }
 function mailLink(sub, t) { return 'mailto:' + CONTACT.mail + '?subject=' + encodeURIComponent(sub) + '&body=' + encodeURIComponent(t); }
 function toast(self, msg) {
   self.setState({ toast: msg });
@@ -2221,6 +2257,7 @@ function scrollChat(self) {
 function boot(self) {
   if (self.booted || !self.root) return;
   self.booted = true;
+  apiCall('/api/status').then(function (j) { if (j && j.ok) self.setState({ aiOn: !!j.ai, dbOn: !!j.db }); });
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
   self.reduce = reduce;
@@ -2588,13 +2625,35 @@ class Component extends DCLogic {
       var chat = self.state.chat.concat([{ r: 'user', t: text }]).slice(-14);
       self.setState({ chat: chat, thinking: true });
       setTimeout(function () { scrollChat(self); }, 30);
+      if (self.state.aiOn) {
+        var hist = chat.filter(function (x) { return x.t && (x.r === 'user' || x.r === 'bot'); }).slice(-10).map(function (x) { return { role: x.r === 'user' ? 'user' : 'assistant', content: String(x.t).slice(0, 1000) }; });
+        apiCall('/api/chat', { messages: hist }).then(function (j) {
+          if (j && j.ok && j.reply) {
+            var am = { r: 'bot', t: j.reply, cards: [], acts: [], slots: false, contact: !!j.handoff, callback: false, help: !j.handoff, ai: true };
+            self.setState({ chat: self.state.chat.concat([am]).slice(-14), thinking: false });
+            setTimeout(function () { scrollChat(self); }, 40);
+            return;
+          }
+          if (j && j.status === 429) {
+            self.setState({ chat: self.state.chat.concat([{ r: 'bot', t: 'Sie haben gerade sehr viele Fragen gestellt. Bitte warten Sie kurz oder sprechen Sie direkt mit uns.', contact: true }]).slice(-14), thinking: false });
+            return;
+          }
+          self.setState({ aiOn: false });
+          faq(true);
+        });
+        return;
+      }
+      faq(false);
+      function faq(aiFailed) {
       var it = detect(text);
       if (!it) { self.miss = (self.miss || 0) + 1; it = { a: MISS_TEXT, contact: true, noHelp: true }; }
+      if (aiFailed) it = Object.assign({}, it, { a: 'Der KI-Dienst ist gerade nicht erreichbar. Antwort aus unseren häufigen Fragen: ' + it.a });
       self.botTimer = setTimeout(function () {
         var msg = { r: 'bot', t: it.a, cards: it.cards || [], acts: it.acts || [], slots: !!it.slots, contact: !!it.contact, callback: !!it.callback, help: !it.noHelp };
         self.setState({ chat: self.state.chat.concat([msg]).slice(-14), thinking: false });
         setTimeout(function () { scrollChat(self); }, 40);
       }, self.reduce ? 50 : 780);
+      }
     };
     this.botPush = function (msgs, base, extra) {
       var c = (base || self.state.chat).map(function (x) { return Object.assign({}, x, { help: false }); }).concat(msgs).slice(-14);
@@ -2605,14 +2664,29 @@ class Component extends DCLogic {
       if (e && e.preventDefault) e.preventDefault();
       var name = fieldVal(self, 'cb-name'), tel = fieldVal(self, 'cb-tel'), when = fieldVal(self, 'cb-time') || 'So bald wie möglich';
       if (tel.replace(/[^0-9]/g, '').length < 6) { self.setState({ cbErr: 'Bitte geben Sie eine gültige Telefonnummer ein.' }); focusField(self, 'cb-tel'); return; }
+      if (self.state.cbSending) return;
       var body = 'Hallo VONUMO,\n\nbitte rufen Sie mich zurück.\n\nName: ' + (name || '-') + '\nTelefon: ' + tel + '\nWann: ' + when + '\n\nGesendet über den Website-Assistenten.';
       var link = mailLink('Rückrufbitte' + (name ? ' von ' + name : ''), body);
-      var c = self.state.chat.map(function (x) { return x.callback ? Object.assign({}, x, { callback: false }) : x; });
-      self.botPush([
-        { r: 'user', t: 'Rückruf an ' + tel + ' · ' + when },
-        { r: 'bot', t: 'Danke' + (name ? ', ' + name : '') + '! Ihre Rückrufbitte ist fertig. Tippen Sie auf „Rückrufbitte senden“, damit sie sofort bei uns ankommt. Wir melden uns ' + (when === 'So bald wie möglich' ? 'so bald wie möglich' : when.charAt(0).toLowerCase() + when.slice(1)) + ' unter ' + tel + '. Wenn es eilt, rufen Sie direkt an.', acts: [['Rückrufbitte senden', link], ['Jetzt anrufen', CONTACT.telHref]] }
-      ], c, { pick: 'Rückruf: ' + tel + ' (' + when + ')' });
-      celebrate(self);
+      var whenTxt = when === 'So bald wie möglich' ? 'so bald wie möglich' : when.charAt(0).toLowerCase() + when.slice(1);
+      self.setState({ cbSending: true, cbErr: '' });
+      apiCall('/api/inquiries', { type: 'callback', name: name, phone: tel, preferred_time: when, source: 'assistent' }).then(function (j) {
+        self.setState({ cbSending: false });
+        if (j && j.ok) {
+          var c1 = self.state.chat.map(function (x) { return x.callback ? Object.assign({}, x, { callback: false }) : x; });
+          self.botPush([
+            { r: 'user', t: 'Rückruf an ' + tel + ' · ' + when },
+            { r: 'bot', t: 'Danke' + (name ? ', ' + name : '') + '! Ihre Rückrufbitte ist bei uns eingegangen (Referenz ' + j.reference + '). Wir melden uns ' + whenTxt + ' unter ' + tel + '. Wenn es eilt, rufen Sie direkt an.', acts: [['Jetzt anrufen', CONTACT.telHref]] }
+          ], c1);
+          celebrate(self);
+          return;
+        }
+        if (!apiOffline(j)) { self.setState({ cbErr: j.error === 'validation' ? 'Bitte geben Sie eine gültige Telefonnummer ein.' : (API_ERR[j.error] || 'Die Rückrufbitte konnte nicht gesendet werden.') }); return; }
+        var c2 = self.state.chat.map(function (x) { return x.callback ? Object.assign({}, x, { callback: false }) : x; });
+        self.botPush([
+          { r: 'user', t: 'Rückruf an ' + tel + ' · ' + when },
+          { r: 'bot', t: 'Die Online-Übermittlung ist gerade nicht verfügbar. Tippen Sie auf „Rückrufbitte senden“, um sie per E-Mail zu schicken, oder rufen Sie direkt an.', acts: [['Rückrufbitte senden', link], ['Jetzt anrufen', CONTACT.telHref]] }
+        ], c2, { pick: 'Rückruf: ' + tel + ' (' + when + ')' });
+      });
     };
     this.askFree = function (e) {
       if (e && e.preventDefault) e.preventDefault();
@@ -2739,7 +2813,7 @@ class Component extends DCLogic {
         hasContact: !!m.contact, telHref: CONTACT.telHref, telText: CONTACT.tel, mailHref: mailLink('Frage zu meiner Website', 'Hallo VONUMO,\n\n'),
         copyTel: function () { copyText(self, CONTACT.tel, 'Telefonnummer'); },
         wantCallback: function () { self.botPush([{ r: 'user', t: 'Bitte rufen Sie mich zurück.' }, { r: 'bot', t: 'Sehr gern. Wie heißen Sie, unter welcher Nummer erreichen wir Sie, und wann passt es Ihnen?', callback: true }]); setTimeout(function () { focusField(self, 'cb-name'); }, 120); },
-        hasCallback: !!m.callback, cbErr: S.cbErr || '', hasCbErr: !!(m.callback && S.cbErr),
+        hasCallback: !!m.callback, cbErr: S.cbErr || '', cbSending: !!S.cbSending, cbLabel: S.cbSending ? 'Wird gesendet …' : 'Rückruf anfordern', hasCbErr: !!(m.callback && S.cbErr),
         hasHelp: !!(m.help && idx === lastIdx && !S.thinking),
         helpYes: function () { self.botPush([{ r: 'user', t: 'Ja, danke.' }, { r: 'bot', t: 'Freut mich! Fragen Sie gern weiter. Und wenn Sie loslegen möchten: Ein Anruf genügt.', acts: [['Projekt anfragen', '#kontakt']] }]); },
         helpNo: function () { self.botPush([{ r: 'user', t: 'Nein, das hilft mir nicht.' }, { r: 'bot', t: 'Danke für die ehrliche Rückmeldung. Dann klären wir das am besten persönlich. Rufen Sie direkt an, oder wir rufen Sie zurück, wann es Ihnen passt.', contact: true }]); },
@@ -2858,13 +2932,30 @@ class Component extends DCLogic {
         var url = fieldVal(self, 'c-url'), mail = fieldVal(self, 'c-mail');
         var errs = { url: url.length < 4 || url.indexOf('.') === -1, mail: !EMAIL_RE.test(mail) };
         if (errs.url || errs.mail) { self.setState({ checkErrs: errs }); focusField(self, errs.url ? 'c-url' : 'c-mail'); return; }
-        self.setState({ checkSent: true, checkErrs: {}, checkMsg: 'Kostenloser Website-Check\n\nWebsite: ' + url + '\nE-Mail: ' + mail });
-        celebrate(self);
+        if (S.checkSending) return;
+        var msgTxt = 'Kostenloser Website-Check\n\nWebsite: ' + url + '\nE-Mail: ' + mail;
+        self.setState({ checkSending: true, checkErrs: {}, checkErr: '' });
+        apiCall('/api/inquiries', { type: 'website_check', website: url, email: mail, consent: true, source: 'website-check' }).then(function (j) {
+          if (j && j.ok) { self.setState({ checkSending: false, checkSent: true, checkRef: j.reference, checkOffline: false, checkConfirm: !!j.confirmationSent, checkMsg: msgTxt }); celebrate(self); return; }
+          if (!apiOffline(j)) {
+            var fe = (j && j.fields) || {};
+            self.setState({ checkSending: false, checkErrs: { url: !!fe.website, mail: !!fe.email }, checkErr: (fe.website || fe.email) ? '' : (API_ERR[j.error] || 'Die Anfrage konnte nicht gesendet werden.') });
+            return;
+          }
+          self.setState({ checkSending: false, checkSent: true, checkRef: '', checkOffline: true, checkMsg: msgTxt });
+        });
       },
-      checkReset: function () { self.setState({ checkSent: false }); },
+      checkReset: function () { self.setState({ checkSent: false, checkRef: '', checkOffline: false, checkErr: '' }); },
+      checkSending: !!S.checkSending, checkSendingStr: S.checkSending ? 'true' : 'false',
+      checkLabel: S.checkSending ? 'Wird gesendet …' : 'Kostenlosen Check anfordern →',
+      hasCheckErr: !!S.checkErr, checkErr: S.checkErr || '',
+      checkOnline: !!(S.checkSent && !S.checkOffline), checkOffline: !!(S.checkSent && S.checkOffline), checkRef: S.checkRef || '',
+      checkTitle: S.checkOffline ? 'Fast geschafft.' : 'Anfrage eingegangen.',
+      checkText: S.checkOffline ? 'Die Online-Übermittlung ist gerade nicht verfügbar. Senden Sie die Anfrage bitte per E-Mail. Ihr Video kommt innerhalb von zwei Werktagen.' : ('Wir haben Ihre Anfrage gespeichert. Ihr Video kommt innerhalb von zwei Werktagen' + (S.checkConfirm ? '. Eine Bestätigung ist unterwegs an Ihre E-Mail-Adresse.' : '.')),
+      checkResetLabel: S.checkOffline ? 'Angaben ändern' : 'Weitere Website prüfen lassen',
       cErrUrl: !!S.checkErrs.url, cErrUrlStr: S.checkErrs.url ? 'true' : 'false',
       cErrMail: !!S.checkErrs.mail, cErrMailStr: S.checkErrs.mail ? 'true' : 'false',
-      checkWa: waLink(S.checkMsg || ''), checkMail: mailLink('Website-Check', S.checkMsg || ''),
+      checkMail: mailLink('Website-Check', S.checkMsg || ''),
 
       showPick: !!S.pick && !S.sent, pick: S.pick,
       clearPick: function () { self.setState({ pick: '' }); },
@@ -2879,22 +2970,43 @@ class Component extends DCLogic {
         lines.push('E-Mail: ' + mail, 'Leistung: ' + lst, 'Budget: ' + bud);
         if (self.state.pick) lines.push('Auswahl: ' + self.state.pick);
         lines.push('', 'Vorhaben:', msg);
-        self.setState({ sent: true, errs: {}, outMsg: lines.join('\n'), outSubject: 'Projektanfrage von ' + name });
-        celebrate(self);
+        if (self.state.sending) return;
+        var outMsg = lines.join('\n'), outSubject = 'Projektanfrage von ' + name;
+        self.setState({ sending: true, errs: {}, sendErr: '' });
+        apiCall('/api/inquiries', { type: 'project', name: name, company: firma, email: mail, service: lst, budget: bud, message: msg, selection: self.state.pick || '', consent: true, hp: fieldVal(self, 'f-hp'), source: 'kontaktformular' }).then(function (j) {
+          if (j && j.ok) { self.setState({ sending: false, sent: true, sentRef: j.reference, sentOffline: false, sentConfirm: !!j.confirmationSent, outMsg: outMsg, outSubject: outSubject }); celebrate(self); return; }
+          if (!apiOffline(j)) {
+            var fe = (j && j.fields) || {};
+            var e2 = { name: !!fe.name, mail: !!fe.email, msg: !!fe.message, ok: !!fe.consent };
+            var anyField = e2.name || e2.mail || e2.msg || e2.ok;
+            self.setState({ sending: false, errs: e2, sendErr: anyField ? '' : (API_ERR[j.error] || 'Die Anfrage konnte nicht gesendet werden. Bitte rufen Sie uns an.') });
+            return;
+          }
+          self.setState({ sending: false, sent: true, sentRef: '', sentOffline: true, outMsg: outMsg, outSubject: outSubject });
+        });
       },
+      sending: !!S.sending, sendingStr: S.sending ? 'true' : 'false',
+      sendLabel: S.sending ? 'Wird gesendet …' : 'Anfrage senden →',
+      hasSendErr: !!S.sendErr, sendErr: S.sendErr || '',
+      sentOnline: !!(S.sent && !S.sentOffline), sentOffline: !!(S.sent && S.sentOffline), sentRef: S.sentRef || '',
+      sentTitle: S.sentOffline ? 'Ihre Anfrage ist bereit.' : 'Anfrage eingegangen.',
+      sentText: S.sentOffline ? 'Die Online-Übermittlung ist gerade nicht verfügbar. Senden Sie die Anfrage bitte mit einem Klick per E-Mail oder rufen Sie uns direkt an.' : ('Vielen Dank. Wir haben Ihre Anfrage gespeichert und melden uns innerhalb von zwei Werktagen' + (S.sentConfirm ? '. Eine Bestätigung mit allen Angaben ist unterwegs an Ihre E-Mail-Adresse.' : '.')),
+      copyRef: function () { copyText(self, self.state.sentRef, 'Referenz'); },
       errName: !!S.errs.name, errNameStr: S.errs.name ? 'true' : 'false',
       errMail: !!S.errs.mail, errMailStr: S.errs.mail ? 'true' : 'false',
       errMsg: !!S.errs.msg, errMsgStr: S.errs.msg ? 'true' : 'false',
       errOk: !!S.errs.ok, errOkStr: S.errs.ok ? 'true' : 'false',
       outMsg: S.outMsg,
-      waUrl: waLink(S.outMsg || ''), mailUrl: mailLink(S.outSubject || 'Projektanfrage', S.outMsg || ''),
+      mailUrl: mailLink(S.outSubject || 'Projektanfrage', S.outMsg || ''),
       copyOut: function () { copyText(self, self.state.outMsg, 'Text'); },
       toast: S.toast, hasToast: !!S.toast,
+      aiLabel: S.aiOn ? '● KI online' : '● FAQ-Modus',
+      aiTitle: S.aiOn ? 'Antworten werden live von einem KI-Modell erzeugt.' : 'Antworten aus unseren häufigen Fragen (ohne KI-Modell).',
       contacts: [
         { i: '@', l: 'E-Mail · schreiben', v: CONTACT.mail, href: 'mailto:' + CONTACT.mail, target: '_self', c: '#E2C27D', copyLabel: 'E-Mail-Adresse kopieren', copy: function () { copyText(self, CONTACT.mail, 'E-Mail-Adresse'); } },
         { i: '✆', l: 'Telefon · anrufen', v: CONTACT.tel, href: CONTACT.telHref, target: '_self', c: '#3FBF95', copyLabel: 'Telefonnummer kopieren', copy: function () { copyText(self, CONTACT.tel, 'Telefonnummer'); } }
       ],
-      reset: function () { self.setState({ sent: false, pick: '', outMsg: '', errs: {} }); },
+      reset: function () { self.setState({ sent: false, pick: '', outMsg: '', errs: {}, sentRef: '', sentOffline: false, sendErr: '' }); },
 
       active: S.active || { t: '', f: [], rel: [], acc: '#C9A45C', soft: 'transparent', fLabel: '', useLabel: '', relLabel: '', priceLabel: '', hasLink: false, link: '' },
       hasActive: !!S.active,

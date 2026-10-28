@@ -1,0 +1,11 @@
+{
+  "name": "vonumo-website",
+  "private": true,
+  "description": "VONUMO – Website mit Serverless-API (Anfragen, KI-Assistent, Admin)",
+  "scripts": {
+    "test": "node --test tests/api.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

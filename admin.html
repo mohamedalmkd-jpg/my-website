@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#030302">
+<title>VONUMO – Anfragen verwalten</title>
+<link rel="icon" type="image/webp" href="/assets/6925aa020ce5116c12186e64c389ccd4.webp">
+<link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
+<link rel="preload" as="font" type="font/woff" href="/assets/fonts/cormorant.woff" crossorigin>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/cormorant.woff) format('woff')}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url(/assets/fonts/cormorant-italic.woff) format('woff')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/assets/fonts/manrope.woff) format('woff')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url(/assets/fonts/jetbrainsmono.woff) format('woff')}
+:root{--bg:#030302;--card:#0c0a07;--line:rgba(201,164,92,.2);--gold:#E2C27D;--text:#F6EFE2;--muted:#BFB6A6;--green:#3FBF95;--blue:#5E8BE8;--red:#D9536F;--violet:#9B7BE0}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse 70% 50% at 80% 0%,rgba(176,141,87,.14),transparent 60%),var(--bg);color:var(--text);font:15px/1.55 Manrope,system-ui,sans-serif;min-height:100vh}
+a{color:var(--gold)}a:hover{color:#fff}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 16px 80px}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:24px}
+header img{width:40px;height:40px}
+h1{margin:0;font:600 28px/1.1 'Cormorant Garamond',Georgia,serif}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px}
+.sp{flex:1}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{min-height:44px;padding:10px 18px;border-radius:999px;border:1px solid rgba(201,164,92,.45);background:none;cursor:pointer}
+.btn.main{background:var(--gold);color:#030302;border-color:var(--gold);font-weight:600}
+.btn:disabled{opacity:.5;cursor:default}
+.fld{min-height:44px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:#090806}
+.login{max-width:420px;margin:12vh auto;display:flex;flex-direction:column;gap:14px;padding:28px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.bar .fld{flex:1 1 180px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.stat{padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted)}
+.stat b{color:var(--text)}
+.list{display:flex;flex-direction:column;gap:12px}
+.item{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px;display:grid;gap:12px}
+.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ref{font-weight:600}
+.tag{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid currentColor}
+.t-project{color:var(--gold)}.t-website_check{color:var(--blue)}.t-callback{color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 18px;font-size:14px}
+.grid span{color:var(--muted)}
+.msg{white-space:pre-wrap;padding:12px 14px;border-radius:10px;background:rgba(3,3,2,.7);border:1px solid var(--line);font-size:14px;max-height:260px;overflow:auto}
+.act{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.act textarea{flex:1 1 260px;min-height:44px;resize:vertical}
+.note{color:var(--muted);font-size:13px}
+.err{color:#FF8FA3}
+.ok{color:var(--green)}
+.empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="/assets/6925aa020ce5116c12186e64c389ccd4.webp" alt="" width="40" height="40">
+    <h1>Anfragen verwalten</h1>
+    <span class="sp"></span>
+    <a href="/" class="mono">← Zur Website</a>
+    <button id="logout" class="btn hidden" type="button">Abmelden</button>
+  </header>
+
+  <form id="login" class="login" autocomplete="off">
+    <label for="key">Admin-Schlüssel</label>
+    <input id="key" class="fld" type="password" required autocomplete="current-password">
+    <button class="btn main" type="submit">Anmelden</button>
+    <p id="loginMsg" class="note" role="status">Der Schlüssel ist die Umgebungsvariable ADMIN_KEY in Vercel. Er wird nur in diesem Browser-Tab gespeichert.</p>
+  </form>
+
+  <main id="app" class="hidden">
+    <div class="bar" role="search">
+      <input id="q" class="fld" type="search" placeholder="Suche: Referenz, Name, E-Mail, Firma, Telefon" aria-label="Suche">
+      <select id="fType" class="fld" aria-label="Art">
+        <option value="">Alle Arten</option><option value="project">Projektanfrage</option><option value="website_check">Website-Check</option><option value="callback">Rückruf</option>
+      </select>
+      <select id="fStatus" class="fld" aria-label="Status">
+        <option value="">Alle Status</option>
+      </select>
+      <button id="reload" class="btn" type="button">Aktualisieren</button>
+    </div>
+    <div id="stats" class="stats" aria-live="polite"></div>
+    <p id="msg" class="note" role="status"></p>
+    <div id="list" class="list"></div>
+  </main>
+</div>
+<script>
+(function () {
+  'use strict';
+  var STATUS = { new: 'Neu', in_progress: 'In Bearbeitung', quoted: 'Angebot gesendet', won: 'Auftrag', closed: 'Abgeschlossen', spam: 'Spam' };
+  var TYPE = { project: 'Projektanfrage', website_check: 'Website-Check', callback: 'Rückruf' };
+  var $ = function (id) { return document.getElementById(id); };
+  var key = '';
+  try { key = sessionStorage.getItem('vonumo-admin') || ''; } catch (e) {}
+  Object.keys(STATUS).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = STATUS[k]; $('fStatus').appendChild(o); });
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+  function fmt(d) { try { return new Date(d).toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) { return d; } }
+  var ERR = { unauthorized: 'Schlüssel ungültig.', rate_limited: 'Zu viele Versuche. Bitte später erneut.', db_not_configured: 'Datenbank ist noch nicht eingerichtet (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY fehlen).', admin_not_configured: 'ADMIN_KEY ist in Vercel nicht gesetzt.', server_error: 'Serverfehler. Details in den Vercel-Logs.' };
+
+  function api(method, qs, body) {
+    return fetch('/api/admin/inquiries' + (qs || ''), {
+      method: method,
+      headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { var e = new Error(j.error || ('http_' + r.status)); e.status = r.status; throw e; } return j; });
+    });
+  }
+
+  function showApp(on) {
+    $('login').classList.toggle('hidden', on);
+    $('app').classList.toggle('hidden', !on);
+    $('logout').classList.toggle('hidden', !on);
+  }
+
+  function render(items, total) {
+    var list = $('list'); list.textContent = '';
+    var st = $('stats'); st.textContent = '';
+    var counts = {};
+    items.forEach(function (it) { counts[it.status] = (counts[it.status] || 0) + 1; });
+    var s0 = el('span', 'stat'); s0.appendChild(el('b', '', String(total))); s0.appendChild(document.createTextNode(' gesamt')); st.appendChild(s0);
+    Object.keys(STATUS).forEach(function (k) { if (!counts[k]) return; var s = el('span', 'stat'); s.appendChild(el('b', '', String(counts[k]))); s.appendChild(document.createTextNode(' ' + STATUS[k])); st.appendChild(s); });
+    if (!items.length) { list.appendChild(el('div', 'empty', 'Keine Anfragen gefunden.')); return; }
+    items.forEach(function (it) {
+      var card = el('article', 'item');
+      var top = el('div', 'top');
+      top.appendChild(el('span', 'ref mono', it.reference));
+      top.appendChild(el('span', 'tag t-' + it.type, TYPE[it.type] || it.type));
+      top.appendChild(el('span', 'note', fmt(it.created_at)));
+      if (it.notified_owner) top.appendChild(el('span', 'note', '· E-Mail versendet'));
+      card.appendChild(top);
+      var g = el('div', 'grid');
+      [['Name', it.name], ['Unternehmen', it.company], ['E-Mail', it.email], ['Telefon', it.phone], ['Leistung', it.service], ['Budget', it.budget], ['Website', it.website], ['Erreichbar', it.preferred_time], ['Auswahl', it.selection]].forEach(function (p) {
+        if (!p[1]) return; var d = el('div'); d.appendChild(el('span', '', p[0] + ': ')); d.appendChild(document.createTextNode(p[1])); g.appendChild(d);
+      });
+      card.appendChild(g);
+      if (it.message) card.appendChild(el('div', 'msg', it.message));
+      var act = el('div', 'act');
+      var sel = el('select', 'fld'); sel.setAttribute('aria-label', 'Status für ' + it.reference);
+      Object.keys(STATUS).forEach(function (k) { var o = el('option', '', STATUS[k]); o.value = k; if (k === it.status) o.selected = true; sel.appendChild(o); });
+      var note = el('textarea', 'fld'); note.placeholder = 'Interne Notiz'; note.value = it.admin_note || ''; note.setAttribute('aria-label', 'Notiz für ' + it.reference);
+      var save = el('button', 'btn main', 'Speichern'); save.type = 'button';
+      var info = el('span', 'note'); info.setAttribute('role', 'status');
+      save.addEventListener('click', function () {
+        save.disabled = true; info.className = 'note'; info.textContent = 'Speichert …';
+        api('PATCH', '', { id: it.id, status: sel.value, admin_note: note.value }).then(function (j) {
+          it.status = j.item.status; it.admin_note = j.item.admin_note;
+          info.className = 'ok'; info.textContent = 'Gespeichert';
+        }).catch(function (e) { info.className = 'err'; info.textContent = ERR[e.message] || 'Fehler: ' + e.message; if (e.status === 401) logout(); })
+          .then(function () { save.disabled = false; });
+      });
+      act.appendChild(sel); act.appendChild(note); act.appendChild(save);
+      if (it.email) { var m = el('a', 'btn', 'Antworten'); m.href = 'mailto:' + encodeURIComponent(it.email) + '?subject=' + encodeURIComponent('Ihre Anfrage ' + it.reference + ' bei VONUMO'); act.appendChild(m); }
+      if (it.phone) { var t = el('a', 'btn', 'Anrufen'); t.href = 'tel:' + it.phone.replace(/[^+0-9]/g, ''); act.appendChild(t); }
+      act.appendChild(info);
+      card.appendChild(act);
+      list.appendChild(card);
+    });
+  }
+
+  var timer = null;
+  function load() {
+    var qs = '?limit=200';
+    if ($('fType').value) qs += '&type=' + encodeURIComponent($('fType').value);
+    if ($('fStatus').value) qs += '&status=' + encodeURIComponent($('fStatus').value);
+    if ($('q').value.trim()) qs += '&q=' + encodeURIComponent($('q').value.trim());
+    $('msg').className = 'note'; $('msg').textContent = 'Lädt …';
+    return api('GET', qs).then(function (j) { $('msg').textContent = ''; render(j.items, j.total); return true; })
+      .catch(function (e) { $('msg').className = 'err'; $('msg').textContent = ERR[e.message] || 'Fehler: ' + e.message; if (e.status === 401) logout(ERR.unauthorized); return false; });
+  }
+  function logout(msg) {
+    key = ''; try { sessionStorage.removeItem('vonumo-admin'); } catch (e) {}
+    showApp(false); $('list').textContent = '';
+    if (msg) { $('loginMsg').className = 'err'; $('loginMsg').textContent = msg; }
+  }
+
+  $('login').addEventListener('submit', function (e) {
+    e.preventDefault();
+    key = $('key').value.trim(); if (!key) return;
+    $('loginMsg').className = 'note'; $('loginMsg').textContent = 'Prüft …';
+    api('GET', '?limit=1').then(function () {
+      try { sessionStorage.setItem('vonumo-admin', key); } catch (er) {}
+      $('key').value = ''; showApp(true); load();
+    }).catch(function (er) { key = ''; $('loginMsg').className = 'err'; $('loginMsg').textContent = ERR[er.message] || 'Fehler: ' + er.message; });
+  });
+  $('logout').addEventListener('click', function () { logout(); });
+  $('reload').addEventListener('click', load);
+  $('fType').addEventListener('change', load);
+  $('fStatus').addEventListener('change', load);
+  $('q').addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(load, 300); });
+  if (key) { showApp(true); load(); }
+})();
+</script>
+</body>
+</html>
