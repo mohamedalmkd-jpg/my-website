@@ -2,7 +2,22 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>VONUMO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030302">
+<meta name="color-scheme" content="dark">
+<title>VONUMO – 3D-Websites, UI/UX-Design und KI</title>
+<meta name="description" content="VONUMO ist eine Digitalagentur für 3D-Websites, UI/UX-Design und KI-Lösungen. Von der ersten Skizze bis zum laufenden Betrieb.">
+<meta property="og:title" content="VONUMO – Websites mit Tiefe. KI mit Wirkung.">
+<meta property="og:description" content="3D-Websites, UI/UX-Design und KI-Systeme für Unternehmen.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/assets/2ab16d61bb1a049ccbf14a74c6543b24.webp">
+<link rel="icon" type="image/webp" href="/assets/6925aa020ce5116c12186e64c389ccd4.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="/assets/2ab16d61bb1a049ccbf14a74c6543b24.webp" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/01b111064b513d59aacee271607ef9af.webp">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&amp;family=Manrope:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>html,body{margin:0;background:#030302;color:#F6EFE2}</style>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -476,6 +491,37 @@ html:has(#ki-demo input:focus, #ki-demo select:focus) .sticky-cta{transform:tran
   *,*::before,*::after{animation:none !important;transition:none !important}
   .reveal.pre{opacity:1;transform:none}
 }
+
+/* ---------- Leistung: Animationen außerhalb des Bildschirms pausieren ---------- */
+section.offv, section.offv *, section.offv *::before, section.offv *::after,
+footer.offv, footer.offv *, footer.offv *::before, footer.offv *::after{animation-play-state:paused !important}
+.legal:not(.pg-on){content-visibility:auto;contain-intrinsic-size:auto 1200px}
+
+/* ---------- 3D: Einblenden mit Tiefe ---------- */
+.reveal{transform-origin:50% 0;backface-visibility:hidden}
+.reveal.pre{opacity:.001;transform:perspective(1200px) translate3d(0,70px,-140px) rotateX(16deg)}
+
+/* ---------- 3D: scrollgesteuerte Tiefe (nur Browser mit Scroll-Timeline, sonst unverändert) ---------- */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .h2{animation:h3d linear both;animation-timeline:view();animation-range:entry 0% cover 32%;transform-origin:50% 100%}
+    @keyframes h3d{from{opacity:.15;transform:perspective(900px) rotateX(48deg) translateY(36px)}to{opacity:1;transform:none}}
+    .bignum{animation:bn3d linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+    @keyframes bn3d{from{translate:0 60px;scale:1.08}to{translate:0 -60px;scale:.94}}
+    footer .logo3d{animation:ft3d linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
+    @keyframes ft3d{from{transform:perspective(900px) rotateX(38deg) translateY(60px) scale(.86);opacity:.2}to{transform:none;opacity:1}}
+  }
+}
+
+/* ---------- 3D: Karten mit Tiefe beim Neigen ---------- */
+.spot[data-tilt]{transform-style:preserve-3d}
+@media (hover:hover){.spot[data-tilt]:hover{box-shadow:0 40px 80px -30px rgba(0,0,0,.85),0 0 0 1px color-mix(in srgb, var(--acc,#C9A45C) 35%, transparent)}}
+@media (hover:hover){.spot[data-tilt] > *{transition:translate .5s cubic-bezier(.2,.7,.2,1)}.spot[data-tilt]:hover > *{translate:0 0 26px}}
+
+/* ---------- Bedienung ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid #E2C27D;outline-offset:3px}
 </style>
 </helmet>
 
@@ -1545,13 +1591,13 @@ E-Mail: almoakedmohammad@gmail.com</p>
             <span class="logo-glow" aria-hidden="true"></span>
             <span class="logo-floor" aria-hidden="true"></span>
             <div class="logo-float"><div class="logo-sway">
-              <img class="lyr" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-13.2px); filter: brightness(0.25)">
-              <img class="lyr" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-8.8px); filter: brightness(0.39)">
-              <img class="lyr" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-4.4px); filter: brightness(0.54)">
-              <img class="lyr" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-2.2px); filter: brightness(0.61)">
-              <img class="lyr" src="/assets/2ab16d61bb1a049ccbf14a74c6543b24.webp" alt="VONUMO Logo" draggable="false" style="transform: translateZ(0.5px)">
+              <img class="lyr" loading="lazy" decoding="async" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-13.2px); filter: brightness(0.25)">
+              <img class="lyr" loading="lazy" decoding="async" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-8.8px); filter: brightness(0.39)">
+              <img class="lyr" loading="lazy" decoding="async" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-4.4px); filter: brightness(0.54)">
+              <img class="lyr" loading="lazy" decoding="async" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="transform: translateZ(-2.2px); filter: brightness(0.61)">
+              <img class="lyr" loading="lazy" decoding="async" src="/assets/2ab16d61bb1a049ccbf14a74c6543b24.webp" alt="VONUMO Logo" draggable="false" style="transform: translateZ(0.5px)">
               <span class="sweep-mask m-logo" aria-hidden="true" style="transform: translateZ(1px)"></span>
-              <img class="lyr logo-reflect" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="top: 100%; height: 100%; transform: scaleY(-1); opacity: .22; -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 45%); mask-image: linear-gradient(to top, #000 0%, transparent 45%)">
+              <img class="lyr logo-reflect" loading="lazy" decoding="async" src="/assets/01b111064b513d59aacee271607ef9af.webp" alt="" aria-hidden="true" draggable="false" style="top: 100%; height: 100%; transform: scaleY(-1); opacity: .22; -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 45%); mask-image: linear-gradient(to top, #000 0%, transparent 45%)">
             </div></div>
           </div>
       <a href="#kontakt" class="mq-item" style="text-decoration: none; padding: 0; font-size: clamp(44px, 9vw, 150px); line-height: .9; letter-spacing: -0.01em; white-space: normal">Lassen Sie uns bauen.</a>
@@ -2337,6 +2383,16 @@ function boot(self) {
     var secs = self.root.querySelectorAll('[data-acc]');
     for (var s = 0; s < secs.length; s++) io3.observe(secs[s]);
   }
+  /* Leistung: Bereiche außerhalb des Bildschirms pausieren ihre Endlos-Animationen */
+  var io6 = null;
+  if ('IntersectionObserver' in window) {
+    io6 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { en.target.classList.toggle('offv', !en.isIntersecting); });
+    }, { rootMargin: '300px 0px' });
+    var pz = self.root.querySelectorAll('section, footer');
+    for (var z = 0; z < pz.length; z++) io6.observe(pz[z]);
+  }
+  self.io6 = io6;
   self.refreshAcc = function () {
     var el = self.activeSection;
     if (!el) return;
@@ -2414,6 +2470,16 @@ function boot(self) {
     if (sec && sec.tagName === 'SECTION' && !sec.classList.contains('pg-on')) { e.preventDefault(); self.openPage(id); }
   }
   document.addEventListener('click', onDocClick);
+  /* Bedienung: Escape schließt Detail, Suche, Menü und Unterseiten */
+  function onKey(e) {
+    if (e.key !== 'Escape') return;
+    var S = self.state || {};
+    if (S.active) self.setState({ active: null });
+    else if (S.palOpen) self.setState({ palOpen: false });
+    else if (S.menuOpen) self.setState({ menuOpen: false });
+    else if (S.page && self.closePage) self.closePage();
+  }
+  document.addEventListener('keydown', onKey);
   var t0 = performance.now(), last = t0, slow = 0, firstDrawn = false, bgAcc = 99, blobAcc = 99, fN2 = 0, docMaxC = 1, lowPower = false;
   function measureDoc() { docMaxC = Math.max(1, document.documentElement.scrollHeight - (window.innerHeight || 1)); }
   measureDoc();
@@ -2429,7 +2495,7 @@ function boot(self) {
       else lowPower = true;
     }
     var time = (now - t0) / 1000;
-    var sy = window.scrollY || 0, vh = window.innerHeight || 1;
+    var sy = window.scrollY || 0, vh = window.innerHeight || 1, narrow = (window.innerWidth || 1200) < 900, heroLim = narrow ? vh * 3.2 : vh * 1.4;
     if ((fN2++ % 45) === 0) measureDoc();
     pointerFx();
     touchFx(time, vh);
@@ -2448,14 +2514,17 @@ function boot(self) {
     if (!reduce || !firstDrawn) {
       if (bg && (bgAcc >= (lowPower ? 66 : 32) || st.pulse[2] < 2.5 || !firstDrawn)) bgAcc = 0;
       if (bg && bgAcc === 0) bg.draw(reduce ? 4 : time, [st.cpx * bg.scale, (vh - st.cpy) * bg.scale], A, B, C, prog, function (g2, U2) { if (U2.uPulse) g2.uniform3f(U2.uPulse, st.pulse[0] * bg.scale, (vh - st.pulse[1]) * bg.scale, st.pulse[2]); });
-      if (blob && blob.visible && sy < vh * 1.4 && (blobAcc >= (lowPower ? 32 : 15) || !firstDrawn)) blobAcc = 0;
-      if (blob && blob.visible && sy < vh * 1.4 && blobAcc === 0) blob.draw(reduce ? 4 : time, [st.mx, -st.my], hex3('#FFC861'), B, hex3('#FFE7A6'), Math.min(1, sy / vh), function (g2, U2) { if (U2.uKick) g2.uniform1f(U2.uKick, st.kick); if (U2.uCore) g2.uniform1f(U2.uCore, 0); });
+      if (blob && blob.visible && sy < heroLim && (blobAcc >= (lowPower ? 32 : 15) || !firstDrawn)) blobAcc = 0;
+      if (blob && blob.visible && sy < heroLim && blobAcc === 0) blob.draw(reduce ? 4 : time, [st.mx, -st.my], hex3('#FFC861'), B, hex3('#FFE7A6'), Math.min(1, sy / vh), function (g2, U2) { if (U2.uKick) g2.uniform1f(U2.uKick, st.kick); if (U2.uCore) g2.uniform1f(U2.uCore, 0); });
       firstDrawn = true;
     }
     if (self.progress && Math.abs(prog - st.prog) > 0.0005) { st.prog = prog; self.progress.style.transform = 'scaleX(' + prog.toFixed(4) + ')'; }
-    if (sy < vh * 1.4) {
-      var sc = Math.min(1, sy / vh);
-      if (self.stage) self.stage.style.transform = 'rotateY(' + (st.mx * 9).toFixed(2) + 'deg) rotateX(' + (-st.my * 7).toFixed(2) + 'deg) translateY(' + (sc * -60).toFixed(1) + 'px)';
+    if (sy < heroLim) {
+      var sc = narrow ? 0 : Math.min(1, sy / vh);
+      if (self.stage) {
+        var stT = 'rotateY(' + (st.mx * 14).toFixed(2) + 'deg) rotateX(' + (-st.my * 10 + sc * 22).toFixed(2) + 'deg) translate3d(0,' + (sc * -70).toFixed(1) + 'px,' + (sc * -160).toFixed(1) + 'px)';
+        if (stT !== st.stT) { st.stT = stT; self.stage.style.transform = stT; }
+      }
       if (self.heroText && !reduce) {
         self.heroText.style.opacity = (1 - sc * 0.85).toFixed(3);
         self.heroText.style.transform = 'translate3d(0,' + (sc * -80).toFixed(1) + 'px,0)';
@@ -2478,6 +2547,7 @@ function boot(self) {
   self.cleanup = function () {
     window.removeEventListener('pointermove', onMove);
     document.removeEventListener('click', onDocClick);
+    document.removeEventListener('keydown', onKey);
     document.removeEventListener('pointerdown', onDown);
     document.removeEventListener('pointerup', onUp);
     document.removeEventListener('pointerover', onOver);
@@ -2486,6 +2556,7 @@ function boot(self) {
     if (io2) io2.disconnect();
     if (io3) io3.disconnect();
     if (io5) io5.disconnect();
+    if (io6) io6.disconnect();
     window.removeEventListener('resize', measureDoc);
     if (io4) io4.disconnect();
     if (scanT) clearInterval(scanT);
