@@ -21,7 +21,51 @@
 @font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url(/assets/fonts/cormorant-italic.woff) format('woff')}
 @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/assets/fonts/manrope.woff) format('woff')}
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url(/assets/fonts/jetbrainsmono.woff) format('woff')}
-html,body{margin:0;background:#030302;color:#F6EFE2}</style>
+html,body{margin:0;background:#030302;color:#F6EFE2}
+/* ================= VONUMO Motion: flüssig, GPU-freundlich (nur transform/opacity/clip) ================= */
+:root{--ease-out:cubic-bezier(.16,1,.3,1);--ease-io:cubic-bezier(.65,0,.35,1)}
+/* Überschriften: Licht-Wischer von unten, in allen Browsern */
+.h2{transition:clip-path 1.1s var(--ease-out),transform 1.1s var(--ease-out),opacity .9s ease}
+.h2.mv-pre{clip-path:inset(0 0 100% 0);transform:translate3d(0,56px,0) scale(.98);opacity:.1}
+/* Augenbrauen-Zeile zeichnet sich */
+.eyebrow::before{transform-origin:0 50%;transition:transform 1s .1s var(--ease-out)}
+.eyebrow{transition:opacity .8s ease,transform .8s var(--ease-out)}
+.eyebrow.mv-pre{opacity:0;transform:translate3d(-14px,0,0)}
+.eyebrow.mv-pre::before{transform:scaleX(0)}
+/* Fühlbares Drücken (Touch und Maus) */
+.btn,.pill-btn,.guide-btn,.opt,.spot{transition-property:transform,box-shadow,background,color,border-color,opacity,scale;}
+.btn:active,.pill-btn:active,.guide-btn:active,.opt:active,a.spot:active,button.spot:active{scale:.97}
+.btn,.pill-btn,.guide-btn,.opt,a.spot,button.spot{transition:scale .18s var(--ease-out),transform .45s var(--ease-out),box-shadow .45s ease,background .3s ease,color .3s ease,opacity .6s ease}
+/* Goldene Funken im Hero */
+.embers{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.embers i{position:absolute;bottom:-20px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(circle,#FFF4D6 0%,#E8C57A 40%,rgba(201,164,92,0) 70%);opacity:0;animation:ember var(--d) linear var(--w) infinite;will-change:transform,opacity}
+@keyframes ember{0%{transform:translate3d(0,0,0) scale(.6);opacity:0}10%{opacity:.9}70%{opacity:.6}100%{transform:translate3d(var(--dx),-92vh,0) scale(1.1);opacity:0}}
+.embers i:nth-child(1){--x:6%;--s:5px;--d:13s;--w:-2s;--dx:30px}
+.embers i:nth-child(2){--x:14%;--s:3px;--d:10s;--w:-7s;--dx:-24px}
+.embers i:nth-child(3){--x:23%;--s:6px;--d:16s;--w:-4s;--dx:40px}
+.embers i:nth-child(4){--x:31%;--s:3px;--d:11s;--w:-9s;--dx:-18px}
+.embers i:nth-child(5){--x:42%;--s:4px;--d:14s;--w:-1s;--dx:22px}
+.embers i:nth-child(6){--x:51%;--s:7px;--d:18s;--w:-12s;--dx:-36px}
+.embers i:nth-child(7){--x:58%;--s:3px;--d:9s;--w:-5s;--dx:16px}
+.embers i:nth-child(8){--x:66%;--s:5px;--d:15s;--w:-8s;--dx:-28px}
+.embers i:nth-child(9){--x:73%;--s:4px;--d:12s;--w:-3s;--dx:26px}
+.embers i:nth-child(10){--x:81%;--s:6px;--d:17s;--w:-10s;--dx:-30px}
+.embers i:nth-child(11){--x:88%;--s:3px;--d:10s;--w:-6s;--dx:14px}
+.embers i:nth-child(12){--x:95%;--s:5px;--d:14s;--w:-11s;--dx:-20px}
+@media (hover:none),(pointer:coarse){.embers i:nth-child(even){display:none}}
+/* Laufband reagiert auf Scroll-Tempo */
+.mq-wrap{transition:none;will-change:transform}
+/* Seitenwechsel mit View Transitions (Chrome, Edge, Safari 18+) */
+::view-transition-old(root){animation:vtOut .38s var(--ease-io) both}
+::view-transition-new(root){animation:vtIn .55s var(--ease-out) both}
+@keyframes vtOut{to{opacity:0;transform:scale(.985)}}
+@keyframes vtIn{from{opacity:0;transform:translate3d(0,18px,0)}}
+@media (prefers-reduced-motion: reduce){
+  .h2.mv-pre,.eyebrow.mv-pre{clip-path:none;transform:none;opacity:1}.eyebrow.mv-pre::before{transform:none}
+  .embers{display:none}
+  ::view-transition-old(root),::view-transition-new(root){animation:none}
+}
+</style>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -507,8 +551,6 @@ footer.offv, footer.offv *, footer.offv *::before, footer.offv *::after{animatio
 /* ---------- 3D: scrollgesteuerte Tiefe (nur Browser mit Scroll-Timeline, sonst unverändert) ---------- */
 @supports (animation-timeline: view()){
   @media (prefers-reduced-motion: no-preference){
-    .h2{animation:h3d linear both;animation-timeline:view();animation-range:entry 0% cover 32%;transform-origin:50% 100%}
-    @keyframes h3d{from{opacity:.15;transform:perspective(900px) rotateX(48deg) translateY(36px)}to{opacity:1;transform:none}}
     .bignum{animation:bn3d linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
     @keyframes bn3d{from{translate:0 60px;scale:1.08}to{translate:0 -60px;scale:.94}}
     footer .logo3d{animation:ft3d linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
@@ -599,6 +641,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   <!-- HERO -->
   <section id="top" data-acc="#E2C27D,#9B7BE0" style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 120px) max(20px, 4vw) clamp(90px, 10vw, 150px)">
     <div class="grid-floor" aria-hidden="true"></div>
+    <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div style="position: relative; z-index: 3; max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
       <div ref="{{setHeroText}}" style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 30px; will-change: transform, opacity">
         <span class="eyebrow rise">Digitalagentur für Web, Design und KI</span>
@@ -678,7 +721,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- LAUFBAND -->
-  <section aria-label="Unsere Disziplinen" style="position: relative; overflow: hidden; padding: 28px 0; border-top: 1px solid rgba(201,164,92,.12); border-bottom: 1px solid rgba(201,164,92,.12); perspective: 900px; background: rgba(3,3,2,.5)">
+  <section aria-label="Unsere Disziplinen" class="mq-wrap" style="position: relative; overflow: hidden; padding: 28px 0; border-top: 1px solid rgba(201,164,92,.12); border-bottom: 1px solid rgba(201,164,92,.12); perspective: 900px; background: rgba(3,3,2,.5)">
     <div style="transform: rotateX(18deg) rotateZ(-2deg); display: flex; flex-direction: column; gap: 6px">
       <div class="marquee">
         <sc-for list="{{marqueeA}}" as="m" hint-placeholder-count="12"><span class="mq-item">{{m.t}}</span><span class="mq-star" aria-hidden="true">✦</span></sc-for>
@@ -2285,6 +2328,7 @@ function boot(self) {
 
   /* Zeiger: Ereignisse nur merken, Auswertung einmal pro Bild (keine erzwungenen Layouts) */
   function onMove(e) {
+    st.lastMove = performance.now();
     st.tx = (e.clientX / window.innerWidth) * 2 - 1;
     st.ty = (e.clientY / window.innerHeight) * 2 - 1;
     st.px = e.clientX; st.py = e.clientY;
@@ -2383,12 +2427,18 @@ function boot(self) {
     fctx.globalCompositeOperation = 'source-over';
   }
 
-  var io = null, io2 = null, io3 = null;
+  var io = null, io2 = null, io3 = null, io7 = null;
+  function now0() { return Math.round(performance.now() / 60); }
   if ('IntersectionObserver' in window) {
     io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.target === self.heroCanvas) { if (blob) blob.visible = en.isIntersecting; return; }
-        if (en.isIntersecting) { en.target.classList.remove('pre'); io.unobserve(en.target); }
+        if (en.isIntersecting) {
+          var el = en.target, d = Math.min(6, (io.batch = (io.batchT === now0() ? io.batch + 1 : 0))) * 90;
+          io.batchT = now0();
+          if (d) { el.style.transitionDelay = d + 'ms'; setTimeout(function () { el.style.transitionDelay = ''; }, d + 1300); }
+          el.classList.remove('pre'); io.unobserve(el);
+        }
       });
     }, { threshold: 0.1 });
     if (!reduce) {
@@ -2442,6 +2492,25 @@ function boot(self) {
     for (var z = 0; z < pz.length; z++) io6.observe(pz[z]);
   }
   self.io6 = io6;
+  /* Bewegung: Überschriften wischen ein, Augenbrauen-Linien zeichnen sich */
+  if (!reduce && 'IntersectionObserver' in window) {
+    io7 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.remove('mv-pre'); io7.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    var mv = self.root.querySelectorAll('.h2, .eyebrow');
+    for (var mi = 0; mi < mv.length; mi++) {
+      if (mv[mi].closest('#top') || mv[mi].getBoundingClientRect().top < window.innerHeight * 0.85) continue;
+      mv[mi].classList.add('mv-pre'); io7.observe(mv[mi]);
+    }
+  }
+  /* Leerlauf: ohne Eingabe läuft der Hintergrund sparsamer */
+  st.lastInput = performance.now();
+  function poke() { st.lastInput = performance.now(); }
+  window.addEventListener('scroll', poke, { passive: true });
+  window.addEventListener('pointerdown', poke, { passive: true });
+  window.addEventListener('keydown', poke);
+  self.unpoke = function () { window.removeEventListener('scroll', poke); window.removeEventListener('pointerdown', poke); window.removeEventListener('keydown', poke); };
+  st.mq = self.root.querySelector('.mq-wrap'); st.sk = 0; st.lastSy = window.scrollY || 0;
   self.refreshAcc = function () {
     var el = self.activeSection;
     if (!el) return;
@@ -2561,11 +2630,19 @@ function boot(self) {
 
     bgAcc += dt; blobAcc += dt;
     if (!reduce || !firstDrawn) {
-      if (bg && (bgAcc >= (lowPower || lite ? 66 : 32) || (!lite && st.pulse[2] < 2.5) || !firstDrawn)) bgAcc = 0;
+      var idle = (now - st.lastInput) > 6000 && (now - (st.lastMove || 0)) > 6000;
+      if (bg && (bgAcc >= (lowPower || lite || idle ? 66 : 32) || (!lite && st.pulse[2] < 2.5) || !firstDrawn)) bgAcc = 0;
       if (bg && bgAcc === 0) bg.draw(reduce ? 4 : time, [st.cpx * bg.scale, (vh - st.cpy) * bg.scale], A, B, C, prog, function (g2, U2) { if (U2.uPulse) g2.uniform3f(U2.uPulse, st.pulse[0] * bg.scale, (vh - st.pulse[1]) * bg.scale, st.pulse[2]); });
       if (blob && blob.visible && sy < heroLim && (blobAcc >= (lowPower || lite ? 40 : 15) || !firstDrawn)) blobAcc = 0;
       if (blob && blob.visible && sy < heroLim && blobAcc === 0) blob.draw(reduce ? 4 : time, [st.mx, -st.my], hex3('#FFC861'), B, hex3('#FFE7A6'), Math.min(1, sy / vh), function (g2, U2) { if (U2.uKick) g2.uniform1f(U2.uKick, st.kick); if (U2.uCore) g2.uniform1f(U2.uCore, 0); });
       firstDrawn = true;
+    }
+    if (st.mq && !reduce) {
+      var vel = sy - st.lastSy; st.lastSy = sy;
+      var tgt = Math.max(-7, Math.min(7, vel * 0.22));
+      st.sk += (tgt - st.sk) * ease(0.12);
+      if (Math.abs(st.sk) < 0.02) st.sk = 0;
+      if (st.sk !== st.skW && (st.sk !== 0 || st.skW)) { st.skW = st.sk; st.mq.style.transform = st.sk ? 'skewY(' + (st.sk * 0.35).toFixed(2) + 'deg) translate3d(0,0,0)' : ''; }
     }
     if (self.progress && Math.abs(prog - st.prog) > 0.0005) { st.prog = prog; self.progress.style.transform = 'scaleX(' + prog.toFixed(4) + ')'; }
     if (sy < heroLim) {
@@ -2606,6 +2683,8 @@ function boot(self) {
     if (io3) io3.disconnect();
     if (io5) io5.disconnect();
     if (io6) io6.disconnect();
+    if (io7) io7.disconnect();
+    if (self.unpoke) self.unpoke();
     window.removeEventListener('resize', measureDoc);
     if (io4) io4.disconnect();
     if (scanT) clearInterval(scanT);
@@ -2715,7 +2794,15 @@ class Component extends DCLogic {
       var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       setTimeout(function () { el.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'start' }); }, 30);
     };
-    this.openPage = function (id) {
+    function withVT(fn) {
+      var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || rm) return fn();
+      try { document.startViewTransition(function () { fn(); return new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); }); }); }
+      catch (e) { fn(); }
+    }
+    this.openPage = function (id) { withVT(function () { openPageNow(id); }); };
+    this.closePage = function () { withVT(closePageNow); };
+    var openPageNow = function (id) {
       var sec = document.getElementById(id);
       if (!sec || !self.root) return;
       if (!self.state.page) self.savedY = window.scrollY || 0;
@@ -2726,7 +2813,7 @@ class Component extends DCLogic {
       self.setState({ page: id, menuOpen: false, palOpen: false, active: null });
       window.scrollTo({ top: 0, behavior: 'instant' });
     };
-    this.closePage = function () {
+    var closePageNow = function () {
       if (!self.root) return;
       var prev = self.root.querySelectorAll('section.pg-on');
       for (var k = 0; k < prev.length; k++) prev[k].classList.remove('pg-on');
