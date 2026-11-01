@@ -234,43 +234,93 @@ function build(canvas) {
     fragmentShader: 'varying float vA; void main(){ float d = length(gl_PointCoord-0.5); gl_FragColor = vec4(vec3(0.45,0.6,1.0)*smoothstep(0.5,0.0,d)*vA*0.7, 1.0); }' });
   const dust = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(dp, 3)), dustMat); dust.frustumCulled = false; scene.add(dust);
 
-  /* --- Nacht: Wasser, Felsen, Chrom-Bänder, Glasblase --- */
+  /* --- Studio-Kulisse: Wasser + Design- & Code-Objekte --- */
   const night = new THREE.Group(); night.position.copy(N0); scene.add(night);
   const water = new THREE.Mesh(new THREE.PlaneGeometry(220, 220), new THREE.MeshStandardMaterial({ color: '#020713', roughness: 0.16, metalness: 0.92, envMap: nightEnv, envMapIntensity: 1.3 }));
   water.rotation.x = -Math.PI / 2; water.position.y = -0.4; night.add(water);
-  const rockMat = new THREE.MeshStandardMaterial({ color: '#0d1834', roughness: 0.62, metalness: 0.3, envMap: nightEnv, envMapIntensity: 1.2, flatShading: true });
-  const rr2 = rng(61);
-  [[-9, -6, 3.2], [-13, -12, 4.6], [-6.5, -9, 1.8], [9.5, -7, 3.6], [14, -13, 5], [6.8, -4.5, 1.4], [-16, -20, 6], [17, -22, 6.5], [-3.5, -16, 1.2], [4, -15, 1.6]].forEach(([x, z, s]) => {
-    const g = new THREE.DodecahedronGeometry(1, 1), p = g.attributes.position;
-    for (let k = 0; k < p.count; k++) { const f = 0.75 + rr2() * 0.5; p.setXYZ(k, p.getX(k) * f, p.getY(k) * f * (0.9 + rr2() * 0.6), p.getZ(k) * f); }
-    g.computeVertexNormals();
-    const m = new THREE.Mesh(g, rockMat); m.scale.set(s, s * (0.7 + rr2() * 0.7), s); m.position.set(x, -0.4 + s * 0.25, z); m.rotation.set(rr2(), rr2() * 6, rr2()); night.add(m);
-  });
-  const chrome = new THREE.MeshPhysicalMaterial({ color: '#2f5dff', metalness: 1, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.05, envMap: nightEnv, envMapIntensity: 2.8, side: THREE.DoubleSide });
-  function ribbon(pts, width, twist, segs) {
-    const curve = new THREE.CatmullRomCurve3(pts.map((a) => new THREE.Vector3(a[0], a[1], a[2])));
-    const fr = curve.computeFrenetFrames(segs, false), pos = [], idx = [];
-    for (let i = 0; i <= segs; i++) {
-      const t = i / segs, c = curve.getPointAt(t), n = fr.normals[i], b = fr.binormals[i], ang = t * twist;
-      const dir = n.clone().multiplyScalar(Math.cos(ang)).add(b.clone().multiplyScalar(Math.sin(ang)));
-      const w = width * Math.sin(Math.PI * clamp(t * 1.15, 0, 1)) + 0.05;
-      pos.push(c.x + dir.x * w, c.y + dir.y * w, c.z + dir.z * w, c.x - dir.x * w, c.y - dir.y * w, c.z - dir.z * w);
-      if (i < segs) { const a = i * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
-    }
-    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
-    return new THREE.Mesh(g, chrome);
+  const chrome = new THREE.MeshPhysicalMaterial({ color: '#2f5dff', metalness: 1, roughness: 0.1, clearcoat: 1, clearcoatRoughness: 0.05, envMap: nightEnv, envMapIntensity: 2.8 });
+  const silver = new THREE.MeshPhysicalMaterial({ color: '#dfe8ff', metalness: 1, roughness: 0.12, clearcoat: 1, envMap: nightEnv, envMapIntensity: 2.4 });
+  const gold = new THREE.MeshPhysicalMaterial({ color: '#e7b85a', metalness: 1, roughness: 0.16, clearcoat: 1, envMap: nightEnv, envMapIntensity: 2.6 });
+  const EXT = { depth: 0.34, bevelEnabled: true, bevelThickness: 0.07, bevelSize: 0.06, bevelSegments: 4, curveSegments: 18 };
+  const shapeOf = (pts) => { const s = new THREE.Shape(); s.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) s.lineTo(pts[i][0], pts[i][1]); s.closePath(); return s; };
+  const extrude = (shape, mat) => { const g = new THREE.ExtrudeGeometry(shape, EXT); g.center(); return new THREE.Mesh(g, mat); };
+  const floaters = [];
+  function float(obj, ph, amp) { obj.userData.ph = ph; obj.userData.amp = amp || 0.18; obj.userData.y0 = obj.position.y; obj.userData.r0 = obj.rotation.clone(); night.add(obj); floaters.push(obj); return obj; }
+
+  /* </> */
+  const tag = new THREE.Group();
+  const lt = extrude(shapeOf([[-0.8, 0], [0.6, 1.0], [0.6, 0.55], [-0.15, 0], [0.6, -0.55], [0.6, -1.0]]), chrome); lt.position.x = -1.75;
+  const gt = lt.clone(); gt.rotation.y = Math.PI; gt.position.x = 1.75;
+  const sl = extrude(shapeOf([[0.2, 1.05], [0.62, 1.05], [-0.2, -1.05], [-0.62, -1.05]]), silver);
+  tag.add(lt, gt, sl); tag.scale.setScalar(0.95); tag.position.set(-8.3, 6.7, -6.5); tag.rotation.set(0.05, 0.42, 0.06);
+  float(tag, 0, 0.2);
+
+  /* { } */
+  const braces = new THREE.Group();
+  const bc = new THREE.CatmullRomCurve3([[0.55, 1.65], [0.12, 1.45], [0.02, 0.9], [0.0, 0.35], [-0.42, 0.02], [0.0, -0.35], [0.02, -0.9], [0.12, -1.45], [0.55, -1.65]].map((p) => new THREE.Vector3(p[0], p[1], 0)), false, 'centripetal');
+  const braceGeo = new THREE.TubeGeometry(bc, 180, 0.13, 14, false);
+  const capGeo = new THREE.SphereGeometry(0.13, 16, 12);
+  [-1, 1].forEach((sx) => { const b = new THREE.Group(); b.add(new THREE.Mesh(braceGeo, chrome)); [bc.getPoint(0), bc.getPoint(1)].forEach((p) => { const c = new THREE.Mesh(capGeo, chrome); c.position.copy(p); b.add(c); }); b.scale.x = -sx; b.position.x = sx * 1.25; braces.add(b); });
+  const dotM = new THREE.Mesh(new THREE.SphereGeometry(0.2, 24, 16), gold); braces.add(dotM);
+  braces.scale.setScalar(0.95); braces.position.set(8.6, 6.8, -7); braces.rotation.set(0.04, -0.42, -0.05);
+  float(braces, 1.6, 0.2);
+
+  /* Mauszeiger */
+  const cur = extrude(shapeOf([[0, 0], [0, -1.6], [0.38, -1.22], [0.66, -1.86], [0.92, -1.74], [0.64, -1.12], [1.14, -1.12]]), silver);
+  cur.scale.setScalar(0.85); cur.position.set(6.1, 7.6, -5.5); cur.rotation.set(0.2, -0.5, 0.12);
+  float(cur, 2.4, 0.22);
+
+  /* Zeichenstift-Spitze */
+  const nibS = new THREE.Shape(); nibS.moveTo(0, -1.25); nibS.lineTo(-0.62, 0.15); nibS.quadraticCurveTo(-0.62, 0.6, -0.3, 0.75); nibS.lineTo(0.3, 0.75); nibS.quadraticCurveTo(0.62, 0.6, 0.62, 0.15); nibS.closePath();
+  const hole = new THREE.Path(); hole.absarc(0, 0.05, 0.13, 0, Math.PI * 2, true); nibS.holes.push(hole);
+  const nibG = new THREE.Group(); nibG.add(extrude(nibS, gold));
+  const slit = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.0, 0.5), new THREE.MeshBasicMaterial({ color: '#2a1a05' })); slit.position.y = -0.6; nibG.add(slit);
+  nibG.scale.setScalar(0.95); nibG.position.set(-6.2, 7.7, -5.5); nibG.rotation.set(0.15, 0.45, -0.55);
+  float(nibG, 3.3, 0.22);
+
+  /* Code-Fenster */
+  const C = { tag: '#7fb0ff', attr: '#c9a8ff', str: '#ffd28a', txt: '#e8eeff', key: '#ff8fb8', fn: '#7ff0c8', com: '#5f74a8', num: '#ffb36b' };
+  function codeTex(file, lines) {
+    return cv(640, 400, (x, w, h) => {
+      x.fillStyle = '#060f2c'; x.fillRect(0, 0, w, h);
+      x.fillStyle = '#0b1a45'; x.fillRect(0, 0, w, 46);
+      ['#ff6b6b', '#ffcc4d', '#4fe39a'].forEach((c, i) => { x.fillStyle = c; x.beginPath(); x.arc(24 + i * 22, 23, 6.5, 0, 6.3); x.fill(); });
+      x.fillStyle = '#132a6a'; rr(x, 104, 9, 150, 30, 8); x.fill(); x.fillStyle = '#cfe0ff'; x.font = FONT(500, 16, 'mono'); x.fillText(file, 120, 30);
+      x.font = FONT(500, 19, 'mono');
+      lines.forEach((ln, i) => {
+        const y = 86 + i * 34; x.fillStyle = '#3d5288'; x.fillText(String(i + 1).padStart(2, ' '), 18, y);
+        let X = 62; ln.forEach(([t, c]) => { x.fillStyle = C[c] || c; x.fillText(t, X, y); X += x.measureText(t).width; });
+      });
+      x.fillStyle = '#7fb0ff'; x.fillRect(62 + 2, 86 + lines.length * 34 - 20, 10, 24);
+    });
   }
-  const ribbons = [
-    ribbon([[-14, 11, -8], [-9, 7, -5], [-5.5, 3.5, -3], [-8, 1.2, -1], [-12, 2.4, 0]], 1.1, 7, 220),
-    ribbon([[-11, 9.5, -12], [-6.5, 6.5, -9], [-7.5, 3.2, -6], [-10, 0.9, -4]], 0.7, 5, 180),
-    ribbon([[15, 10, -9], [10, 6.5, -6], [6.5, 4, -3.5], [9, 1.6, -1.5], [13, 0.6, 0]], 1.05, -6.5, 220),
-    ribbon([[12, 12, -14], [8.2, 8, -10], [10.5, 4.6, -8]], 0.6, -4, 160)
-  ];
-  ribbons.forEach((r, i) => { r.userData.ph = i * 1.7; night.add(r); });
-  const bubble = new THREE.Mesh(new THREE.SphereGeometry(0.95, 48, 32), new THREE.MeshPhysicalMaterial({ color: '#b9d4ff', metalness: 0, roughness: 0, transparent: true, opacity: 0.28, clearcoat: 1, iridescence: 1, iridescenceIOR: 1.6, envMap: nightEnv, envMapIntensity: 3, depthWrite: false }));
-  bubble.position.set(5.6, 6.6, -6); night.add(bubble);
+  const htmlTex = codeTex('index.html', [
+    [['<', 'tag'], ['section ', 'tag'], ['class', 'attr'], ['="hero"', 'str'], ['>', 'tag']],
+    [['  <', 'tag'], ['h1', 'tag'], ['>', 'tag'], ['Ihre Marke', 'txt'], ['</', 'tag'], ['h1', 'tag'], ['>', 'tag']],
+    [['  <', 'tag'], ['Button ', 'fn'], ['glow', 'attr'], ['>', 'tag'], ['Start', 'txt'], ['</', 'tag'], ['Button', 'fn'], ['>', 'tag']],
+    [['</', 'tag'], ['section', 'tag'], ['>', 'tag']],
+    [['// 3D + Animation', 'com']],
+    [['const ', 'key'], ['site', 'txt'], [' = ', 'txt'], ['build', 'fn'], ['({ ', 'txt'], ['depth', 'attr'], [': ', 'txt'], ['true', 'num'], [' })', 'txt']],
+    [['await ', 'key'], ['deploy', 'fn'], ['(', 'txt'], ["'vercel'", 'str'], [')', 'txt']]
+  ]);
+  const cssTex = codeTex('style.css', [
+    [['.hero ', 'fn'], ['{', 'txt']],
+    [['  display', 'attr'], [': ', 'txt'], ['grid', 'str'], [';', 'txt']],
+    [['  color', 'attr'], [': ', 'txt'], ['#2f6bff', 'num'], [';', 'txt']],
+    [['  border-radius', 'attr'], [': ', 'txt'], ['24px', 'num'], [';', 'txt']],
+    [['  backdrop-filter', 'attr'], [': ', 'txt'], ['blur', 'fn'], ['(', 'txt'], ['20px', 'num'], [');', 'txt']],
+    [['}', 'txt']],
+    [['/* Figma → Code */', 'com']]
+  ]);
+  const codeA = panel(4.4, 2.75, 0.08, { map: htmlTex, tint: '#071338' }); codeA.position.set(-11.4, 3.3, -9); codeA.rotation.set(-0.04, 0.62, 0.02);
+  const codeB = panel(4.4, 2.75, 0.08, { map: cssTex, tint: '#071338' }); codeB.position.set(11.4, 3.1, -9); codeB.rotation.set(-0.04, -0.62, -0.02);
+  float(codeA, 0.8, 0.12); float(codeB, 2.0, 0.12);
+
+  const ribbons = floaters;
+  const bubble = cur;
   const nl1 = new THREE.PointLight(0x3a6cff, 60, 30, 1.6); nl1.position.set(-5, 6, -2); night.add(nl1);
   const nl2 = new THREE.PointLight(0x6ab0ff, 50, 28, 1.6); nl2.position.set(6, 4, 1); night.add(nl2);
+  const nl3 = new THREE.PointLight(0xffd08a, 18, 14, 1.8); nl3.position.set(-6, 9, -2); night.add(nl3);
 
 
   /* --- Nachbearbeitung (Desktop) --- */
@@ -447,8 +497,7 @@ function start() {
 
     /* Nacht */
     S.night.visible = cur.night > 0.02;
-    S.ribbons.forEach((r) => { r.rotation.y = Math.sin(t * 0.22 + r.userData.ph) * 0.06; r.rotation.z = Math.sin(t * 0.17 + r.userData.ph) * 0.03; r.position.y = Math.sin(t * 0.35 + r.userData.ph) * 0.15; });
-    S.bubble.position.y = 6.6 + Math.sin(t * 0.7) * 0.25; S.bubble.rotation.y = t * 0.2;
+    S.ribbons.forEach((r) => { const u = r.userData, r0 = u.r0; r.position.y = u.y0 + Math.sin(t * 0.55 + u.ph) * u.amp; r.rotation.set(r0.x + Math.sin(t * 0.31 + u.ph) * 0.06, r0.y + Math.sin(t * 0.23 + u.ph) * 0.12, r0.z + Math.sin(t * 0.27 + u.ph) * 0.05); });
 
     /* Kamera */
     const ac = mob && a.mob ? a.mob : a.cam, bc = mob && b.mob ? b.mob : b.cam, al = mob && a.mobL ? a.mobL : a.look, bl = mob && b.mobL ? b.mobL : b.look;
