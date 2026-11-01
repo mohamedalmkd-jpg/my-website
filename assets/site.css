@@ -89,6 +89,7 @@ html.scrolled .scrollhint{opacity:0}
 .c3 small{font-size:13.5px;color:#a7b4d2;line-height:1.5}
 .tall .c3{padding:26px;min-height:240px;justify-content:flex-end}
 .ic{position:relative;width:54px;height:54px;margin-bottom:10px;perspective:200px}
+.ic-code{display:inline-flex;align-items:center;justify-content:flex-start;width:auto;min-width:54px;height:54px;font:800 30px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;white-space:nowrap;background:linear-gradient(160deg,#ffffff 0%,#cfe0ff 30%,#5b93ff 62%,#e7b85a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(80,140,255,.65)) drop-shadow(0 2px 0 rgba(10,30,90,.9));transform-style:preserve-3d;will-change:transform}
 .ic i{position:absolute;border-radius:6px;background:linear-gradient(135deg,#cfe0ff,#3a7bff 60%,#0b2370);box-shadow:0 0 18px rgba(80,140,255,.7),inset 0 0 6px rgba(255,255,255,.6)}
 .ic-web i{width:22px;height:22px}.ic-web i:nth-child(1){left:0;top:16px}.ic-web i:nth-child(2){left:16px;top:0;opacity:.8}.ic-web i:nth-child(3){left:30px;top:22px;opacity:.6;animation:fl 3s ease-in-out infinite alternate}
 .ic-ux i:nth-child(1){left:4px;top:6px;width:44px;height:30px;border-radius:6px;opacity:.85}.ic-ux i:nth-child(2){left:18px;top:28px;width:20px;height:20px;border-radius:50%;animation:fl 3.4s ease-in-out infinite alternate}
@@ -324,3 +325,8 @@ html.scrolled .scrollhint{opacity:0}
   .go{min-width:0;width:100%}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}.rv{opacity:1;transform:none}}
+
+/* Motion-Ebene */
+.fx-w{display:inline-block;perspective:700px}.fx-wi{display:inline-block;transform-origin:50% 100%;will-change:transform,opacity,filter}
+.c3,.sg,.dashui,.ring-form{will-change:transform}
+@media (max-width:900px){.hero .cards3 .ic.ic-code{transform:none;width:auto;min-width:64px;height:40px;font-size:22px}}
