@@ -69,11 +69,11 @@ html,body{margin:0;background:#030302;color:#F6EFE2}
 /* ================= VONUMO Aurora: eigene Farbwelt in Bewegung ================= */
 @property --hue{syntax:'<angle>';inherits:true;initial-value:0deg}
 @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
-:root{--au1:#E8C57A;--au2:#FF7EB3;--au3:#9B7BFF;--au4:#41E0C8;--au5:#F6E7C1}
+:root{--au1:#E8C57A;--au2:#E2C27D;--au3:#C9A45C;--au4:#F3E3BF;--au5:#F6E7C1}
 /* Polarlicht hinter dem Hero: vorgerenderte Verläufe, nur transform animiert (GPU) */
 .aurora{position:absolute;inset:-20% -10% 0;z-index:1;pointer-events:none;overflow:hidden;opacity:.85;mix-blend-mode:screen}
 .aurora b{position:absolute;width:60vmax;height:60vmax;border-radius:50%;will-change:transform;opacity:.55}
-.aurora b:nth-child(1){left:-12%;top:-10%;background:radial-gradient(circle at 50% 50%,rgba(255,126,179,.55),rgba(255,126,179,0) 62%);animation:au1 22s ease-in-out infinite alternate}
+.aurora b:nth-child(1){left:-12%;top:-10%;background:radial-gradient(circle at 50% 50%,rgba(226,194,125,.55),rgba(226,194,125,0) 62%);animation:au1 22s ease-in-out infinite alternate}
 .aurora b:nth-child(2){right:-18%;top:-20%;background:radial-gradient(circle at 50% 50%,rgba(155,123,255,.55),rgba(155,123,255,0) 62%);animation:au2 26s ease-in-out infinite alternate}
 .aurora b:nth-child(3){left:25%;bottom:-35%;background:radial-gradient(circle at 50% 50%,rgba(65,224,200,.42),rgba(65,224,200,0) 62%);animation:au3 30s ease-in-out infinite alternate}
 .aurora b:nth-child(4){left:40%;top:-30%;width:46vmax;height:46vmax;background:radial-gradient(circle at 50% 50%,rgba(232,197,122,.5),rgba(232,197,122,0) 60%);animation:au4 18s ease-in-out infinite alternate}
@@ -82,7 +82,7 @@ html,body{margin:0;background:#030302;color:#F6EFE2}
 @keyframes au3{to{transform:translate3d(-14vw,-16vh,0) scale(1.3)}}
 @keyframes au4{to{transform:translate3d(10vw,20vh,0) scale(1.15)}}
 /* Schimmernde Schrift: Gold fließt durch Rosé, Violett, Türkis */
-.shine,.shine.anim{background-image:linear-gradient(100deg,#F6E7C1 0%,#E8C57A 14%,#FF9CC6 30%,#B79BFF 46%,#5FE6D2 62%,#F3E3BF 78%,#E2C27D 100%) !important;background-size:300% 100% !important;animation:shine 12s linear infinite !important}
+.shine,.shine.anim{background-image:linear-gradient(100deg,#F6E7C1 0%,#E8C57A 14%,#E2C27D 30%,#C9A45C 46%,#F3E3BF 62%,#F3E3BF 78%,#E2C27D 100%) !important;background-size:300% 100% !important;animation:shine 12s linear infinite !important}
 @keyframes shine{from{background-position:0% 0}to{background-position:-300% 0}}
 /* Leuchtende, rotierende Farbkante (Konsolen-Stil) für Hauptbutton und hervorgehobene Karten */
 .btn-main{isolation:isolate}
@@ -99,7 +99,7 @@ html,body{margin:0;background:#030302;color:#F6EFE2}
 .spot>.sheen{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:var(--sheen);background-size:250% 100%;background-position:120% 0;opacity:0;transition:background-position 1s var(--ease-out),opacity .3s}
 .spot:hover>.sheen{opacity:1;background-position:-20% 0}
 /* Fokus mit farbigem Leuchten (Tastatur, Fernbedienung, Controller) */
-:focus-visible{outline:2px solid transparent;box-shadow:0 0 0 2px #030302,0 0 0 4px var(--au1),0 0 24px 2px rgba(255,126,179,.45) !important}
+:focus-visible{outline:2px solid transparent;box-shadow:0 0 0 2px #030302,0 0 0 4px var(--au1),0 0 24px 2px rgba(226,194,125,.45) !important}
 /* Cursor wechselt langsam die Farbe */
 .cursor-ring{animation:curHue 10s linear infinite}
 @keyframes curHue{0%,100%{border-color:var(--au1)}25%{border-color:var(--au2)}50%{border-color:var(--au3)}75%{border-color:var(--au4)}}
@@ -358,8 +358,8 @@ section[id]:not(#top)::after{content:"";position:absolute;top:-4px;left:50%;widt
 /* ---------- Edelstein-Akzente & Performance ---------- */
 section[id]:not(#top)::before{top:4px !important}
 section[id]:not(#top)::after{top:0 !important}
-.jewel-line{height:2px;background:linear-gradient(90deg,#3FBF95,#5E8BE8,#E2C27D,#D9536F,#9B7BE0)}
-.progress{background:linear-gradient(90deg,#3FBF95,#5E8BE8,#E2C27D,#D9536F,#9B7BE0) !important}
+.jewel-line{height:2px;background:linear-gradient(90deg,#7C9A80,#6F8BA0,#E2C27D,#B5735A,#A38B6B)}
+.progress{background:linear-gradient(90deg,#7C9A80,#6F8BA0,#E2C27D,#B5735A,#A38B6B) !important}
 .facts-grid > a:nth-child(1){--acc:#E2C27D}
 
 /* ---------- Wegweiser, Kapitel-Leiste, Kapitelziffern, Typo-Orbit ---------- */
@@ -458,7 +458,7 @@ header.site-hdr.compact nav{padding-top:8px !important;padding-bottom:8px !impor
 @property --ip{syntax:'<integer>';inherits:false;initial-value:0}
 .intro{overflow:hidden;animation:introOut .6s ease 7s forwards !important}
 .intro::before{background:radial-gradient(ellipse 55% 45% at 50% 44%, #2A1C07 0%, #0B0804 46%, #020201 82%) !important}
-.intro::after{content:"";position:absolute;left:50%;top:44%;width:150vmax;height:150vmax;translate:-50% -50%;background:conic-gradient(from 0deg,transparent 0deg,rgba(226,194,125,.10) 40deg,transparent 90deg,rgba(155,123,224,.06) 160deg,transparent 210deg,rgba(63,191,149,.06) 280deg,transparent 330deg);animation:rot 16s linear infinite;pointer-events:none;z-index:0;transition:opacity .6s ease}
+.intro::after{content:"";position:absolute;left:50%;top:44%;width:150vmax;height:150vmax;translate:-50% -50%;background:conic-gradient(from 0deg,transparent 0deg,rgba(226,194,125,.10) 40deg,transparent 90deg,rgba(163,139,107,.06) 160deg,transparent 210deg,rgba(124,154,128,.06) 280deg,transparent 330deg);animation:rot 16s linear infinite;pointer-events:none;z-index:0;transition:opacity .6s ease}
 .intro.leaving::after{opacity:0}
 .intro .intro-logo{animation:none !important;position:relative;z-index:2;width:min(78vw,58vh,500px) !important}
 .i-curtain{position:absolute;left:0;right:0;height:50.5%;background:#020201;z-index:6;pointer-events:none}
@@ -547,8 +547,8 @@ header.site-hdr.compact nav{padding-top:8px !important;padding-bottom:8px !impor
 }
 
 /* ---------- Paketpreise mit Rabatt ---------- */
-.sale-badge{align-self:center;font:700 11px/1 Manrope,system-ui,sans-serif;letter-spacing:.08em;color:#030302;background:linear-gradient(135deg,#F07B92,#D9536F);padding:6px 9px;border-radius:999px;box-shadow:0 6px 18px rgba(217,83,111,.35)}
-.old-price{font:500 20px/1 'Cormorant Garamond',Georgia,serif;color:#9E9483;text-decoration:line-through;text-decoration-color:#D9536F;text-decoration-thickness:2px}
+.sale-badge{align-self:center;font:700 11px/1 Manrope,system-ui,sans-serif;letter-spacing:.08em;color:#030302;background:linear-gradient(135deg,#C98B72,#B5735A);padding:6px 9px;border-radius:999px;box-shadow:0 6px 18px rgba(181,115,90,.35)}
+.old-price{font:500 20px/1 'Cormorant Garamond',Georgia,serif;color:#9E9483;text-decoration:line-through;text-decoration-color:#B5735A;text-decoration-thickness:2px}
 
 /* ---------- Pakete: klarere Schrift ---------- */
 .holo li{color:#F5EFE4 !important;font-size:16px !important;font-weight:500;line-height:1.45 !important}
@@ -558,14 +558,14 @@ header.site-hdr.compact nav{padding-top:8px !important;padding-bottom:8px !impor
 .holo .face > div:nth-of-type(3) > span:last-child{font-size:17px !important;font-weight:500;color:#F0E8D8 !important}
 
 /* ---------- Assistent: Hilfe, Anruf, Rückruf ---------- */
-.cb-card{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:12px;border:1px solid rgba(63,191,149,.45);background:linear-gradient(160deg,rgba(63,191,149,.12),rgba(9,8,6,.92) 70%)}
-.cb-lbl{display:flex;align-items:center;gap:8px;font:600 11px/1 Manrope,system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7FE0BC}
-.cb-dot{width:8px;height:8px;border-radius:50%;background:#3FBF95;box-shadow:0 0 0 0 rgba(63,191,149,.6);animation:cbPing 1.8s ease-out infinite}
-@keyframes cbPing{to{box-shadow:0 0 0 10px rgba(63,191,149,0)}}
+.cb-card{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:12px;border:1px solid rgba(124,154,128,.45);background:linear-gradient(160deg,rgba(124,154,128,.12),rgba(9,8,6,.92) 70%)}
+.cb-lbl{display:flex;align-items:center;gap:8px;font:600 11px/1 Manrope,system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#A9C2AB}
+.cb-dot{width:8px;height:8px;border-radius:50%;background:#7C9A80;box-shadow:0 0 0 0 rgba(124,154,128,.6);animation:cbPing 1.8s ease-out infinite}
+@keyframes cbPing{to{box-shadow:0 0 0 10px rgba(124,154,128,0)}}
 .cb-tel{font:600 26px/1.1 'Cormorant Garamond',Georgia,serif;color:#F5EFE4;text-decoration:none;letter-spacing:.01em}
 .cb-sub{font-size:13px;color:#CFC6B5}
 .cb-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.cb-call{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:600 14px/1 Manrope,system-ui,sans-serif;color:#030302 !important;background:#3FBF95 !important;background-image:linear-gradient(135deg,#7FE0BC,#3FBF95) !important;border:0;border-radius:999px;padding:12px 18px;min-height:44px;box-sizing:border-box;box-shadow:0 8px 24px rgba(63,191,149,.35) !important}
+.cb-call{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:600 14px/1 Manrope,system-ui,sans-serif;color:#030302 !important;background:#7C9A80 !important;background-image:linear-gradient(135deg,#A9C2AB,#7C9A80) !important;border:0;border-radius:999px;padding:12px 18px;min-height:44px;box-sizing:border-box;box-shadow:0 8px 24px rgba(124,154,128,.35) !important}
 .cb-btn{font:500 13px/1 Manrope,system-ui,sans-serif;color:#F3EDE2;background:rgba(255,255,255,.04);border:1px solid rgba(201,164,92,.35);border-radius:999px;padding:10px 14px;min-height:44px;box-sizing:border-box;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
 .cb-btn:hover{border-color:#E2C27D}
 .cb-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;border-radius:12px;border:1px solid rgba(232,197,122,.3);background:rgba(9,8,6,.9)}
@@ -573,13 +573,13 @@ header.site-hdr.compact nav{padding-top:8px !important;padding-bottom:8px !impor
 .cb-f{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#D8D0C2;min-width:0}
 .cb-f input,.cb-f select{font:inherit;font-size:15px;color:#FFFFFF;background:rgba(3,3,2,.8);border:1px solid #3A3426;border-radius:8px;padding:10px 12px;min-height:44px;box-sizing:border-box;width:100%;outline:none}
 .cb-f input:focus,.cb-f select:focus{border-color:#E2C27D;box-shadow:0 0 0 3px rgba(226,194,125,.18)}
-.cb-err{font-size:13px;color:#F2A3B3}
+.cb-err{font-size:13px;color:#C98B72}
 .cb-submit{font:600 14px/1 Manrope,system-ui,sans-serif;border:0;border-radius:999px;padding:13px 18px;min-height:46px;cursor:pointer}
 .help-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;color:#CFC6B5}
 .help-btn{font:500 13px/1 Manrope,system-ui,sans-serif;color:#F3EDE2;background:rgba(255,255,255,.04);border:1px solid rgba(201,164,92,.35);border-radius:999px;padding:9px 14px;min-height:40px;cursor:pointer}
-.help-btn:hover{border-color:#3FBF95;color:#FFFFFF}
-.help-no{border-color:rgba(217,83,111,.5)}
-.help-no:hover{border-color:#D9536F}
+.help-btn:hover{border-color:#7C9A80;color:#FFFFFF}
+.help-no{border-color:rgba(181,115,90,.5)}
+.help-no:hover{border-color:#B5735A}
 @media (max-width:560px){.cb-form{grid-template-columns:1fr}.cb-tel{font-size:23px}}
 html:has(#ki-demo input:focus, #ki-demo select:focus) .sticky-cta{transform:translate(-50%,160%) !important}
 @media (prefers-reduced-motion: reduce){
@@ -621,6 +621,223 @@ footer.offv, footer.offv *, footer.offv *::before, footer.offv *::after{animatio
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:2px solid #E2C27D;outline-offset:3px}
+
+/* ================= Ruhige Farbwelt: Schwarz-Gold für Header, Hero, Footer und Hauptknöpfe, sonst warmes Elfenbein ================= */
+:root{--au1:#E2C27D;--au2:#C9A45C;--au3:#B8904F;--au4:#F3E3BF;--au5:#F6E7C1;--ivory:#F7F2E9;--ivory2:#EFE8DB}
+/* Weniger Unruhe */
+.embers,.orbit-txt,.bignum,.rail,.hc.f3{display:none !important}
+.aurora b:nth-child(1),.aurora b:nth-child(2),.aurora b:nth-child(3){display:none}
+.aurora{opacity:.45;mix-blend-mode:normal}
+.btn-main::before{display:none !important}
+.btn-main::after{animation-duration:7s}
+.shine,.shine.anim{background-image:linear-gradient(100deg,#F6E7C1 0%,#E2C27D 35%,#B8904F 65%,#F3E3BF 100%) !important;background-size:220% 100% !important;animation:shine 14s linear infinite !important}
+.progress,.jewel-line{background:linear-gradient(90deg,#B8904F,#E2C27D,#F6E7C1) !important}
+.cursor-ring{animation:none !important;border-color:rgba(184,144,79,.8) !important}
+:focus-visible{box-shadow:0 0 0 2px #030302,0 0 0 4px #E2C27D !important}
+.intro::after{background:conic-gradient(from 0deg,transparent 0deg,rgba(226,194,125,.10) 40deg,transparent 90deg,rgba(226,194,125,.05) 200deg,transparent 260deg) !important}
+.sale-badge{background:#1F1A13 !important;color:#F3E3BF !important;box-shadow:none !important}
+.old-price{text-decoration-color:#B5735A !important}
+
+/* Helle Bereiche */
+.layer>section:not(#top):not(.mq-wrap){background:var(--ivory);color:#2A241B;z-index:1;color-scheme:light}
+.layer>section:not(#top):not(.mq-wrap) input[type=checkbox],.layer>section:not(#top):not(.mq-wrap) input[type=radio]{accent-color:#8A6A2F}
+.layer>section:not(#top):not(.mq-wrap):nth-of-type(odd){background:var(--ivory2)}
+.layer>section:not(#top):not(.mq-wrap)::after{background:var(--ivory) !important;border-color:rgba(138,106,47,.55) !important}
+.layer>section:not(#top):not(.mq-wrap)::before{background:linear-gradient(90deg,transparent,rgba(138,106,47,.45),transparent) !important}
+.layer>section:not(#top):not(.mq-wrap) .eyebrow{color:#8A6A2F}
+.layer>section:not(#top):not(.mq-wrap) .eyebrow::before{background:linear-gradient(90deg,transparent,#8A6A2F)}
+.layer>section:not(#top):not(.mq-wrap) .lead{color:#463E33}
+.layer>section:not(#top):not(.mq-wrap) .shine,.layer>section:not(#top):not(.mq-wrap) .shine.anim{background-image:linear-gradient(100deg,#8A6A2F 0%,#B8904F 45%,#7A5C26 100%) !important;background-size:100% 100% !important;animation:none !important}
+.layer>section:not(#top):not(.mq-wrap) a:not(.btn):not(.pill-btn):not(.kd):not(.kd *){color:#8A6A2F}
+.layer>section:not(#top):not(.mq-wrap) .mono:not(.kd):not(.kd *){color:inherit}
+
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #FFFFFF"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(255, 255, 255)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(255, 255, 255)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #F7EFDD"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(247, 239, 221)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(247, 239, 221)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #F3EDE2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(243, 237, 226)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(243, 237, 226)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #F5EFE4"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(245, 239, 228)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(245, 239, 228)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #F6EFE2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(246, 239, 226)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(246, 239, 226)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #FBF3E2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(251, 243, 226)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(251, 243, 226)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #F0E8D8"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(240, 232, 216)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(240, 232, 216)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:#FFFFFF"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(255, 255, 255)"]:not(.kd):not(.kd *){color:#1F1A13 !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #DDD6C6"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(221, 214, 198)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(221, 214, 198)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #D8D0C2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(216, 208, 194)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(216, 208, 194)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #E9E1D2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(233, 225, 210)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(233, 225, 210)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #E3D7BF"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(227, 215, 191)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(227, 215, 191)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #D9D0BF"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(217, 208, 191)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(217, 208, 191)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:#D8D0C2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(216, 208, 194)"]:not(.kd):not(.kd *){color:#463E33 !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #C2BAAD"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(194, 186, 173)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(194, 186, 173)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #CFC6B5"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(207, 198, 181)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(207, 198, 181)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #BFB3A0"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(191, 179, 160)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(191, 179, 160)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #9E9483"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(158, 148, 131)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(158, 148, 131)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:#C2BAAD"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(194, 186, 173)"]:not(.kd):not(.kd *){color:#6E6455 !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #E2C27D"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(226, 194, 125)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(226, 194, 125)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #E8C57A"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(232, 197, 122)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(232, 197, 122)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #F3E3BF"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(243, 227, 191)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(243, 227, 191)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #F6E7C1"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(246, 231, 193)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(246, 231, 193)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #BFA676"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(191, 166, 118)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(191, 166, 118)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #D9BD86"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(217, 189, 134)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(217, 189, 134)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #C9A45C"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(201, 164, 92)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(201, 164, 92)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: #B08D57"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color: rgb(176, 141, 87)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(176, 141, 87)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:#E2C27D"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(226, 194, 125)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:#E8C57A"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(232, 197, 122)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:#BFA676"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="color:rgb(191, 166, 118)"]:not(.kd):not(.kd *){color:#8A6A2F !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(9, 8, 6"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(9,8,6"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(6, 5, 4"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(6,5,4"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(3, 3, 2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(3,3,2"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(21, 18, 13"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(21,18,13"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(27, 24, 17"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(27,24,17"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(46, 41, 29"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(46,41,29"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(13, 11, 8"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(13,11,8"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="#0D0B08"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgb(13, 11, 8)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="#090806"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgb(9, 8, 6)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="#060504"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgb(6, 5, 4)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: #030302"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: rgb(3, 3, 2)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(3, 3, 2)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:#030302"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(3, 3, 2)"]:not(.kd):not(.kd *){background:#FFFDF9 !important;box-shadow:0 1px 2px rgba(60,45,20,.05),0 10px 30px -18px rgba(60,45,20,.25) !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255, 255, 255, 0.03)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255,255,255,.03)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255, 255, 255, 0.04)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255,255,255,.04)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255, 255, 255, 0.06)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255,255,255,.06)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255, 255, 255, 0.1)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(255,255,255,.1)"]:not(.kd):not(.kd *){background:#F3EDE2 !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="background: #28241A"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: rgb(40, 36, 26)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(40, 36, 26)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: #322D20"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: rgb(50, 45, 32)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(50, 45, 32)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: #2F291C"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: rgb(47, 41, 28)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(47, 41, 28)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: #3A3426"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: rgb(58, 52, 38)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(58, 52, 38)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: #191610"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background: rgb(25, 22, 16)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(25, 22, 16)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:#28241A"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="background:rgb(40, 36, 26)"]:not(.kd):not(.kd *){background:#E8DFCF !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(201, 164, 92"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(201,164,92"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232, 197, 122"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232,197,122"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(176, 141, 87"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(176,141,87"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="#3A3426"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgb(58, 52, 38)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="#6E5C38"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgb(110, 92, 56)"]:not(.kd):not(.kd *){border-color:#E2D7C3 !important}
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232, 197, 122, 0.1)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232,197,122,.1)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232, 197, 122, 0.07)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232,197,122,.07)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232, 197, 122, 0.06)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(232,197,122,.06)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(243, 227, 191, 0.22)"]:not(.kd):not(.kd *),
+.layer>section:not(#top):not(.mq-wrap) [style*="rgba(243,227,191,.22)"]:not(.kd):not(.kd *){background:#F6EEDD !important}
+
+.layer>section:not(#top):not(.mq-wrap) .glass:not(.kd):not(.kd *){background:#FFFDF9 !important;border-color:#E2D7C3 !important;box-shadow:0 1px 2px rgba(60,45,20,.05),0 18px 40px -24px rgba(60,45,20,.3) !important}
+.layer>section:not(#top):not(.mq-wrap) .holo{box-shadow:0 18px 40px -24px rgba(60,45,20,.35) !important}
+.layer>section:not(#top):not(.mq-wrap) .holo .face{background:#FFFDF9 !important;color:#2A241B}
+.layer>section:not(#top):not(.mq-wrap) .holo li{color:#463E33 !important}
+.layer>section:not(#top):not(.mq-wrap) .holo .face > div > span:not(.mono):not(.num-big):not(.sale-badge){color:#463E33}
+.layer>section:not(#top):not(.mq-wrap) .holo .mono:not([style*="background"]){color:#8A6A2F !important}
+.layer>section:not(#top):not(.mq-wrap) .holo .price-row > span:last-child,.layer>section:not(#top):not(.mq-wrap) .holo .face > div:nth-of-type(3) > span:last-child{color:#463E33 !important}
+.layer>section:not(#top):not(.mq-wrap) .holo .foil,.layer>section:not(#top):not(.mq-wrap) .holo .glare{display:none}
+.layer>section:not(#top):not(.mq-wrap) .fld,.layer>section:not(#top):not(.mq-wrap) .cb-f input,.layer>section:not(#top):not(.mq-wrap) .cb-f select{color:#1F1A13 !important;background:#FFFFFF !important;border-color:#D9CDB6 !important}
+.layer>section:not(#top):not(.mq-wrap) .fld::placeholder,.layer>section:not(#top):not(.mq-wrap) input::placeholder,.layer>section:not(#top):not(.mq-wrap) textarea::placeholder{color:#9A8F7E}
+.layer>section:not(#top):not(.mq-wrap) .fld:focus{border-color:#8A6A2F !important;box-shadow:0 0 0 3px rgba(138,106,47,.18) !important}
+.layer>section:not(#top):not(.mq-wrap) input:not(.kd):not(.kd *){color:#1F1A13 !important}
+.layer>section:not(#top):not(.mq-wrap) .rng{background:linear-gradient(90deg,var(--acc) 0 var(--p,50%),#E8DFCF var(--p,50%))}
+.layer>section:not(#top):not(.mq-wrap) .rng::-webkit-slider-thumb{box-shadow:0 0 0 4px var(--acc),0 2px 8px rgba(60,45,20,.25)}
+.layer>section:not(#top):not(.mq-wrap) .rng::-moz-range-thumb{box-shadow:0 0 0 4px var(--acc),0 2px 8px rgba(60,45,20,.25)}
+.layer>section:not(#top):not(.mq-wrap) .spot::before{display:none}
+.layer>section:not(#top):not(.mq-wrap) .spot::after{background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(184,144,79,.10),transparent 55%)}
+@media (hover:hover){.layer>section:not(#top):not(.mq-wrap) .spot:hover,.layer>section:not(#top):not(.mq-wrap) .spot:focus-visible,.layer>section:not(#top):not(.mq-wrap) .spot[data-tilt]:hover{box-shadow:0 1px 2px rgba(60,45,20,.06),0 24px 50px -24px rgba(60,45,20,.35),0 0 0 1px rgba(138,106,47,.35) !important}}
+.layer>section:not(#top):not(.mq-wrap) .pill-btn:hover{background:rgba(138,106,47,.08);border-color:#8A6A2F;color:#1F1A13}
+.layer>section:not(#top):not(.mq-wrap) .faq-q:hover{color:#8A6A2F}
+.layer>section:not(#top):not(.mq-wrap) .guide-btn{background:#FFFDF9}
+.layer>section:not(#top):not(.mq-wrap) .cb-card{background:#F1F4EE;border-color:#B9C9B6}
+.layer>section:not(#top):not(.mq-wrap) .cb-lbl{color:#55745A}
+.layer>section:not(#top):not(.mq-wrap) .cb-tel{color:#1F1A13}
+.layer>section:not(#top):not(.mq-wrap) .cb-sub,.layer>section:not(#top):not(.mq-wrap) .help-row{color:#6E6455}
+.layer>section:not(#top):not(.mq-wrap) .cb-btn,.layer>section:not(#top):not(.mq-wrap) .help-btn{color:#1F1A13;background:#FFFFFF;border-color:#D9CDB6}
+.layer>section:not(#top):not(.mq-wrap) .cb-form{background:#FFFDF9;border-color:#E2D7C3}
+.layer>section:not(#top):not(.mq-wrap) .cb-f{color:#463E33}
+.layer>section:not(#top):not(.mq-wrap) .cube > span{border-color:rgba(138,106,47,.7);background:rgba(184,144,79,.10);box-shadow:inset 0 0 30px rgba(184,144,79,.25)}
+.layer>section:not(#top):not(.mq-wrap) .kd .cube > span{border-color:rgba(232,197,122,.7);background:rgba(150,118,62,.14);box-shadow:inset 0 0 36px rgba(201,164,92,.5)}
+.layer>section:not(#top):not(.mq-wrap) .typing span{background:#8A6A2F}
+.layer>section:not(#top):not(.mq-wrap) ul li > span[aria-hidden="true"]{box-shadow:none}
+.layer>section:not(#top):not(.mq-wrap) .kd{color:#F7EFDD}
+.legal{color:#2A241B}
 </style>
 </helmet>
 
@@ -688,7 +905,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </header>
 
   <!-- HERO -->
-  <section id="top" data-acc="#E2C27D,#9B7BE0" style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 120px) max(20px, 4vw) clamp(90px, 10vw, 150px)">
+  <section id="top" data-acc="#E2C27D,#A38B6B" style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 120px) max(20px, 4vw) clamp(90px, 10vw, 150px)">
     <div class="grid-floor" aria-hidden="true"></div>
     <div class="aurora" aria-hidden="true"><b></b><b></b><b></b><b></b></div>
     <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -758,7 +975,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
           <div class="glass float f3 spot hc" style="position: absolute; right: -2%; bottom: -2%; width: min(250px, 50%); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; transform: translateZ(120px) rotateY(-10deg) rotateX(-6deg)">
             <div class="mono" style="display: flex; justify-content: space-between; font-size: 11px; color: #D8D0C2"><span>Designsystem</span><span>Button / Primär</span></div>
             <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px">
-              <span style="height: 26px; border-radius: 6px; background: #E2C27D"></span><span style="height: 26px; border-radius: 6px; background: #3FBF95"></span><span style="height: 26px; border-radius: 6px; background: #5E8BE8"></span><span style="height: 26px; border-radius: 6px; background: #D9536F"></span><span style="height: 26px; border-radius: 6px; background: #030302; border: 1px solid #6E5C38"></span>
+              <span style="height: 26px; border-radius: 6px; background: #E2C27D"></span><span style="height: 26px; border-radius: 6px; background: #7C9A80"></span><span style="height: 26px; border-radius: 6px; background: #6F8BA0"></span><span style="height: 26px; border-radius: 6px; background: #B5735A"></span><span style="height: 26px; border-radius: 6px; background: #030302; border: 1px solid #6E5C38"></span>
             </div>
             <div style="display: flex; gap: 8px; align-items: center">
               <span style="background: #E2C27D; color: #030302; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 999px">Projekt anfragen</span>
@@ -811,7 +1028,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
       </div>
       <p class="reveal lead" style="max-width: 62ch; font-size: 18px">{{catIntro}}</p>
 
-      <div class="reveal spot" style="--acc: {{catAcc}}; position: relative; border-radius: 10px; border: 1px solid rgba(201,164,92,.2); background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(46,41,29,.7) 0%, rgba(9,8,6,.94) 65%); overflow: hidden; padding: clamp(20px, 3vw, 44px); perspective: 1600px">
+      <div class="reveal spot kd" style="--acc: {{catAcc}}; position: relative; border-radius: 10px; border: 1px solid rgba(201,164,92,.2); background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(46,41,29,.7) 0%, rgba(9,8,6,.94) 65%); overflow: hidden; padding: clamp(20px, 3vw, 44px); perspective: 1600px">
         <sc-if value="{{isWeb}}" hint-placeholder-val="{{true}}">
           <div class="rise" style="display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
             <div class="glass" style="flex: 3 1 480px; min-width: 0; border-radius: 10px; overflow: hidden; transform: rotateY(-10deg) rotateX(7deg)">
@@ -917,7 +1134,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 02 KI-ASSISTENT LIVE -->
-  <section id="ki-demo" data-acc="#3FBF95,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="ki-demo" data-acc="#7C9A80,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="02" aria-hidden="true">02</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
       <div class="reveal" style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
@@ -1024,7 +1241,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 03 VORHER NACHHER -->
-  <section id="vorher-nachher" data-acc="#5E8BE8,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="vorher-nachher" data-acc="#6F8BA0,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="03" aria-hidden="true">03</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
       <div class="reveal" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px">
@@ -1034,7 +1251,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
         </div>
         <p class="lead" style="max-width: 44ch">Ziehen Sie den Regler. Links eine typische ältere Unternehmenswebsite, rechts dieselben Inhalte neu gedacht.</p>
       </div>
-      <div ref="{{setBaRoot}}" class="reveal ba-box" style="position: relative; border-radius: 10px; overflow: hidden; border: 1px solid rgba(201,164,92,.28); aspect-ratio: 16 / 8; min-height: 380px; max-width: 100%; box-shadow: 0 50px 140px rgba(0,0,0,.7); user-select: none">
+      <div ref="{{setBaRoot}}" class="reveal ba-box kd" style="position: relative; border-radius: 10px; overflow: hidden; border: 1px solid rgba(201,164,92,.28); aspect-ratio: 16 / 8; min-height: 380px; max-width: 100%; box-shadow: 0 50px 140px rgba(0,0,0,.7); user-select: none">
         <div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 70% 40%, rgba(176,141,87,.35), transparent 60%), radial-gradient(ellipse 50% 60% at 20% 80%, rgba(232,197,122,.22), transparent 60%), #060504; display: flex; flex-direction: column">
           <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 28px; font-size: 13px; color: #D8D0C2">
             <span style="font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-weight: 700; color: #FFFFFF; font-size: 16px">Muster GmbH</span>
@@ -1089,7 +1306,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 04 PROJEKTE -->
-  <section id="projekte" data-acc="#D9536F,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="projekte" data-acc="#B5735A,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="04" aria-hidden="true">04</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
       <div class="reveal" style="display: flex; flex-direction: column; gap: 18px">
@@ -1102,7 +1319,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
             <div class="spot" style="position: relative; overflow: hidden; border-radius: 10px; border: 1px solid rgba(201,164,92,.18); aspect-ratio: 16 / 10; max-width: 100%; background: #090806; perspective: 1400px">
               <div class="shot" style="{{p.art}}" aria-hidden="true"></div>
               <div aria-hidden="true" style="position: absolute; inset: 9% 9% 14%; display: flex">
-                <div class="tilt glass" style="flex: 1; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column">
+                <div class="tilt glass kd" style="flex: 1; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column">
                   <div style="display: flex; gap: 6px; align-items: center; padding: 8px 12px; border-bottom: 1px solid rgba(201,164,92,.18)">
                     <span style="width: 7px; height: 7px; border-radius: 50%; background: #6E5C38"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #6E5C38"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: {{p.acc}}"></span>
                     <span class="mono" style="margin-left: 8px; font-size: 10px; color: #C2BAAD">{{p.url}}</span>
@@ -1252,7 +1469,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 06 KI-RECHNER -->
-  <section id="rechner" data-acc="#3FBF95,#9B7BE0" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="rechner" data-acc="#7C9A80,#A38B6B" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="06" aria-hidden="true">06</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px">
       <div class="reveal" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px">
@@ -1307,7 +1524,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 07 PAKETE -->
-  <section id="pakete" data-acc="#9B7BE0,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="pakete" data-acc="#A38B6B,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="07" aria-hidden="true">07</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
       <div class="reveal" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px">
@@ -1387,7 +1604,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 08 PROZESS -->
-  <section id="prozess" data-acc="#5E8BE8,#3FBF95" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="prozess" data-acc="#6F8BA0,#7C9A80" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="08" aria-hidden="true">08</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
       <div class="reveal" style="display: flex; flex-direction: column; gap: 18px">
@@ -1410,7 +1627,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 08 VERGLEICH -->
-  <section id="vergleich" data-acc="#D9536F,#9B7BE0" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="vergleich" data-acc="#B5735A,#A38B6B" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="09" aria-hidden="true">09</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px">
       <div class="reveal" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px">
@@ -1462,7 +1679,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 09 ÜBER UNS -->
-  <section id="ueber-uns" data-acc="#3FBF95,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="ueber-uns" data-acc="#7C9A80,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="10" aria-hidden="true">10</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px">
       <div class="reveal" style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
@@ -1484,7 +1701,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- 10 FAQ -->
-  <section id="faq" data-acc="#5E8BE8,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="faq" data-acc="#6F8BA0,#E2C27D" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="11" aria-hidden="true">11</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px">
       <div class="reveal" style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
@@ -1508,7 +1725,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- WEBSITE-CHECK -->
-  <section id="website-check" data-acc="#D9536F,#E2C27D" style="position: relative; padding: clamp(40px, 6vw, 90px) max(20px, 4vw)">
+  <section id="website-check" data-acc="#B5735A,#E2C27D" style="position: relative; padding: clamp(40px, 6vw, 90px) max(20px, 4vw)">
     <div class="reveal gborder" style="max-width: 1320px; margin: 0 auto">
       <div style="border-radius: 10px; background: radial-gradient(ellipse 60% 100% at 0% 0%, rgba(232,197,122,.16), transparent 60%), radial-gradient(ellipse 60% 100% at 100% 100%, rgba(243,227,191,.16), transparent 60%), #060504; padding: clamp(24px, 4vw, 56px); display: flex; flex-wrap: wrap; gap: 36px; align-items: center">
         <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
@@ -1549,7 +1766,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   </section>
 
   <!-- IMPRESSUM -->
-  <section id="impressum" class="legal" data-acc="#E2C27D,#5E8BE8" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="impressum" class="legal" data-acc="#E2C27D,#6F8BA0" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <div style="max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px">
       <span class="eyebrow">Rechtliches</span>
       <h2 class="h2" style="margin-bottom: 12px">Impressum</h2>
@@ -1583,7 +1800,7 @@ Anschrift wie oben</p>
   </section>
 
   <!-- DATENSCHUTZERKLÄRUNG -->
-  <section id="datenschutz" class="legal" data-acc="#E2C27D,#5E8BE8" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="datenschutz" class="legal" data-acc="#E2C27D,#6F8BA0" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <div style="max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px">
       <span class="eyebrow">Rechtliches</span>
       <h2 class="h2" style="margin-bottom: 12px">Datenschutzerklärung</h2>
@@ -1630,7 +1847,7 @@ E-Mail: almoakedmohammad@gmail.com</p>
   </section>
 
   <!-- 11 KONTAKT -->
-  <section id="kontakt" data-acc="#E2C27D,#3FBF95" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
+  <section id="kontakt" data-acc="#E2C27D,#7C9A80" style="position: relative; padding: clamp(80px, 10vw, 150px) max(20px, 4vw)">
     <span class="bignum" data-n="12" aria-hidden="true">12</span>
     <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
       <div class="reveal" style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
@@ -1933,9 +2150,9 @@ var CATS = [
 ];
 
 var PROJECTS = [
-  { isCan: true, acc: '#3FBF95', url: 'flux-energy.vercel.app', headline: 'Pure Energie.', cta: 'Jetzt probieren', name: 'Flux Energy', tag: '3D · Scroll-Story', stack: 'Three.js · GSAP', text: 'Eine Energy-Drink-Dose als 3D-Objekt, das sich beim Scrollen dreht, öffnet und die Inhaltsstoffe zeigt.', long: 'Eine Website für einen Energy-Drink, bei der die Dose als 3D-Objekt im Mittelpunkt steht. Beim Scrollen dreht sich die Dose, öffnet sich und zeigt die Inhaltsstoffe.', f: ['3D-Dose mit WebGL', 'Scrollgesteuerte Kamerafahrt', 'Leichtere Variante für Smartphones'], goal: 'Ein Produkt, das man nicht nur sieht, sondern beim Scrollen erlebt.', live: null, art: 'position:absolute;inset:0;background:radial-gradient(ellipse 40% 60% at 72% 50%, rgba(63,191,149,.55) 0%, transparent 70%), radial-gradient(circle at 20% 20%, #0B2A22, transparent 55%), #050605' },
-  { isGrid: true, acc: '#5E8BE8', url: 'bausqo.vercel.app', headline: 'Bauen mit System.', cta: 'Projekte ansehen', name: 'BAUSQO', tag: 'UI/UX · Motion', stack: 'Next.js · Vercel', text: 'Neue Nutzerführung und ruhige Bewegungsabläufe für einen klareren, hochwertigeren Auftritt.', long: 'Überarbeitung von Nutzerführung, Gestaltung und Bewegung für einen klareren und hochwertigeren Auftritt.', f: ['Neue Seitenstruktur und Nutzerführung', 'Ruhige Übergänge und Microinteractions', 'Responsives Layout für alle Geräte'], goal: 'Besucher finden schneller, was sie suchen, und bekommen einen hochwertigen ersten Eindruck.', live: 'https://bausqo.vercel.app', art: 'position:absolute;inset:0;background:repeating-linear-gradient(90deg, rgba(94,139,232,.16) 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, rgba(94,139,232,.1) 0 1px, transparent 1px 64px), radial-gradient(ellipse at 50% 100%, #172A55, #050506 70%)' },
-  { isCard: true, acc: '#D9536F', url: 'payment-k7rl.vercel.app', headline: 'Sicher bezahlen.', cta: 'Jetzt bezahlen', name: 'Payment Checkout', tag: 'Web-App · Zahlungen', stack: 'TypeScript · Stripe', text: 'Ein Checkout mit klarer Schrittführung, Validierung in Echtzeit und vertrauenswürdigem Erscheinungsbild.', long: 'Ein Checkout-Prototyp, der Kunden Schritt für Schritt durch die Zahlung führt und Eingaben sofort prüft.', f: ['Schrittweiser Bezahlablauf', 'Prüfung der Eingaben in Echtzeit', 'Vertrauenswürdiges Erscheinungsbild'], goal: 'Weniger Kaufabbrüche durch einen Bezahlvorgang ohne Hürden.', live: 'https://payment-k7rl.vercel.app', art: 'position:absolute;inset:0;background:linear-gradient(115deg, transparent 40%, rgba(217,83,111,.22) 50%, transparent 60%), linear-gradient(200deg, #3E1220, #050404 70%)' }
+  { isCan: true, acc: '#7C9A80', url: 'flux-energy.vercel.app', headline: 'Pure Energie.', cta: 'Jetzt probieren', name: 'Flux Energy', tag: '3D · Scroll-Story', stack: 'Three.js · GSAP', text: 'Eine Energy-Drink-Dose als 3D-Objekt, das sich beim Scrollen dreht, öffnet und die Inhaltsstoffe zeigt.', long: 'Eine Website für einen Energy-Drink, bei der die Dose als 3D-Objekt im Mittelpunkt steht. Beim Scrollen dreht sich die Dose, öffnet sich und zeigt die Inhaltsstoffe.', f: ['3D-Dose mit WebGL', 'Scrollgesteuerte Kamerafahrt', 'Leichtere Variante für Smartphones'], goal: 'Ein Produkt, das man nicht nur sieht, sondern beim Scrollen erlebt.', live: null, art: 'position:absolute;inset:0;background:radial-gradient(ellipse 40% 60% at 72% 50%, rgba(124,154,128,.55) 0%, transparent 70%), radial-gradient(circle at 20% 20%, #0B2A22, transparent 55%), #050605' },
+  { isGrid: true, acc: '#6F8BA0', url: 'bausqo.vercel.app', headline: 'Bauen mit System.', cta: 'Projekte ansehen', name: 'BAUSQO', tag: 'UI/UX · Motion', stack: 'Next.js · Vercel', text: 'Neue Nutzerführung und ruhige Bewegungsabläufe für einen klareren, hochwertigeren Auftritt.', long: 'Überarbeitung von Nutzerführung, Gestaltung und Bewegung für einen klareren und hochwertigeren Auftritt.', f: ['Neue Seitenstruktur und Nutzerführung', 'Ruhige Übergänge und Microinteractions', 'Responsives Layout für alle Geräte'], goal: 'Besucher finden schneller, was sie suchen, und bekommen einen hochwertigen ersten Eindruck.', live: 'https://bausqo.vercel.app', art: 'position:absolute;inset:0;background:repeating-linear-gradient(90deg, rgba(94,139,232,.16) 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, rgba(94,139,232,.1) 0 1px, transparent 1px 64px), radial-gradient(ellipse at 50% 100%, #172A55, #050506 70%)' },
+  { isCard: true, acc: '#B5735A', url: 'payment-k7rl.vercel.app', headline: 'Sicher bezahlen.', cta: 'Jetzt bezahlen', name: 'Payment Checkout', tag: 'Web-App · Zahlungen', stack: 'TypeScript · Stripe', text: 'Ein Checkout mit klarer Schrittführung, Validierung in Echtzeit und vertrauenswürdigem Erscheinungsbild.', long: 'Ein Checkout-Prototyp, der Kunden Schritt für Schritt durch die Zahlung führt und Eingaben sofort prüft.', f: ['Schrittweiser Bezahlablauf', 'Prüfung der Eingaben in Echtzeit', 'Vertrauenswürdiges Erscheinungsbild'], goal: 'Weniger Kaufabbrüche durch einen Bezahlvorgang ohne Hürden.', live: 'https://payment-k7rl.vercel.app', art: 'position:absolute;inset:0;background:linear-gradient(115deg, transparent 40%, rgba(181,115,90,.22) 50%, transparent 60%), linear-gradient(200deg, #3E1220, #050404 70%)' }
 ];
 
 var STEPS = [
@@ -1969,9 +2186,9 @@ var FLOW = [
 var MQ_A = ['3D-Websites', 'UI/UX-Design', 'KI-Assistenten', 'Motion Design', 'Webanwendungen', 'Automatisierung'];
 var MQ_B = ['Figma-Prototypen', 'E-Commerce', 'WebGL', 'Designsysteme', 'KI-Chatbots', 'Landingpages'];
 
-var PAL = ['#E2C27D', '#3FBF95', '#5E8BE8', '#D9536F', '#9B7BE0'];
-var PAL_SOFT = { '#E8C57A': 'rgba(232,197,122,.4)', '#C9A45C': 'rgba(201,164,92,.4)', '#B08D57': 'rgba(176,141,87,.4)', '#F3E3BF': 'rgba(243,227,191,.4)', '#E2C27D': 'rgba(226,194,125,.4)', '#3FBF95': 'rgba(63,191,149,.4)', '#5E8BE8': 'rgba(94,139,232,.4)', '#D9536F': 'rgba(217,83,111,.4)', '#9B7BE0': 'rgba(155,123,224,.4)' };
-var CAT_ACC = { web: '#5E8BE8', ux: '#D9536F', ki: '#3FBF95' };
+var PAL = ['#E2C27D', '#7C9A80', '#6F8BA0', '#B5735A', '#A38B6B'];
+var PAL_SOFT = { '#E8C57A': 'rgba(232,197,122,.4)', '#C9A45C': 'rgba(201,164,92,.4)', '#B08D57': 'rgba(176,141,87,.4)', '#F3E3BF': 'rgba(243,227,191,.4)', '#E2C27D': 'rgba(226,194,125,.4)', '#7C9A80': 'rgba(124,154,128,.4)', '#6F8BA0': 'rgba(94,139,232,.4)', '#B5735A': 'rgba(181,115,90,.4)', '#A38B6B': 'rgba(163,139,107,.4)' };
+var CAT_ACC = { web: '#6F8BA0', ux: '#B5735A', ki: '#7C9A80' };
 var MENU = [
   { n: '01', t: 'Leistungen', href: '#leistungen' },
   { n: '02', t: 'KI erleben', href: '#ki-demo' },
@@ -1984,14 +2201,14 @@ var MENU = [
 ];
 var FACTS = [
   { v: 25, suf: '', l: 'Leistungen aus einer Hand', c: '#E2C27D', href: '#leistungen' },
-  { v: 3, suf: '', l: 'Disziplinen in einem Team: Web, Design und KI', c: '#3FBF95', href: '#ueber-uns' },
-  { v: 100, suf: ' %', l: 'Quellcode und Zugänge gehören Ihnen', c: '#5E8BE8', href: '#vergleich' },
-  { v: 2, suf: '', l: 'Werktage bis zur ersten Rückmeldung', c: '#D9536F', href: '#kontakt' }
+  { v: 3, suf: '', l: 'Disziplinen in einem Team: Web, Design und KI', c: '#7C9A80', href: '#ueber-uns' },
+  { v: 100, suf: ' %', l: 'Quellcode und Zugänge gehören Ihnen', c: '#6F8BA0', href: '#vergleich' },
+  { v: 2, suf: '', l: 'Werktage bis zur ersten Rückmeldung', c: '#B5735A', href: '#kontakt' }
 ];
 var CAPS = [
-  { i: '→', t: 'Empfiehlt passende Leistungen', c: '#3FBF95' },
-  { i: '⌘', t: 'Öffnet Bauplan und KI-Rechner', c: '#5E8BE8' },
-  { i: '✆', t: 'Verbindet Sie per Anruf oder Rückruf', c: '#D9536F' }
+  { i: '→', t: 'Empfiehlt passende Leistungen', c: '#7C9A80' },
+  { i: '⌘', t: 'Öffnet Bauplan und KI-Rechner', c: '#6F8BA0' },
+  { i: '✆', t: 'Verbindet Sie per Anruf oder Rückruf', c: '#B5735A' }
 ];
 var QUICK = ['Was kosten die Pakete?', 'Was kostet eine Website?', 'Wie lange dauert ein Projekt?', 'Kann KI Rechnungen lesen?', 'Rückruf anfordern'];
 var INTENTS = [
@@ -2021,15 +2238,15 @@ var INTENTS = [
 
 var BA_POINTS = [
   { t: 'Klare Botschaft', d: 'Im ersten Bildschirm steht, was Sie tun und für wen.', c: '#E2C27D' },
-  { t: 'Anfrage in zwei Klicks', d: 'Der wichtigste Knopf ist immer sichtbar.', c: '#3FBF95' },
-  { t: 'Mobil zuerst', d: 'Gestaltet für das Smartphone, wo die meisten Besucher sind.', c: '#5E8BE8' },
-  { t: 'Bewegung, die führt', d: 'Animationen lenken den Blick, statt abzulenken.', c: '#D9536F' }
+  { t: 'Anfrage in zwei Klicks', d: 'Der wichtigste Knopf ist immer sichtbar.', c: '#7C9A80' },
+  { t: 'Mobil zuerst', d: 'Gestaltet für das Smartphone, wo die meisten Besucher sind.', c: '#6F8BA0' },
+  { t: 'Bewegung, die führt', d: 'Animationen lenken den Blick, statt abzulenken.', c: '#B5735A' }
 ];
 var GOALS = [
   { id: 'anfragen', t: 'Mehr Anfragen', d: 'Besucher zu Kunden machen', pkg: 'Premium-Unternehmenswebsite', w: [3, 5], acc: '#E2C27D', mods: [['Design', 'Individuelles Design'], ['Anfragen', 'Anfrageformulare mit Benachrichtigung'], ['SEO', 'SEO-Grundlagen und schnelle Ladezeit']] },
-  { id: 'verkaufen', t: 'Online verkaufen', d: 'Ein Shop, der verkauft', pkg: 'E-Commerce-Shop', w: [5, 8], acc: '#D9536F', mods: [['Katalog', 'Produktseiten und Warenkorb'], ['Zahlung', 'Zahlungsanbieter wie Stripe und PayPal'], ['Versand', 'Versand- und Steuerlogik']] },
-  { id: 'zeit', t: 'Zeit sparen', d: 'Routinearbeit an KI abgeben', pkg: 'KI-Automatisierung', w: [3, 6], acc: '#3FBF95', mods: [['Analyse', 'Analyse Ihrer Abläufe'], ['KI-Flows', 'Automatisierte Prozesse mit KI-Schritten'], ['Schnittstellen', 'Anbindung an Ihre bestehenden Tools']] },
-  { id: 'marke', t: 'Marke inszenieren', d: 'Auffallen mit 3D und Motion', pkg: '3D-Markenauftritt', w: [5, 9], acc: '#5E8BE8', mods: [['3D-Szene', '3D-Szene mit WebGL'], ['Motion', 'Scrollgesteuerte Animationen'], ['Mobil', 'Leichte Variante für Smartphones']] }
+  { id: 'verkaufen', t: 'Online verkaufen', d: 'Ein Shop, der verkauft', pkg: 'E-Commerce-Shop', w: [5, 8], acc: '#B5735A', mods: [['Katalog', 'Produktseiten und Warenkorb'], ['Zahlung', 'Zahlungsanbieter wie Stripe und PayPal'], ['Versand', 'Versand- und Steuerlogik']] },
+  { id: 'zeit', t: 'Zeit sparen', d: 'Routinearbeit an KI abgeben', pkg: 'KI-Automatisierung', w: [3, 6], acc: '#7C9A80', mods: [['Analyse', 'Analyse Ihrer Abläufe'], ['KI-Flows', 'Automatisierte Prozesse mit KI-Schritten'], ['Schnittstellen', 'Anbindung an Ihre bestehenden Tools']] },
+  { id: 'marke', t: 'Marke inszenieren', d: 'Auffallen mit 3D und Motion', pkg: '3D-Markenauftritt', w: [5, 9], acc: '#6F8BA0', mods: [['3D-Szene', '3D-Szene mit WebGL'], ['Motion', 'Scrollgesteuerte Animationen'], ['Mobil', 'Leichte Variante für Smartphones']] }
 ];
 var SIZES = [
   { id: 's', t: 'Kompakt', d: '1–5 Seiten oder Abläufe', add: 0 },
@@ -2037,17 +2254,17 @@ var SIZES = [
   { id: 'l', t: 'Umfangreich', d: 'Mehr als 15', add: 5 }
 ];
 var EXTRAS = [
-  { id: 'd3', t: '3D-Elemente', w: 2, n: '3D', inc: '3D-Elemente und Effekte', c: '#5E8BE8' },
-  { id: 'chat', t: 'KI-Chat', w: 1, n: 'KI-Chat', inc: 'KI-Chat auf Basis Ihrer Inhalte', c: '#3FBF95' },
+  { id: 'd3', t: '3D-Elemente', w: 2, n: '3D', inc: '3D-Elemente und Effekte', c: '#6F8BA0' },
+  { id: 'chat', t: 'KI-Chat', w: 1, n: 'KI-Chat', inc: 'KI-Chat auf Basis Ihrer Inhalte', c: '#7C9A80' },
   { id: 'cms', t: 'Inhalte selbst pflegen', w: 1, n: 'CMS', inc: 'CMS für Texte und Bilder', c: '#E2C27D' },
-  { id: 'lang', t: 'Mehrsprachig', w: 1, n: 'Sprachen', inc: 'Zweite Sprache', c: '#D9536F' },
-  { id: 'care', t: 'Wartung nach Launch', w: 0, n: 'Wartung', inc: 'Wartung und Updates', c: '#9B7BE0' }
+  { id: 'lang', t: 'Mehrsprachig', w: 1, n: 'Sprachen', inc: 'Zweite Sprache', c: '#B5735A' },
+  { id: 'care', t: 'Wartung nach Launch', w: 0, n: 'Wartung', inc: 'Wartung und Updates', c: '#A38B6B' }
 ];
 var ROI = [
-  { id: 'r-vol', out: 'vol', label: 'Vorgänge pro Woche', hint: 'E-Mails, Anfragen, Rechnungen', min: 5, max: 300, step: 5, def: 60, acc: '#3FBF95', unit: '' },
-  { id: 'r-min', out: 'min', label: 'Minuten pro Vorgang', hint: 'Lesen, sortieren, antworten', min: 2, max: 45, step: 1, def: 8, acc: '#5E8BE8', unit: ' Min.' },
-  { id: 'r-share', out: 'share', label: 'Anteil, den KI übernimmt', hint: 'Annahme, je nach Prozess', min: 20, max: 80, step: 5, def: 50, acc: '#9B7BE0', unit: ' %' },
-  { id: 'r-rate', out: 'rate', label: 'Interner Stundensatz', hint: 'inklusive Nebenkosten', min: 25, max: 120, step: 5, def: 45, acc: '#D9536F', unit: ' €' }
+  { id: 'r-vol', out: 'vol', label: 'Vorgänge pro Woche', hint: 'E-Mails, Anfragen, Rechnungen', min: 5, max: 300, step: 5, def: 60, acc: '#7C9A80', unit: '' },
+  { id: 'r-min', out: 'min', label: 'Minuten pro Vorgang', hint: 'Lesen, sortieren, antworten', min: 2, max: 45, step: 1, def: 8, acc: '#6F8BA0', unit: ' Min.' },
+  { id: 'r-share', out: 'share', label: 'Anteil, den KI übernimmt', hint: 'Annahme, je nach Prozess', min: 20, max: 80, step: 5, def: 50, acc: '#A38B6B', unit: ' %' },
+  { id: 'r-rate', out: 'rate', label: 'Interner Stundensatz', hint: 'inklusive Nebenkosten', min: 25, max: 120, step: 5, def: 45, acc: '#B5735A', unit: ' €' }
 ];
 var COMPARE = [
   ['Individuelles Design', 'Vorlage', 'Ja', 'Ja'],
@@ -2059,17 +2276,17 @@ var COMPARE = [
 ];
 var PROMISES = [
   { i: '€', t: 'Festpreis', d: 'Nach dem Erstgespräch erhalten Sie einen festen Preis. Keine offenen Stundenzettel.', c: '#E2C27D' },
-  { i: '◎', t: 'Freigabe vor Entwicklung', d: 'Sie klicken das Design in Figma durch, bevor eine Zeile Code entsteht.', c: '#3FBF95' },
-  { i: '</>', t: 'Code gehört Ihnen', d: 'Nach Abschluss erhalten Sie Quellcode, Zugänge und Dokumentation.', c: '#5E8BE8' },
-  { i: '30', t: '30 Tage Nachbesserung', d: 'Kleine Korrekturen nach dem Launch sind im Preis enthalten.', c: '#D9536F' }
+  { i: '◎', t: 'Freigabe vor Entwicklung', d: 'Sie klicken das Design in Figma durch, bevor eine Zeile Code entsteht.', c: '#7C9A80' },
+  { i: '</>', t: 'Code gehört Ihnen', d: 'Nach Abschluss erhalten Sie Quellcode, Zugänge und Dokumentation.', c: '#6F8BA0' },
+  { i: '30', t: '30 Tage Nachbesserung', d: 'Kleine Korrekturen nach dem Launch sind im Preis enthalten.', c: '#B5735A' }
 ];
 var NAV = [['Leistungen', 'leistungen'], ['KI erleben', 'ki-demo'], ['Projekte', 'projekte'], ['Bauplan', 'konfigurator']];
 var PAGE_TITLES = { 'leistungen': 'Leistungen', 'ki-demo': 'KI live erleben', 'vorher-nachher': 'Vorher und nachher', 'projekte': 'Projekte', 'konfigurator': 'Projekt-Bauplan', 'rechner': 'KI-Rechner', 'prozess': 'Prozess', 'vergleich': 'Vergleich', 'ueber-uns': 'Über uns', 'faq': 'FAQ', 'website-check': 'Website-Check', 'kontakt': 'Kontakt', 'pakete': 'Pakete', 'impressum': 'Impressum', 'datenschutz': 'Datenschutz' };
 var RAIL = [['leistungen', 'Leistungen'], ['ki-demo', 'KI live'], ['vorher-nachher', 'Vorher / Nachher'], ['projekte', 'Projekte'], ['konfigurator', 'Bauplan'], ['rechner', 'KI-Rechner'], ['pakete', 'Pakete'], ['prozess', 'Prozess'], ['vergleich', 'Vergleich'], ['ueber-uns', 'Über uns'], ['faq', 'FAQ'], ['kontakt', 'Kontakt']];
 var PLANS = [
-  { id: 'pflege', n: 'Basis', tag: 'Nur Wartung', acc: '#3FBF95', rings: 1, spin: '14s', price: '50 €', old: '71 €', hi: ['Sicherheits- und Software-Updates', 'Tägliche Backups', 'Überwachung rund um die Uhr'], all: ['Sicherheits- und Software-Updates', 'Tägliche Backups mit Wiederherstellung', 'Erreichbarkeit rund um die Uhr überwacht', 'Behebung technischer Fehler', 'Antwort innerhalb von 2 Werktagen', 'Inhaltliche Änderungen nicht enthalten'] },
+  { id: 'pflege', n: 'Basis', tag: 'Nur Wartung', acc: '#7C9A80', rings: 1, spin: '14s', price: '50 €', old: '71 €', hi: ['Sicherheits- und Software-Updates', 'Tägliche Backups', 'Überwachung rund um die Uhr'], all: ['Sicherheits- und Software-Updates', 'Tägliche Backups mit Wiederherstellung', 'Erreichbarkeit rund um die Uhr überwacht', 'Behebung technischer Fehler', 'Antwort innerhalb von 2 Werktagen', 'Inhaltliche Änderungen nicht enthalten'] },
   { id: 'wachstum', n: 'Plus', tag: 'Wartung und 4 Std. Änderungen', acc: '#E2C27D', rings: 2, spin: '10s', featured: true, price: '150 €', old: '214 €', hi: ['Komplette Wartung wie Basis', '4 Std. Änderungen pro Monat', 'Jede Änderung an Ihrer Website'], all: ['Alles aus Basis', '4 Stunden Änderungen pro Monat', 'Texte, Bilder, Design, neue Seiten oder Funktionen', 'Sie sagen, was sich ändern soll, wir setzen es um', 'Antwort innerhalb von 1 Werktag'] },
-  { id: 'ki', n: 'Komplett', tag: 'Alles inklusive, ohne Limit', acc: '#9B7BE0', rings: 3, spin: '7s', price: '499 €', old: '713 €', hi: ['Komplette Wartung wie Basis', 'Änderungen ohne Stundenlimit', 'Fester Ansprechpartner'], all: ['Alles aus Plus', 'Änderungen ohne Stundenlimit', 'Neue Seiten und Funktionen nach Bedarf', 'Fester Ansprechpartner mit Priorität', 'Antwort am selben Werktag'] },
+  { id: 'ki', n: 'Komplett', tag: 'Alles inklusive, ohne Limit', acc: '#A38B6B', rings: 3, spin: '7s', price: '499 €', old: '713 €', hi: ['Komplette Wartung wie Basis', 'Änderungen ohne Stundenlimit', 'Fester Ansprechpartner'], all: ['Alles aus Plus', 'Änderungen ohne Stundenlimit', 'Neue Seiten und Funktionen nach Bedarf', 'Fester Ansprechpartner mit Priorität', 'Antwort am selben Werktag'] },
 ];
 var SCRAMBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·#';
 function scramble(el) {
@@ -3009,9 +3226,9 @@ class Component extends DCLogic {
       closeMenu: function () { self.setState({ menuOpen: false }); },
       menuItems: MENU.map(function (m, i) { return Object.assign({}, m, { acc: PAL[i % 4], delay: (0.22 + i * 0.06).toFixed(2) + 's', open: function (e) { if (e && e.preventDefault) e.preventDefault(); self.openPage(m.href.slice(1)); } }); }),
       guides: [
-        { n: '01', t: 'Neue Website', s: 'Schnell, in 3D, gut auffindbar', acc: '#5E8BE8', cat: 'web', to: 'leistungen' },
-        { n: '02', t: 'Besseres Design', s: 'UI/UX, das überzeugt', acc: '#D9536F', cat: 'ux', to: 'leistungen' },
-        { n: '03', t: 'KI im Betrieb', s: 'Assistenten und Automatisierung', acc: '#3FBF95', cat: 'ki', to: 'leistungen' },
+        { n: '01', t: 'Neue Website', s: 'Schnell, in 3D, gut auffindbar', acc: '#6F8BA0', cat: 'web', to: 'leistungen' },
+        { n: '02', t: 'Besseres Design', s: 'UI/UX, das überzeugt', acc: '#B5735A', cat: 'ux', to: 'leistungen' },
+        { n: '03', t: 'KI im Betrieb', s: 'Assistenten und Automatisierung', acc: '#7C9A80', cat: 'ki', to: 'leistungen' },
         { n: '04', t: 'Kosten und Ablauf', s: 'Bauplan in einer Minute', acc: '#E2C27D', cat: null, to: 'konfigurator' }
       ].map(function (g) { return Object.assign({}, g, { go: function () { if (g.cat) self.setState({ cat: g.cat }, function () { if (self.refreshAcc) self.refreshAcc(); }); self.goTo(g.to); } }); }),
       rail: RAIL.map(function (r, i) { return { id: r[0], t: r[1], n: String(i + 1).padStart(2, '0'), go: function () { self.goTo(r[0]); } }; }),
@@ -3084,7 +3301,7 @@ class Component extends DCLogic {
       steps: STEPS.map(function (s, i) { return Object.assign({}, s, { c: PAL[i] }); }),
       compare: COMPARE.map(function (r) { return { l: r[0], a: mark(r[1]), b: mark(r[2]), c: mark(r[3]), aS: cellStyle(r[1], false), bS: cellStyle(r[2], false), cS: cellStyle(r[3], true) }; }),
       promises: PROMISES,
-      values: VALUES.map(function (v, i) { return Object.assign({}, v, { c: ['#5E8BE8', '#D9536F', '#3FBF95', '#9B7BE0'][i] }); }),
+      values: VALUES.map(function (v, i) { return Object.assign({}, v, { c: ['#6F8BA0', '#B5735A', '#7C9A80', '#A38B6B'][i] }); }),
       faqs: faqs,
 
       checkSent: S.checkSent, checkOpen: !S.checkSent,
@@ -3165,7 +3382,7 @@ class Component extends DCLogic {
       aiTitle: S.aiOn ? 'Antworten werden live von einem KI-Modell erzeugt.' : 'Antworten aus unseren häufigen Fragen (ohne KI-Modell).',
       contacts: [
         { i: '@', l: 'E-Mail · schreiben', v: CONTACT.mail, href: 'mailto:' + CONTACT.mail, target: '_self', c: '#E2C27D', copyLabel: 'E-Mail-Adresse kopieren', copy: function () { copyText(self, CONTACT.mail, 'E-Mail-Adresse'); } },
-        { i: '✆', l: 'Telefon · anrufen', v: CONTACT.tel, href: CONTACT.telHref, target: '_self', c: '#3FBF95', copyLabel: 'Telefonnummer kopieren', copy: function () { copyText(self, CONTACT.tel, 'Telefonnummer'); } }
+        { i: '✆', l: 'Telefon · anrufen', v: CONTACT.tel, href: CONTACT.telHref, target: '_self', c: '#7C9A80', copyLabel: 'Telefonnummer kopieren', copy: function () { copyText(self, CONTACT.tel, 'Telefonnummer'); } }
       ],
       reset: function () { self.setState({ sent: false, pick: '', outMsg: '', errs: {}, sentRef: '', sentOffline: false, sendErr: '' }); },
 
