@@ -638,6 +638,17 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
 .sale-badge{background:#1F1A13 !important;color:#F3E3BF !important;box-shadow:none !important}
 .old-price{text-decoration-color:#B5735A !important}
 
+/* Hero: schlicht in Schwarz-Gold, nur Botschaft, zwei Knöpfe und das Logo */
+#top .guide,#top .hc,#top .grid-floor,#top .aurora,.mq-wrap{display:none !important}
+#top .hero-stage canvas{display:none !important}
+.bg-gl,.vignette{display:none !important}
+#top{background:radial-gradient(ellipse 55% 60% at 75% 50%,rgba(184,144,79,.16),transparent 65%),radial-gradient(ellipse 50% 50% at 10% 0%,rgba(226,194,125,.06),transparent 60%),#080706}
+footer{background:radial-gradient(ellipse 50% 60% at 50% 30%,rgba(184,144,79,.14),transparent 65%),#080706 !important}
+#top .logo-glow{opacity:.7;animation:none}
+#top .word{animation-duration:.8s}
+#top{padding-bottom:clamp(40px,5vw,72px) !important}
+@media (max-width:640px){#top .hero-stage{height:300px !important}#top .logo-reflect{display:none}}
+
 /* Helle Bereiche */
 .layer>section:not(#top):not(.mq-wrap){background:var(--ivory);color:#2A241B;z-index:1;color-scheme:light}
 .layer>section:not(#top):not(.mq-wrap) input[type=checkbox],.layer>section:not(#top):not(.mq-wrap) input[type=radio]{accent-color:#8A6A2F}
