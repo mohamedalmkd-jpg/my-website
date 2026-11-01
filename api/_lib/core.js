@@ -11,7 +11,7 @@ function env(k) { return String(process.env[k] || '').trim(); }
 function config() {
   return {
     sbUrl: (env('SUPABASE_URL') || env('NEXT_PUBLIC_SUPABASE_URL')).replace(/\/+$/, ''),
-    sbKey: env('SUPABASE_SERVICE_ROLE_KEY'),
+    sbKey: env('SUPABASE_SERVICE_ROLE_KEY') || env('SUPABASE_SECRET_KEY'),
     resendKey: env('RESEND_API_KEY'),
     mailFrom: env('MAIL_FROM') || 'VONUMO <onboarding@resend.dev>',
     notifyTo: env('NOTIFY_EMAIL') || 'almoakedmohammad@gmail.com',
@@ -107,10 +107,11 @@ async function sb(path, opts) {
   if (!c.sbUrl || !c.sbKey) throw Object.assign(new Error('db_not_configured'), { status: 503 });
   const headers = {
     apikey: c.sbKey,
-    Authorization: 'Bearer ' + c.sbKey,
     'Content-Type': 'application/json',
     Accept: 'application/json'
   };
+  // Neue Supabase-Schlüssel (sb_secret_…) sind keine JWTs: nur im apikey-Header senden
+  if (!/^sb_/.test(c.sbKey)) headers.Authorization = 'Bearer ' + c.sbKey;
   if (opts.prefer) headers.Prefer = opts.prefer;
   const r = await fetch(c.sbUrl + '/rest/v1/' + path, {
     method: opts.method || 'GET',

@@ -234,3 +234,21 @@ test('Auth: ohne Supabase-Schlüssel ehrlich deaktiviert, fremde Herkunft abgele
   const m = await call(H2, { method: 'GET', url: '/api/auth/me', headers: { host: 'vonumo.vercel.app' } });
   assert.strictEqual(m.status, 401);
 });
+
+test('Neue Supabase-Schlüssel (sb_secret/sb_publishable) werden nur im apikey-Header gesendet', async () => {
+  setEnv({ SUPABASE_SERVICE_ROLE_KEY: null, SUPABASE_SECRET_KEY: 'sb_secret_x', SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_y' }); delete process.env.SUPABASE_ANON_KEY;
+  const seen = [];
+  const orig = global.fetch;
+  global.fetch = async (url, o) => { seen.push({ url: String(url), h: o.headers }); return new Response('[]', { status: 200, headers: { 'content-type': 'application/json', 'content-range': '0-0/0' } }); };
+  try {
+    const C = fresh('../api/_lib/core');
+    await C.sb('inquiries?select=id');
+    const A = fresh('../api/_lib/auth');
+    process.env.SUPABASE_URL = 'https://db.example.supabase.co';
+    await A.gotrue('settings');
+    await A.gotrue('user', { token: 'user-jwt' });
+  } finally { global.fetch = orig; }
+  assert.strictEqual(seen[0].h.apikey, 'sb_secret_x'); assert.ok(!seen[0].h.Authorization);
+  assert.strictEqual(seen[1].h.apikey, 'sb_publishable_y'); assert.ok(!seen[1].h.Authorization);
+  assert.strictEqual(seen[2].h.Authorization, 'Bearer user-jwt');
+});

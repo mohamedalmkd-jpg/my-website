@@ -12,7 +12,7 @@ const RT_MAX_AGE = 60 * 60 * 24 * 90; // 90 Tage, wird bei jeder Erneuerung verl
 
 function cfg() {
   const c = C.config();
-  return { url: c.sbUrl, anon: String(process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '').trim(), siteUrl: String(process.env.SITE_URL || '').trim().replace(/\/+$/, '') };
+  return { url: c.sbUrl, anon: String(process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || '').trim(), siteUrl: String(process.env.SITE_URL || '').trim().replace(/\/+$/, '') };
 }
 function enabled() { const a = cfg(); return !!(a.url && a.anon); }
 
@@ -86,7 +86,9 @@ async function gotrue(path, opts) {
   const a = cfg();
   if (!a.url || !a.anon) throw Object.assign(new Error('auth_not_configured'), { status: 503 });
   const headers = { apikey: a.anon, 'Content-Type': 'application/json', Accept: 'application/json' };
-  headers.Authorization = 'Bearer ' + (opts.token || a.anon);
+  // Nutzer-Token immer als Bearer; ohne Nutzer nur beim alten anon-JWT (neue sb_publishable_… sind keine JWTs)
+  if (opts.token) headers.Authorization = 'Bearer ' + opts.token;
+  else if (!/^sb_/.test(a.anon)) headers.Authorization = 'Bearer ' + a.anon;
   const r = await fetch(a.url + '/auth/v1/' + path, {
     method: opts.method || 'GET', headers,
     body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
@@ -193,7 +195,7 @@ async function adminDeleteUser(userId) {
   const c = C.config();
   if (!c.sbUrl || !c.sbKey) throw Object.assign(new Error('db_not_configured'), { status: 503 });
   const r = await fetch(c.sbUrl + '/auth/v1/admin/users/' + encodeURIComponent(userId), {
-    method: 'DELETE', headers: { apikey: c.sbKey, Authorization: 'Bearer ' + c.sbKey }, signal: AbortSignal.timeout(10000)
+    method: 'DELETE', headers: /^sb_/.test(c.sbKey) ? { apikey: c.sbKey } : { apikey: c.sbKey, Authorization: 'Bearer ' + c.sbKey }, signal: AbortSignal.timeout(10000)
   });
   if (!r.ok && r.status !== 404) throw Object.assign(new Error('delete_failed'), { status: 502, dbStatus: r.status });
 }
