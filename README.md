@@ -12,6 +12,7 @@ Statische Startseite (`index.html` + `support.js`) mit Serverless-API auf Vercel
 | KI-Assistent | echte Antworten über die Anthropic-API (serverseitig), Wissensbasis aus den Seiteninhalten. Ohne Schlüssel: sichtbar als **FAQ-Modus** gekennzeichnet |
 | Admin (`/admin`) | Anmeldung mit `ADMIN_KEY`, Liste, Suche, Filter, Status und Notizen, Antworten per E-Mail/Telefon |
 | Kundenkonto (`/anmelden`, `/konto`) | Supabase Auth: E-Mail + Passwort mit Bestätigungslink, Passwort-Reset, Google, Apple; Telefonbestätigung per SMS-Code (Pflicht, bevor das Konto voll aktiv ist); Sitzung in httpOnly-Cookies mit automatischer Erneuerung; Abmelden widerruft die Sitzung; eigene Anfragen mit Status |
+| Konto-Daten | Tabellen `profiles`, `user_settings`, `user_activity` (RLS: nur eigene Daten), Einstellungen sofort gespeichert, DSGVO-Export (JSON) und Selbstlöschung unter `/konto` |
 | Ohne Datenbank | keine Scheinerfolge: die Seite sagt ehrlich, dass die Online-Übermittlung nicht verfügbar ist, und bietet den E-Mail-Weg an |
 
 Schutz: Honeypot, Rate-Limits (5 Anfragen / 10 Min. pro Adresse, 20 Chat-Nachrichten / 10 Min.), Längen- und Formatprüfung,
@@ -21,7 +22,7 @@ IP nur als Hash, RLS aktiv ohne öffentliche Policies, Admin-Schlüssel mit zeit
 
 **Schnellweg:** Vercel → Projekt *vonumo* → **Storage** → **Create Database** → **Supabase** → mit dem Projekt verbinden.
 Vercel setzt dabei `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` und `POSTGRES_URL*` automatisch.
-Nach dem nächsten Deployment legt die Website beim ersten Aufruf von `/api/status` alle Tabellen selbst an (Migrationen 001 + 002).
+Nach dem nächsten Deployment legt die Website beim ersten Aufruf von `/api/status` alle Tabellen selbst an (Migrationen 001–003).
 E-Mail-Versand: Vercel → **Integrations** → **Resend** (setzt `RESEND_API_KEY`). Alle Kontakte lassen sich unter `/admin` als CSV exportieren.
 
 Manuell (alternativ):

@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const C = require('./core');
 
-const FILES = ['001_inquiries.sql', '002_auth_profiles.sql'];
+const FILES = ['001_inquiries.sql', '002_auth_profiles.sql', '003_settings_activity.sql'];
 let state = { checkedAt: 0, result: null, running: null };
 
 function connString() {
@@ -45,6 +45,8 @@ async function inspect(sql) {
     select to_regclass('public.inquiries') is not null as inquiries,
            to_regclass('public.profiles') is not null as profiles,
            exists (select 1 from information_schema.columns where table_schema='public' and table_name='inquiries' and column_name='user_id') as user_id,
+           to_regclass('public.user_settings') is not null as user_settings,
+           to_regclass('public.user_activity') is not null as user_activity,
            exists (select 1 from information_schema.schemata where schema_name='auth') as auth_schema`;
   return r;
 }
@@ -55,11 +57,13 @@ async function run(force) {
     let s = await inspect(sql);
     const needs001 = force || !s.inquiries;
     const needs002 = s.auth_schema && (force || !s.profiles || !s.user_id);
-    if (!needs001 && !needs002) return { ok: true, changed: false, tables: s };
+    const needs003 = s.auth_schema && (force || needs002 || !s.user_settings || !s.user_activity);
+    if (!needs001 && !needs002 && !needs003) return { ok: true, changed: false, tables: s };
     await sql.begin(async (tx) => {
       await tx`select pg_advisory_xact_lock(778899)`;
       if (needs001) await tx.unsafe(readSql(FILES[0]));
       if (needs002) await tx.unsafe(readSql(FILES[1]));
+      if (needs003) await tx.unsafe(readSql(FILES[2]));
     });
     try { await sql`notify pgrst, 'reload schema'`; } catch (e) { /* PostgREST lädt sonst nach kurzer Zeit selbst */ }
     s = await inspect(sql);

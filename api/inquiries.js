@@ -116,6 +116,7 @@ module.exports = async function handler(req, res) {
     if (ownerOk || custOk) {
       try { await C.sb('inquiries?id=eq.' + row.id, { method: 'PATCH', body: { notified_owner: ownerOk, notified_customer: custOk } }); } catch (e) { C.log('notify_flag_failed', { ref }); }
     }
+    if (userId) await A.logActivity(userId, 'inquiry_created');
     C.log('inquiry_created', { ref, type: d.type, ownerMail: ownerOk, customerMail: custOk });
     return C.send(res, 201, { ok: true, reference: ref, confirmationSent: custOk });
   } catch (e) {

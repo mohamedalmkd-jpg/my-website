@@ -169,4 +169,33 @@ function normalizePhone(v) {
 
 function requirePhone() { return String(process.env.REQUIRE_PHONE_VERIFICATION || 'true').toLowerCase() !== 'false'; }
 
-module.exports = { AT, RT, PK, LI, cfg, enabled, parseCookies, setSession, clearSession, sameOrigin, baseUrl, pkcePair, setPkce, gotrue, authError, currentUser, publicUser, normalizePhone, requirePhone, addCookies, cookie };
+/* REST-Abfrage im Namen des Nutzers (Row Level Security greift) */
+async function userRest(token, path, opts) {
+  opts = opts || {};
+  const a = cfg();
+  const headers = { apikey: a.anon, Authorization: 'Bearer ' + token, Accept: 'application/json', 'Content-Type': 'application/json' };
+  if (opts.prefer) headers.Prefer = opts.prefer;
+  const r = await fetch(a.url + '/rest/v1/' + path, { method: opts.method || 'GET', headers, body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined, signal: AbortSignal.timeout(10000) });
+  const text = await r.text();
+  let data = null; try { data = text ? JSON.parse(text) : null; } catch (e) { data = null; }
+  return { ok: r.ok, status: r.status, data };
+}
+
+/* Aktivität protokollieren (nur serverseitig, mit Service-Key; Fehler blockieren nie den Ablauf) */
+async function logActivity(userId, eventType) {
+  if (!userId || !C.features().db) return;
+  try { await C.sb('user_activity', { method: 'POST', body: { user_id: userId, event_type: eventType } }); }
+  catch (e) { C.log('activity_log_failed', { eventType, status: e.dbStatus }); }
+}
+
+/* Konto endgültig löschen (Supabase Admin-API, nur serverseitig) */
+async function adminDeleteUser(userId) {
+  const c = C.config();
+  if (!c.sbUrl || !c.sbKey) throw Object.assign(new Error('db_not_configured'), { status: 503 });
+  const r = await fetch(c.sbUrl + '/auth/v1/admin/users/' + encodeURIComponent(userId), {
+    method: 'DELETE', headers: { apikey: c.sbKey, Authorization: 'Bearer ' + c.sbKey }, signal: AbortSignal.timeout(10000)
+  });
+  if (!r.ok && r.status !== 404) throw Object.assign(new Error('delete_failed'), { status: 502, dbStatus: r.status });
+}
+
+module.exports = { userRest, logActivity, adminDeleteUser, AT, RT, PK, LI, cfg, enabled, parseCookies, setSession, clearSession, sameOrigin, baseUrl, pkcePair, setPkce, gotrue, authError, currentUser, publicUser, normalizePhone, requirePhone, addCookies, cookie };

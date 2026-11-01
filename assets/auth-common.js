@@ -25,7 +25,11 @@
     bad_origin: 'Die Anfrage wurde aus Sicherheitsgründen abgelehnt. Bitte laden Sie die Seite neu.',
     network: 'Keine Verbindung. Bitte prüfen Sie Ihre Internetverbindung.',
     server_error: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
-    auth_failed: 'Die Anmeldung ist fehlgeschlagen. Bitte versuchen Sie es erneut.'
+    auth_failed: 'Die Anmeldung ist fehlgeschlagen. Bitte versuchen Sie es erneut.',
+    konto_geloescht: 'Ihr Konto und Ihre Daten wurden gelöscht.',
+    confirm_required: 'Bitte zur Bestätigung LÖSCHEN eingeben.',
+    phone_unverified: 'Bitte bestätigen Sie zuerst Ihre Telefonnummer.',
+    nothing_to_update: 'Keine Änderung.'
   };
   function msg(code) { return MSG[code] || MSG.auth_failed; }
 

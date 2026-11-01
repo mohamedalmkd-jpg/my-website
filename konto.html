@@ -50,7 +50,12 @@
     <p class="sub" id="ph-sub">Zum Schutz Ihres Kontos bestätigen Sie bitte Ihre Telefonnummer. Wir senden Ihnen einen 6-stelligen Code per SMS.</p>
     <div id="ph-note" class="note"></div>
     <form id="f-phone" novalidate>
-      <div class="f"><label for="ph">Telefonnummer</label><input class="fld" id="ph" type="tel" inputmode="tel" autocomplete="tel" placeholder="+49 151 23456789" required><span class="hint">Deutsche Nummern ohne Vorwahl werden automatisch mit +49 ergänzt.</span><span class="err" id="ph-err"></span></div>
+      <div class="f"><label for="ph">Telefonnummer</label>
+        <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr);gap:8px">
+          <select class="fld" id="cc" aria-label="Ländervorwahl" autocomplete="tel-country-code"><option value="+49">Deutschland (+49)</option><option value="+43">Österreich (+43)</option><option value="+41">Schweiz (+41)</option><option value="+31">Niederlande (+31)</option><option value="+32">Belgien (+32)</option><option value="+33">Frankreich (+33)</option><option value="+39">Italien (+39)</option><option value="+34">Spanien (+34)</option><option value="+48">Polen (+48)</option><option value="+45">Dänemark (+45)</option><option value="+46">Schweden (+46)</option><option value="+47">Norwegen (+47)</option><option value="+44">Vereinigtes Königreich (+44)</option><option value="+1">USA / Kanada (+1)</option><option value="+90">Türkei (+90)</option><option value="+963">Syrien (+963)</option><option value="+961">Libanon (+961)</option><option value="+962">Jordanien (+962)</option><option value="+964">Irak (+964)</option><option value="+966">Saudi-Arabien (+966)</option><option value="+971">VAE (+971)</option><option value="+974">Katar (+974)</option><option value="+965">Kuwait (+965)</option><option value="+20">Ägypten (+20)</option><option value="+212">Marokko (+212)</option><option value="+213">Algerien (+213)</option><option value="+216">Tunesien (+216)</option></select>
+          <input class="fld" id="ph" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="151 23456789" required>
+        </div>
+        <span class="hint">Wählen Sie das Land und geben Sie die Nummer ohne führende 0 ein. Eine vollständige Nummer mit + wird ebenfalls erkannt.</span><span class="err" id="ph-err"></span></div>
       <button class="btn main full" type="submit" id="b-send"><span class="spin" aria-hidden="true"></span><span class="lbl">Code senden</span></button>
     </form>
     <form id="f-code" class="hidden" novalidate>
@@ -105,6 +110,38 @@
         </details>
       </section>
     </div>
+    <div class="grid2" style="margin-top:18px">
+      <section class="panel" aria-labelledby="h-set">
+        <h2 id="h-set">Einstellungen</h2>
+        <p class="hint" style="margin:0 0 14px">Wird sofort gespeichert und gilt auf allen Geräten.</p>
+        <form id="f-set" class="set-list" novalidate>
+          <div class="f"><label for="s-lang">Sprache für E-Mails</label><select class="fld" id="s-lang"><option value="de">Deutsch</option><option value="en">English</option><option value="ar">العربية</option></select></div>
+          <label class="check"><input type="checkbox" id="s-mail"><span>Statusänderungen meiner Anfragen per E-Mail</span></label>
+          <label class="check"><input type="checkbox" id="s-sms"><span>Wichtige Hinweise per SMS</span></label>
+          <label class="check"><input type="checkbox" id="s-mkt"><span>Newsletter mit Neuigkeiten von VONUMO (jederzeit widerrufbar)</span></label>
+          <label class="check"><input type="checkbox" id="s-act"><span>Aktivitätsprotokoll in meinem Konto anzeigen</span></label>
+          <span class="hint" id="set-state" role="status" aria-live="polite"></span>
+        </form>
+      </section>
+      <section class="panel" aria-labelledby="h-act">
+        <h2 id="h-act">Letzte Aktivität</h2>
+        <p class="hint" style="margin:0 0 14px">Anmeldungen und Änderungen an Ihrem Konto (12 Monate gespeichert).</p>
+        <div class="list" id="act-list"><div class="skeleton"></div></div>
+      </section>
+    </div>
+    <section class="panel" aria-labelledby="h-priv" style="margin-top:18px">
+      <h2 id="h-priv">Datenschutz</h2>
+      <p class="hint" style="margin:0 0 14px">Laden Sie alle bei uns gespeicherten Daten herunter oder löschen Sie Ihr Konto endgültig.</p>
+      <div class="row" style="justify-content:flex-start;gap:12px">
+        <a class="btn" href="/api/account/export" id="b-export" download><span class="lbl">Meine Daten herunterladen</span></a>
+        <button class="btn" type="button" id="b-del-open" style="border-color:rgba(232,165,152,.5);color:#F4C9C1"><span class="lbl">Konto löschen</span></button>
+      </div>
+      <form id="f-del" class="hidden" novalidate style="margin-top:16px">
+        <div class="note on bad" style="margin:0">Das Löschen entfernt Ihr Konto, Profil, Einstellungen, Aktivitäten und Ihre Anfragen unwiderruflich.</div>
+        <div class="f"><label for="del-confirm">Zur Bestätigung <b>LÖSCHEN</b> eingeben</label><input class="fld" id="del-confirm" type="text" autocomplete="off" autocapitalize="characters"><span class="err" id="del-confirm-err"></span></div>
+        <button class="btn" type="submit" id="b-del" style="background:#7A2133;border-color:#D9536F"><span class="spin" aria-hidden="true"></span><span class="lbl">Konto endgültig löschen</span></button>
+      </form>
+    </section>
   </main>
 </div>
 <script>
@@ -198,11 +235,16 @@
     }
     function showPhone() {
       card('c-phone');
-      if (user.pendingPhone) $('ph').value = user.pendingPhone;
-      else if (user.phone) $('ph').value = user.phone;
+      var known = user.pendingPhone || user.phone;
+      if (known) $('ph').value = known;
+    }
+    function fullPhone() {
+      var v = $('ph').value.trim().replace(/[\s()\/.-]/g, '');
+      if (/^(\+|00)/.test(v)) return v;
+      return $('cc').value + v.replace(/^0+/, '');
     }
     function sendCode(btn) {
-      var v = $('ph').value.trim();
+      var v = fullPhone();
       if (v.replace(/\D/g, '').length < 7) { VO.fieldErr($('ph'), 'Bitte eine gültige Telefonnummer eingeben.'); return; }
       VO.fieldErr($('ph'), ''); VO.note($('ph-note'));
       if (btn.disabled) return;
@@ -224,6 +266,7 @@
     }
     $('f-phone').addEventListener('submit', function (e) { e.preventDefault(); sendCode($('b-send')); });
     $('b-resend').onclick = function () { $('ph').value = phoneTarget; sendCode($('b-resend')); };
+    $('ph').addEventListener('input', function () { var m = this.value.match(/^\+(\d{1,3})/); if (!m) return; for (var l = 3; l >= 1; l--) { var c = '+' + m[1].slice(0, l); if ($('cc').querySelector('option[value="' + c + '"]')) { $('cc').value = c; break; } } });
     $('ph-change').onclick = function () { $('f-code').classList.add('hidden'); $('f-phone').classList.remove('hidden'); $('step3').classList.remove('on'); $('ph').focus(); };
     $('f-code').addEventListener('submit', function (e) {
       e.preventDefault();
@@ -259,7 +302,59 @@
       $('nm').value = user.fullName || '';
       if (q.get('willkommen')) VO.note($('ac-note'), 'good', 'Willkommen bei VONUMO! Ihr Konto ist eingerichtet.');
       loadRequests();
+      loadSettings();
     }
+    var EVT = { signup: 'Konto erstellt', login: 'Anmeldung', logout: 'Abmeldung', oauth_login: 'Anmeldung über Google/Apple', email_confirmed: 'E-Mail bestätigt', phone_verified: 'Telefon bestätigt', password_changed: 'Passwort geändert', password_reset: 'Passwort zurückgesetzt', profile_updated: 'Profil geändert', settings_updated: 'Einstellungen geändert', inquiry_created: 'Anfrage gesendet', data_exported: 'Daten heruntergeladen' };
+    var setMap = { 's-lang': 'language', 's-mail': 'notify_email', 's-sms': 'notify_sms', 's-mkt': 'marketing_opt_in', 's-act': 'show_activity' };
+    function applySettings(st) {
+      Object.keys(setMap).forEach(function (id) { var el = $(id), v = st[setMap[id]]; if (el.type === 'checkbox') el.checked = !!v; else el.value = v || 'de'; });
+      loadActivity(st.show_activity !== false);
+    }
+    function loadSettings() {
+      $('set-state').textContent = 'Lädt …';
+      VO.api('/api/account/settings').then(function (j) {
+        if (!j.ok || !j.settings) { $('set-state').textContent = j.error === 'phone_unverified' ? 'Nach der Telefonbestätigung verfügbar.' : 'Einstellungen konnten nicht geladen werden.'; Object.keys(setMap).forEach(function (id) { $(id).disabled = true; }); loadActivity(true); return; }
+        $('set-state').textContent = ''; applySettings(j.settings);
+      });
+    }
+    Object.keys(setMap).forEach(function (id) {
+      $(id).addEventListener('change', function () {
+        var el = this, body = {}; body[setMap[id]] = el.type === 'checkbox' ? el.checked : el.value;
+        el.disabled = true; $('set-state').className = 'hint'; $('set-state').textContent = 'Wird gespeichert …';
+        VO.api('/api/account/settings', body).then(function (j) {
+          el.disabled = false;
+          if (j.ok) { $('set-state').textContent = '✓ Gespeichert'; applySettings(j.settings); return; }
+          if (el.type === 'checkbox') el.checked = !el.checked;
+          $('set-state').className = 'err'; $('set-state').textContent = VO.msg(j.error);
+        });
+      });
+    });
+    function loadActivity(show) {
+      var list = $('act-list'); list.textContent = '';
+      if (!show) { var off = document.createElement('div'); off.className = 'empty'; off.textContent = 'Anzeige ausgeschaltet.'; list.appendChild(off); return; }
+      VO.api('/api/account/activity').then(function (j) {
+        list.textContent = '';
+        if (!j.ok || !j.items.length) { var e = document.createElement('div'); e.className = 'empty'; e.textContent = j.ok ? 'Noch keine Einträge.' : 'Nach der Telefonbestätigung verfügbar.'; list.appendChild(e); return; }
+        j.items.forEach(function (it) {
+          var r = document.createElement('div'); r.className = 'row req'; r.style.padding = '10px 14px';
+          var a = document.createElement('span'); a.textContent = EVT[it.event_type] || it.event_type;
+          var b = document.createElement('span'); b.className = 'hint'; b.textContent = fmt(it.created_at);
+          r.appendChild(a); r.appendChild(b); list.appendChild(r);
+        });
+      });
+    }
+    $('b-del-open').onclick = function () { $('f-del').classList.toggle('hidden'); if (!$('f-del').classList.contains('hidden')) $('del-confirm').focus(); };
+    $('f-del').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var b = $('b-del'), c = $('del-confirm');
+      if (c.value.trim().toUpperCase() !== 'LÖSCHEN') { VO.fieldErr(c, 'Bitte genau LÖSCHEN eingeben.'); return; }
+      VO.fieldErr(c, ''); if (b.disabled) return;
+      VO.busy(b, true, 'Wird gelöscht …');
+      VO.api('/api/account/delete', { confirm: 'LÖSCHEN' }).then(function (j) {
+        if (j.ok) { location.replace('/anmelden?fehler=konto_geloescht'); return; }
+        VO.busy(b, false); VO.fieldErr(c, VO.msg(j.error));
+      });
+    });
     function loadRequests() {
       var list = $('req-list');
       VO.api('/api/account/inquiries').then(function (j) {

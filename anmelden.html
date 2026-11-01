@@ -105,7 +105,7 @@
     // Bereits angemeldet? Dann direkt ins Konto.
     if (VO.hasSessionHint()) VO.api('/api/auth/me').then(function (j) { if (j.ok) location.replace(next); });
 
-    if (q.get('fehler')) VO.note($('topNote'), q.get('fehler') === 'link_other_browser' ? 'info' : 'bad', VO.msg(q.get('fehler')));
+    if (q.get('fehler')) VO.note($('topNote'), /^(link_other_browser|konto_geloescht)$/.test(q.get('fehler')) ? (q.get('fehler') === 'konto_geloescht' ? 'good' : 'info') : 'bad', VO.msg(q.get('fehler')));
 
     VO.api('/api/auth/config').then(function (c) {
       if (!c.ok || !c.enabled) { authOn = false; VO.note($('topNote'), 'info', VO.msg('auth_not_configured')); document.querySelectorAll('form button[type=submit]').forEach(function (b) { b.disabled = true; }); return; }

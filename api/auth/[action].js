@@ -108,6 +108,7 @@ const handlers = {
     if (!r.ok || !r.data.access_token) return C.send(res, r.status === 429 ? 429 : 400, { ok: false, error: A.authError(r) });
     A.setSession(req, res, r.data);
     const u = A.publicUser(r.data.user);
+    await A.logActivity(u.id, 'login');
     return C.send(res, 200, { ok: true, user: u, needsPhone: A.requirePhone() && !u.phoneConfirmed });
   },
 
@@ -140,6 +141,7 @@ const handlers = {
     const r = await A.gotrue('user', { method: 'PUT', token: s.token, body: { password: b.password } });
     if (!r.ok) return C.send(res, 400, { ok: false, error: A.authError(r) });
     C.log('password_changed', { user: s.user.id });
+    await A.logActivity(s.user.id, 'password_changed');
     return C.send(res, 200, { ok: true });
   },
 
@@ -149,12 +151,16 @@ const handlers = {
     if (fullName.length < 2) return C.send(res, 400, { ok: false, error: 'validation', fields: { fullName: 'required' } });
     const r = await A.gotrue('user', { method: 'PUT', token: s.token, body: { data: { full_name: fullName } } });
     if (!r.ok) return C.send(res, 400, { ok: false, error: A.authError(r) });
+    await A.logActivity(s.user.id, 'profile_updated');
     return C.send(res, 200, { ok: true, user: A.publicUser(r.data) });
   },
 
   async logout(req, res) {
     const ck = A.parseCookies(req);
-    if (ck[A.AT]) { try { await A.gotrue('logout?scope=local', { method: 'POST', token: ck[A.AT] }); } catch (e) { C.log('logout_revoke_failed', {}); } }
+    if (ck[A.AT]) {
+      try { const me = await A.gotrue('user', { token: ck[A.AT] }); if (me.ok && me.data.id) await A.logActivity(me.data.id, 'logout'); } catch (e) { /* egal */ }
+      try { await A.gotrue('logout?scope=local', { method: 'POST', token: ck[A.AT] }); } catch (e) { C.log('logout_revoke_failed', {}); }
+    }
     else if (ck[A.RT]) {
       const r = await A.gotrue('token?grant_type=refresh_token', { method: 'POST', body: { refresh_token: ck[A.RT] } });
       if (r.ok && r.data.access_token) await A.gotrue('logout?scope=local', { method: 'POST', token: r.data.access_token });
@@ -192,7 +198,9 @@ const handlers = {
     A.addCookies(res, [A.cookie(req, A.PK, '', 0)]);
     if (!r.ok || !r.data.access_token) return redirect(res, '/anmelden?fehler=' + A.authError(r));
     A.setSession(req, res, r.data);
-    C.log('callback_ok', { user: r.data.user && r.data.user.id });
+    const cbUid = r.data.user && r.data.user.id;
+    C.log('callback_ok', { user: cbUid });
+    await A.logActivity(cbUid, /passwort=neu/.test(next) ? 'password_reset' : (/willkommen/.test(next) ? 'email_confirmed' : 'oauth_login'));
     return redirect(res, next);
   },
 
@@ -230,6 +238,7 @@ const handlers = {
     if (r.data.access_token) A.setSession(req, res, r.data);
     const user = r.data.user || (await A.gotrue('user', { token: r.data.access_token || s.token })).data;
     C.log('phone_verified', { user: s.user.id });
+    await A.logActivity(s.user.id, 'phone_verified');
     return C.send(res, 200, { ok: true, user: A.publicUser(user) });
   }
 };
