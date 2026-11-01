@@ -117,28 +117,6 @@
   renderDemo();
   if (!reduce) demoT = setInterval(function () { if (real) return; demoK = (demoK + 1) % (items.length + 2); renderDemo(); }, 2600);
 
-  /* Live-Vorschau */
-  var projects = [
-    { url: 'https://bausqo.vercel.app', host: 'bausqo.vercel.app', brand: 'BAUSQO', title: 'Bauen mit System.', sub: 'Planung, Bau und Übergabe aus einer Hand.' },
-    { url: 'https://payment-k7rl.vercel.app', host: 'payment-k7rl.vercel.app', brand: 'Payment', title: 'Sicher bezahlen.', sub: 'Checkout mit Prüfung in Echtzeit.' },
-    { url: 'https://vonumo.vercel.app', host: 'vonumo.vercel.app', brand: 'VONUMO', title: 'Eine Next-Gen-Agentur.', sub: 'Die Zukunft bauen – mit Technik, Design und KI.' }
-  ];
-  var pvI = 0, dots = $('pvDots');
-  projects.forEach(function (p, i) { var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Projekt ' + (i + 1) + ': ' + p.brand); b.addEventListener('click', function () { showPv(i); restart(); }); dots.appendChild(b); });
-  function showPv(i) {
-    pvI = i; var p = projects[i], page = $('pvPage');
-    page.classList.add('fade');
-    setTimeout(function () {
-      $('pvUrl').textContent = p.host; $('pvBrand').textContent = p.brand; $('pvTitle').textContent = p.title; $('pvSub').textContent = p.sub;
-      $('pvOpen').href = p.url;
-      page.classList.remove('fade');
-    }, reduce ? 0 : 380);
-    Array.prototype.forEach.call(dots.children, function (d, k) { d.classList.toggle('on', k === i); });
-  }
-  var pvT = null;
-  function restart() { if (pvT) clearInterval(pvT); if (!reduce) pvT = setInterval(function () { showPv((pvI + 1) % projects.length); }, 5200); }
-  showPv(0); restart();
-
   /* Anfrage senden */
   var dlg = $('dlg'), msg = $('buildMsg');
   function openDlg() {

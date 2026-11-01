@@ -233,7 +233,7 @@ html.scrolled .scrollhint{opacity:0}
 .sg-min{background:linear-gradient(90deg,#0f141c 45%,#1e2633)}
 .sg-min .lines{position:absolute;right:8%;top:22%;width:38%;height:56%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.55) 0 2px,transparent 2px 14px);opacity:.5}
 
-.bottom{display:grid;grid-template-columns:1fr 1.06fr;gap:24px;align-items:stretch}
+.bottom{display:grid;grid-template-columns:minmax(0,860px);justify-content:center;gap:24px;align-items:stretch}
 .steps,.preview{padding:22px 28px}
 .steps-head,.pv-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid rgba(130,165,255,.15)}
 .sh-t{display:flex;align-items:center;gap:14px;font:600 clamp(18px,1.55vw,23px) var(--sans)}
