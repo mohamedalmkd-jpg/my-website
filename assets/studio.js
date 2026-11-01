@@ -13,7 +13,7 @@
   } else studio.classList.add('in');
 
   /* Navigation */
-  Array.prototype.forEach.call(document.querySelectorAll('.st-links a[href^="#"], .hud-skip, .pick-btn[href^="#"]'), function (a) {
+  Array.prototype.forEach.call(document.querySelectorAll('.st-links a[href^="#"], .c3[href^="#"], .tn-cta'), function (a) {
     a.addEventListener('click', function (e) {
       var t = document.querySelector(a.getAttribute('href'));
       if (!t) return;
@@ -28,7 +28,7 @@
   fetch('/api/auth/me', { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
     if (!j || !j.ok || !j.user) return;
     var u = j.user, n = (u.fullName || u.name || u.email || '?').trim();
-    var ava = $('ava');
+    var ava = $('ava'), tl = $('tnLogin'); if (tl) { tl.href = '/konto'; tl.textContent = 'Mein Konto'; }
     ava.href = '/konto'; ava.setAttribute('aria-label', 'Mein Konto'); ava.classList.add('in');
     ava.textContent = n.split(/\s+/).map(function (w) { return w.charAt(0); }).join('').slice(0, 2).toUpperCase();
     $('bellTxt').textContent = 'Angemeldet als ' + (u.email || n) + '. Ihre Anfragen und deren Status finden Sie unter „Konto“.';
@@ -36,6 +36,29 @@
     if (f && !f.value && (u.fullName || u.name)) f.value = u.fullName || u.name;
     if (m && !m.value && u.email) m.value = u.email;
   }).catch(function () {});
+
+  /* Kontaktformular im Ring */
+  var rf = $('rf');
+  if (rf) rf.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var first = $('rfFirst').value.trim(), last = $('rfLast').value.trim(), mail = $('rfMail').value.trim(), tel = $('rfTel').value.trim(), msgT = $('rfMsg').value.trim(), out = $('rfMsgOut');
+    out.className = 'rf-msg';
+    if (!first) { out.textContent = 'Bitte geben Sie Ihren Vornamen an.'; $('rfFirst').focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { out.textContent = 'Bitte eine gültige E-Mail-Adresse angeben.'; $('rfMail').focus(); return; }
+    if (msgT.length < 10) { out.textContent = 'Ihre Nachricht ist etwas kurz (mindestens 10 Zeichen).'; $('rfMsg').focus(); return; }
+    if (!$('rfOk').checked) { out.textContent = 'Bitte stimmen Sie der Verarbeitung Ihrer Angaben zu.'; return; }
+    var btn = $('rfGo'); btn.disabled = true; btn.textContent = 'Wird gesendet …';
+    fetch('/api/inquiries', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'project', name: (first + ' ' + last).trim(), email: mail, phone: tel, service: 'Noch offen', message: msgT, consent: true, source: 'kontakt-ring', hp: $('rfHp').value }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { s: r.status, j: j }; }); })
+      .then(function (res) {
+        btn.disabled = false; btn.textContent = 'Kontakt aufnehmen';
+        if (res.s === 201 && res.j.ok) { out.className = 'rf-msg ok'; out.textContent = 'Danke! Anfrage ' + res.j.reference + ' ist eingegangen – wir melden uns innerhalb von zwei Werktagen.'; rf.reset(); }
+        else if (res.s === 429) out.textContent = 'Zu viele Anfragen. Bitte in einigen Minuten erneut versuchen.';
+        else if (res.s === 400) out.textContent = 'Bitte prüfen Sie Ihre Angaben.';
+        else { out.innerHTML = 'Die Online-Übermittlung ist gerade nicht verfügbar. <a style="color:#9cc2ff" href="mailto:' + MAIL + '">Per E-Mail schreiben</a>'; }
+      }).catch(function () { btn.disabled = false; btn.textContent = 'Kontakt aufnehmen'; out.innerHTML = 'Keine Verbindung. <a style="color:#9cc2ff" href="mailto:' + MAIL + '">Per E-Mail schreiben</a>'; });
+  });
 
   /* Glocke */
   var bell = $('bell'), pop = $('bellPop');
