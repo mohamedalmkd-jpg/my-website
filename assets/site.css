@@ -74,7 +74,10 @@ html.scrolled .scrollhint{opacity:0}
 .ch p.mid{max-width:26ch;font:300 clamp(20px,2vw,30px)/1.35 var(--sans);color:#e6ecff}
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding-bottom:6vh}
 .hero .ch-in{padding-top:26vh;width:100%}
-.mission{height:180vh}.lead{height:140vh}.warp{height:120vh}.dash{height:190vh}.world{height:200vh}.pix{height:130vh}.contact{height:170vh}
+.mission{height:180vh}.lead{height:170vh}.warp{height:150vh}.dash{height:190vh}.world{height:190vh}.pix{height:160vh}.contact{height:170vh}
+.pix .sticky{justify-content:flex-start;padding-top:16vh}
+.layer-tag{position:fixed;left:0;top:0;z-index:2;pointer-events:none;font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#cfe0ff;white-space:nowrap;opacity:0;transition:opacity .4s;padding-left:14px}
+.layer-tag::before{content:"";position:absolute;left:0;top:50%;width:8px;height:1px;background:#9cc2ff}
 .feat{padding-top:10vh;padding-bottom:16vh}
 
 /* Karten */
