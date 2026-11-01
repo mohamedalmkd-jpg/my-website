@@ -65,6 +65,55 @@ html,body{margin:0;background:#030302;color:#F6EFE2}
   .embers{display:none}
   ::view-transition-old(root),::view-transition-new(root){animation:none}
 }
+
+/* ================= VONUMO Aurora: eigene Farbwelt in Bewegung ================= */
+@property --hue{syntax:'<angle>';inherits:true;initial-value:0deg}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+:root{--au1:#E8C57A;--au2:#FF7EB3;--au3:#9B7BFF;--au4:#41E0C8;--au5:#F6E7C1}
+/* Polarlicht hinter dem Hero: vorgerenderte Verläufe, nur transform animiert (GPU) */
+.aurora{position:absolute;inset:-20% -10% 0;z-index:1;pointer-events:none;overflow:hidden;opacity:.85;mix-blend-mode:screen}
+.aurora b{position:absolute;width:60vmax;height:60vmax;border-radius:50%;will-change:transform;opacity:.55}
+.aurora b:nth-child(1){left:-12%;top:-10%;background:radial-gradient(circle at 50% 50%,rgba(255,126,179,.55),rgba(255,126,179,0) 62%);animation:au1 22s ease-in-out infinite alternate}
+.aurora b:nth-child(2){right:-18%;top:-20%;background:radial-gradient(circle at 50% 50%,rgba(155,123,255,.55),rgba(155,123,255,0) 62%);animation:au2 26s ease-in-out infinite alternate}
+.aurora b:nth-child(3){left:25%;bottom:-35%;background:radial-gradient(circle at 50% 50%,rgba(65,224,200,.42),rgba(65,224,200,0) 62%);animation:au3 30s ease-in-out infinite alternate}
+.aurora b:nth-child(4){left:40%;top:-30%;width:46vmax;height:46vmax;background:radial-gradient(circle at 50% 50%,rgba(232,197,122,.5),rgba(232,197,122,0) 60%);animation:au4 18s ease-in-out infinite alternate}
+@keyframes au1{to{transform:translate3d(18vw,12vh,0) scale(1.25)}}
+@keyframes au2{to{transform:translate3d(-22vw,18vh,0) scale(.85)}}
+@keyframes au3{to{transform:translate3d(-14vw,-16vh,0) scale(1.3)}}
+@keyframes au4{to{transform:translate3d(10vw,20vh,0) scale(1.15)}}
+/* Schimmernde Schrift: Gold fließt durch Rosé, Violett, Türkis */
+.shine,.shine.anim{background-image:linear-gradient(100deg,#F6E7C1 0%,#E8C57A 14%,#FF9CC6 30%,#B79BFF 46%,#5FE6D2 62%,#F3E3BF 78%,#E2C27D 100%) !important;background-size:300% 100% !important;animation:shine 12s linear infinite !important}
+@keyframes shine{from{background-position:0% 0}to{background-position:-300% 0}}
+/* Leuchtende, rotierende Farbkante (Konsolen-Stil) für Hauptbutton und hervorgehobene Karten */
+.btn-main{isolation:isolate}
+.btn-main::before{content:"";position:absolute;inset:-2px;border-radius:inherit;z-index:-1;background:conic-gradient(from var(--ang),var(--au1),var(--au2),var(--au3),var(--au4),var(--au1));animation:spinAng 6s linear infinite;filter:blur(6px);opacity:.75}
+@keyframes spinAng{to{--ang:360deg}}
+.gborder::before{background:conic-gradient(var(--au1),var(--au2),var(--au3),var(--au4),var(--au5),var(--au1)) !important}
+.progress{background:linear-gradient(90deg,var(--au1),var(--au2),var(--au3),var(--au4)) !important}
+/* Konsolen-Glanz: Lichtkante beim Hover/Fokus über Karten */
+.spot::after{transition:opacity .45s ease}
+.spot{--sheen:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.10) 45%,rgba(255,255,255,.22) 50%,rgba(255,255,255,.10) 55%,transparent 70%)}
+@media (hover:hover){
+  .spot:hover,.spot:focus-visible{box-shadow:0 30px 80px -30px rgba(0,0,0,.9),0 0 0 1px color-mix(in srgb,var(--acc,#E2C27D) 55%,transparent),0 0 40px -6px color-mix(in srgb,var(--acc,#E2C27D) 45%,transparent)}
+}
+.spot>.sheen{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:var(--sheen);background-size:250% 100%;background-position:120% 0;opacity:0;transition:background-position 1s var(--ease-out),opacity .3s}
+.spot:hover>.sheen{opacity:1;background-position:-20% 0}
+/* Fokus mit farbigem Leuchten (Tastatur, Fernbedienung, Controller) */
+:focus-visible{outline:2px solid transparent;box-shadow:0 0 0 2px #030302,0 0 0 4px var(--au1),0 0 24px 2px rgba(255,126,179,.45) !important}
+/* Cursor wechselt langsam die Farbe */
+.cursor-ring{animation:curHue 10s linear infinite}
+@keyframes curHue{0%,100%{border-color:var(--au1)}25%{border-color:var(--au2)}50%{border-color:var(--au3)}75%{border-color:var(--au4)}}
+/* 4K / Retina: gestochen scharf */
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+img{image-rendering:auto}
+/* Leichte Geräte: weniger Ebenen, gleiche Farbe */
+@media (hover:none),(pointer:coarse){
+  .aurora b:nth-child(3),.aurora b:nth-child(4){display:none}
+  .btn-main::before{filter:none;opacity:.55}
+}
+@media (prefers-reduced-motion: reduce){
+  .aurora b,.btn-main::before,.cursor-ring,.shine,.shine.anim{animation:none !important}
+}
 </style>
 <script src="./support.js"></script>
 </head>
@@ -641,6 +690,7 @@ a,button,input,select,textarea,label{touch-action:manipulation;-webkit-tap-highl
   <!-- HERO -->
   <section id="top" data-acc="#E2C27D,#9B7BE0" style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 120px) max(20px, 4vw) clamp(90px, 10vw, 150px)">
     <div class="grid-floor" aria-hidden="true"></div>
+    <div class="aurora" aria-hidden="true"><b></b><b></b><b></b><b></b></div>
     <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div style="position: relative; z-index: 3; max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
       <div ref="{{setHeroText}}" style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 30px; will-change: transform, opacity">
@@ -2096,6 +2146,8 @@ var FS_BG = [
   ' float r=0.;',
   ' for(int i=0;i<3;i++){float fi=float(i);float y=.2*sin(p.x*2.+uTime*.22+fi*2.1+q.x*2.5)+(fi-1.)*.22;float d=abs(p.y-y);r+=.004/(d+.006)*(.55+.45*sin(p.x*2.6+uTime*.35+fi*1.7));}',
   ' vec3 col=mix(uA,uB,smoothstep(.25,.75,f));',
+  ' vec3 iri=.55+.45*cos(6.2831*(vec3(0.,.28,.62)+uTime*.018+p.x*.18+f*.35));',
+  ' col=mix(col,iri*vec3(1.,.82,.95),.38);',
   ' vec3 c=col*pow(f,2.6)*.75;',
   ' c+=mix(uB,uA,.5+.5*sin(p.x*1.6+uTime*.25))*r*.3;',
   ' vec2 m=(uMouse-.5*uRes)/uRes.y;float md=length(p-m);c+=mix(uA,uB,.5)*.16/(1.+md*md*14.);',
@@ -2492,6 +2544,10 @@ function boot(self) {
     for (var z = 0; z < pz.length; z++) io6.observe(pz[z]);
   }
   self.io6 = io6;
+  if (!reduce && window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+    var addSheen = function () { var sp = self.root.querySelectorAll('.spot'); for (var q = 0; q < sp.length; q++) if (!sp[q].querySelector(':scope > .sheen')) { var sh = document.createElement('span'); sh.className = 'sheen'; sh.setAttribute('aria-hidden', 'true'); sp[q].appendChild(sh); } };
+    addSheen(); self.sheenT = setInterval(addSheen, 2000);
+  }
   /* Bewegung: Überschriften wischen ein, Augenbrauen-Linien zeichnen sich */
   if (!reduce && 'IntersectionObserver' in window) {
     io7 = new IntersectionObserver(function (entries) {
@@ -2684,6 +2740,7 @@ function boot(self) {
     if (io5) io5.disconnect();
     if (io6) io6.disconnect();
     if (io7) io7.disconnect();
+    if (self.sheenT) clearInterval(self.sheenT);
     if (self.unpoke) self.unpoke();
     window.removeEventListener('resize', measureDoc);
     if (io4) io4.disconnect();
