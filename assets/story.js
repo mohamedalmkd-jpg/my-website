@@ -45,6 +45,47 @@ function vn(x, y) { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, y
 function fbm(x, y) { let s = 0, a = 0.5, f = 1; for (let i = 0; i < 5; i++) { s += a * vn(x * f, y * f); f *= 2.02; a *= 0.5; } return s; }
 function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
 
+
+/* ---------- Digitale Texturen ---------- */
+const TOKENS = ['0','1','{','}','<','>','/','*',';','=','+','(',')','[',']','#','$','&','?',':','.','_','|','~','%','@','<>','</>','=>','{}','()','[]','&&','||','!=','==','++','//','/*','#!','fn','if','js','ts','css','px','db','api','git','sql','www','.de','.io','dom','</','/>','0x','ai','3d','ui','ux','{ }','01','10','>_'];
+function glyphAtlas() {
+  const cols = 8, rows = Math.ceil(TOKENS.length / cols), cell = 64, c = D.createElement('canvas');
+  c.width = cols * cell; c.height = rows * cell;
+  const x = c.getContext('2d');
+  const draw = () => { x.clearRect(0, 0, c.width, c.height); x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    TOKENS.forEach((t, i) => { const fs = t.length >= 3 ? 22 : t.length === 2 ? 28 : 40; x.font = '700 ' + fs + 'px "JetBrains Mono", ui-monospace, monospace'; x.fillText(t, (i % cols) * cell + cell / 2, Math.floor(i / cols) * cell + cell / 2 + 2); }); };
+  draw();
+  const tx = new THREE.CanvasTexture(c); tx.generateMipmaps = false; tx.minFilter = THREE.LinearFilter; tx.magFilter = THREE.LinearFilter;
+  if (D.fonts && D.fonts.ready) D.fonts.ready.then(() => { draw(); tx.needsUpdate = true; });
+  return { tx, cols, rows, n: TOKENS.length };
+}
+const CODE = ['<section class="hero">', '  const site = build();', '  await deploy(site);', '}', 'fetch("/api/v1")', '.then(r => r.json())', '<div id="app"></div>', 'export default App;', 'git push origin main', 'SELECT * FROM leads;', 'vercel --prod', 'style={{ gap: 24 }}', 'import * as THREE', 'return <Hero />;', 'npm run build', '// VONUMO studio', 'https://', 'domain.de', '{ "ok": true }', 'transform: 3d;'];
+function glowCode(seed) {
+  const c = D.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'), r = rng(seed);
+  x.fillStyle = '#000'; x.fillRect(0, 0, 256, 256); x.font = '700 15px "JetBrains Mono", ui-monospace, monospace'; x.textBaseline = 'top';
+  for (let y = 8; y < 256; y += 21) { if (r() < 0.45) continue; x.fillStyle = '#fff'; x.globalAlpha = 0.5 + r() * 0.5; x.fillText(CODE[(r() * CODE.length) | 0], 8 + ((r() * 3) | 0) * 14, y); }
+  const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace; return tx;
+}
+function gridTexture() {
+  const c = D.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+  x.fillStyle = '#c1c6cd'; x.fillRect(0, 0, 128, 128);
+  x.strokeStyle = 'rgba(40,46,54,.55)'; x.lineWidth = 2; x.strokeRect(1, 1, 126, 126);
+  x.strokeStyle = 'rgba(40,46,54,.18)'; x.lineWidth = 1; x.beginPath(); x.moveTo(64, 0); x.lineTo(64, 128); x.moveTo(0, 64); x.lineTo(128, 64); x.stroke();
+  x.fillStyle = 'rgba(40,46,54,.6)'; x.font = '600 10px "JetBrains Mono", monospace'; x.fillText('01', 6, 14);
+  const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace; tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.repeat.set(70, 70); tx.anisotropy = 8; return tx;
+}
+function codeTexture(bg, ink, accent, seed) {
+  const c = D.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'), r = rng(seed);
+  x.fillStyle = bg; x.fillRect(0, 0, 256, 256);
+  x.font = '600 15px "JetBrains Mono", ui-monospace, monospace'; x.textBaseline = 'top';
+  for (let y = 8; y < 256; y += 21) {
+    const ind = ((r() * 3) | 0) * 14, line = CODE[(r() * CODE.length) | 0];
+    x.fillStyle = r() < 0.18 ? accent : ink; x.globalAlpha = 0.55 + r() * 0.45; x.fillText(line, 8 + ind, y);
+  }
+  x.globalAlpha = 1;
+  const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 4; return tx;
+}
+
 /* ---------- Abgerundete Box ---------- */
 function roundedBox(r, seg) {
   const g = new THREE.BoxGeometry(1, 1, 1, seg, seg, seg);
@@ -126,8 +167,15 @@ function build(canvas) {
     tp.setY(i, h);
   }
   tg.computeVertexNormals();
-  const terrain = new THREE.Mesh(tg, new THREE.MeshStandardMaterial({ color: '#b8bdc5', roughness: 1, metalness: 0 }));
+  const terrain = new THREE.Mesh(tg, new THREE.MeshStandardMaterial({ color: '#ffffff', map: gridTexture(), roughness: 1, metalness: 0 }));
   scene.add(terrain);
+  const grid = new THREE.Mesh(tg, new THREE.ShaderMaterial({
+    wireframe: true, transparent: true, depthWrite: false,
+    uniforms: { uT: { value: 0 } },
+    vertexShader: 'varying vec3 vW; void main(){ vec4 w = modelMatrix*vec4(position + vec3(0.0,0.012,0.0),1.0); vW = w.xyz; gl_Position = projectionMatrix*viewMatrix*w; }',
+    fragmentShader: 'uniform float uT; varying vec3 vW; void main(){ float d = length(vW.xz); float scan = smoothstep(0.92,1.0, 1.0 - abs(fract(d*0.09 - uT*0.18) - 0.5)*2.0); float fade = 1.0 - smoothstep(5.0, 24.0, distance(vW, cameraPosition)); vec3 c = mix(vec3(0.42,0.46,0.52), vec3(1.0,0.86,0.52), scan); gl_FragColor = vec4(c, (scan*0.85) * fade); }'
+  }));
+  scene.add(grid);
 
   /* --- Monogramm aus Blöcken --- */
   const R = rng(5), blocks = [];
@@ -149,8 +197,8 @@ function build(canvas) {
     b.jit = new THREE.Euler((R() - 0.5) * 0.14, (R() - 0.5) * 0.14, (R() - 0.5) * 0.1);
   });
   const rb = roundedBox(0.12, 3);
-  const iceMat = new THREE.MeshStandardMaterial({ color: '#eef1f5', roughness: 0.62, metalness: 0.02, envMapIntensity: 1.0 });
-  const goldMat = new THREE.MeshStandardMaterial({ color: '#d8ae63', roughness: 0.26, metalness: 0.95, envMapIntensity: 1.4 });
+  const iceMat = new THREE.MeshStandardMaterial({ color: '#ffffff', map: codeTexture('#2b3139', '#8fa3ba', '#e2c27d', 2), roughness: 0.32, metalness: 0.35, envMapIntensity: 1.1, emissive: '#a9cfff', emissiveMap: glowCode(4), emissiveIntensity: 1.25 });
+  const goldMat = new THREE.MeshStandardMaterial({ color: '#ffffff', map: codeTexture('#d8ae63', '#4a320e', '#fff4d6', 8), roughness: 0.28, metalness: 0.85, envMapIntensity: 1.4, emissive: '#ffe2a6', emissiveMap: glowCode(9), emissiveIntensity: 0.7 });
   const iceList = blocks.filter((b) => !b.gold), goldList = blocks.filter((b) => b.gold);
   const iceMesh = new THREE.InstancedMesh(rb, iceMat, iceList.length), goldMesh = new THREE.InstancedMesh(rb, goldMat, goldList.length);
   iceMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); goldMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -175,9 +223,53 @@ function build(canvas) {
   const plexMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false });
   const plex = new THREE.LineSegments(plexGeo, plexMat); plex.position.set(0, 0, 0); scene.add(plex);
 
+
+  /* Mini-Websites mit Domain für die Kristalle */
+  const SITES = [
+    { host: 'flux-energy · Projekt-Demo', tld: '.3d', title: 'Pure Energie.', sub: '3D-Dose, die sich beim Scrollen dreht.', c1: '#0e1a12', c2: '#b8f26b', acc: '#d6ff7a' },
+    { host: 'bausqo.vercel.app', tld: '.app', title: 'Bauen mit System.', sub: 'Planung, Bau und Übergabe aus einer Hand.', c1: '#1a1712', c2: '#c9a45c', acc: '#f3e3bf' },
+    { host: 'payment-k7rl.vercel.app', tld: '.app', title: 'Sicher bezahlen.', sub: 'Checkout mit Prüfung in Echtzeit.', c1: '#0c1428', c2: '#5e8be8', acc: '#9cc2ff' }
+  ];
+  const tokCache = {};
+  function tokenTex(t) {
+    if (tokCache[t]) return tokCache[t];
+    const c = D.createElement('canvas'); c.width = 256; c.height = 128; const x = c.getContext('2d');
+    x.font = '700 64px "JetBrains Mono", ui-monospace, monospace'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#fff'; x.fillText(t, 128, 66);
+    const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace; return (tokCache[t] = tx);
+  }
+  function screenFor(i) {
+    const s = SITES[i], c = D.createElement('canvas'); c.width = 512; c.height = 326; const x = c.getContext('2d');
+    const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace;
+    let f = 0;
+    function draw() {
+      f++;
+      const g = x.createLinearGradient(0, 0, 512, 326); g.addColorStop(0, s.c1); g.addColorStop(1, '#05070c'); x.fillStyle = g; x.fillRect(0, 0, 512, 326);
+      // Adressleiste mit Domain
+      x.fillStyle = '#11151c'; x.fillRect(0, 0, 512, 34);
+      ['#ff5f57', '#febc2e', '#28c840'].forEach((col, k) => { x.fillStyle = col; x.beginPath(); x.arc(16 + k * 16, 17, 5, 0, 7); x.fill(); });
+      x.fillStyle = '#1f2530'; x.fillRect(74, 8, 330, 18);
+      x.fillStyle = '#9fe0a8'; x.font = '600 12px "JetBrains Mono", monospace'; x.textBaseline = 'middle'; x.fillText('🔒', 80, 17);
+      x.fillStyle = '#dfe6f2'; x.fillText('https://' + s.host, 96, 17);
+      // Hero
+      const glow = 0.5 + 0.5 * Math.sin(f * 0.08);
+      x.fillStyle = s.c2; x.globalAlpha = 0.25 + glow * 0.2; x.beginPath(); x.arc(380 + Math.sin(f * 0.03) * 20, 170, 90, 0, 7); x.fill(); x.globalAlpha = 1;
+      x.fillStyle = '#fff'; x.font = '800 34px Manrope, system-ui, sans-serif'; x.textBaseline = 'alphabetic'; x.fillText(s.title, 26, 120);
+      x.fillStyle = '#c9d2e3'; x.font = '500 14px Manrope, system-ui, sans-serif'; x.fillText(s.sub, 26, 148);
+      x.fillStyle = s.acc; x.fillRect(26, 166, 118, 30); x.fillStyle = '#0b0f16'; x.font = '700 13px Manrope, sans-serif'; x.fillText('Jetzt ansehen →', 38, 186);
+      // laufender Code unten
+      x.fillStyle = 'rgba(0,0,0,.45)'; x.fillRect(0, 222, 512, 104);
+      x.font = '600 12px "JetBrains Mono", monospace';
+      for (let l = 0; l < 6; l++) { const li = (Math.floor(f / 6) + l) % CODE.length; x.fillStyle = l === 5 ? s.acc : 'rgba(210,225,255,' + (0.35 + l * 0.1) + ')'; x.fillText((l === 5 ? '> ' : '  ') + CODE[li], 14, 240 + l * 16); }
+      if (Math.floor(f / 15) % 2) { x.fillStyle = s.acc; x.fillRect(14 + 8 * (CODE[(Math.floor(f / 6) + 5) % CODE.length].length + 2), 312, 8, 13); }
+      tx.needsUpdate = true;
+    }
+    draw();
+    return { tx, draw, tld: s.tld };
+  }
+
   /* --- Kristalle --- */
   const cryMat = new THREE.MeshPhysicalMaterial({ color: '#c8d0da', roughness: 0.22, metalness: 0.05, clearcoat: 1, clearcoatRoughness: 0.1, transparent: true, opacity: 0.58, flatShading: true, side: THREE.DoubleSide, depthWrite: false, envMapIntensity: 1.8 });
-  const innerMat = new THREE.MeshStandardMaterial({ color: '#6b7078', roughness: 0.8 });
+  const innerMat = new THREE.MeshStandardMaterial({ color: '#1b1f25', roughness: 0.35, metalness: 0.6 });
   const innerGold = new THREE.MeshStandardMaterial({ color: '#c9a45c', roughness: 0.35, metalness: 0.9 });
   const edgeMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, depthWrite: false });
   const crystals = CRY.map((pos, ci) => {
@@ -191,11 +283,20 @@ function build(canvas) {
     g.computeVertexNormals();
     const grp = new THREE.Group();
     const inner = new THREE.Group();
-    const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.42, 0.7, 6, 12), innerMat); torso.position.y = -0.35;
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.36, 20, 16), innerMat); head.position.y = 0.55;
-    const vA = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.62, 0.12), innerGold); vA.position.set(-0.13, -0.25, 0.42); vA.rotation.z = -0.38;
-    const vB = vA.clone(); vB.position.x = 0.13; vB.rotation.z = 0.38;
-    inner.add(torso, head, vA, vB);
+    const scr = screenFor(ci);
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(1.62, 1.06, 0.06), innerMat);
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(1.54, 0.98), new THREE.MeshBasicMaterial({ map: scr.tx, toneMapped: false }));
+    face.position.z = 0.032;
+    const back = face.clone(); back.rotation.y = Math.PI; back.position.z = -0.032;
+    inner.add(frame, face, back);
+    inner.rotation.x = -0.12;
+    grp.userData.screen = scr;
+    // schwebende Code-Zeichen um den Bildschirm
+    ['</>', 'www', scr.tld, '{ }', '=>'].forEach((t, k) => {
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tokenTex(t), transparent: true, depthWrite: false, color: k % 2 ? 0x2b3138 : 0xb8904f }));
+      sp.scale.set(0.42, 0.21, 1); sp.userData.orbit = { a: k / 5 * Math.PI * 2, r: 1.05 + (k % 2) * 0.25, y: (k - 2) * 0.28 };
+      inner.add(sp);
+    });
     grp.add(inner, new THREE.Mesh(g, cryMat), new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat));
     // Splitter
     for (let s = 0; s < 7; s++) { const sh = new THREE.Mesh(new THREE.TetrahedronGeometry(0.08 + rr() * 0.14), cryMat); sh.position.set((rr() - 0.5) * 4, (rr() - 0.5) * 4, (rr() - 0.5) * 2); sh.userData.sp = rr() * 2; grp.add(sh); }
@@ -212,7 +313,9 @@ function build(canvas) {
   const halo = new THREE.Mesh(new THREE.TorusGeometry(3.05, 0.045, 12, 160), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, fog: false }));
   halo.rotation.x = Math.PI / 2; halo.position.copy(R0).add(new THREE.Vector3(0, 0.24, 0)); scene.add(halo);
   const haloL = new THREE.PointLight(0xe8f2ff, 0, 9, 1.6); haloL.position.copy(R0).add(new THREE.Vector3(0, 0.6, 0)); scene.add(haloL);
-  const stoneMat = new THREE.MeshStandardMaterial({ color: '#8f959e', roughness: 0.85, transparent: true, opacity: 1 });
+  const stoneTex = codeTexture('#2b3139', '#8fa3ba', '#e2c27d', 13); stoneTex.wrapS = stoneTex.wrapT = THREE.RepeatWrapping; stoneTex.repeat.set(3, 1);
+  const stoneGlow = glowCode(15); stoneGlow.wrapS = stoneGlow.wrapT = THREE.RepeatWrapping; stoneGlow.repeat.set(3, 1);
+  const stoneMat = new THREE.MeshStandardMaterial({ color: '#ffffff', map: stoneTex, emissive: '#a9cfff', emissiveMap: stoneGlow, emissiveIntensity: 1.1, roughness: 0.35, metalness: 0.35, transparent: true, opacity: 1 });
   const ringGroups = [{ r: 1.6, t: 0.2, n: 6 }, { r: 2.7, t: 0.28, n: 9 }, { r: 4.0, t: 0.34, n: 12 }].map((d, ri) => {
     const g = new THREE.Group(), arc = (Math.PI * 2 / d.n) * 0.84, geo = new THREE.TorusGeometry(d.r, d.t, 12, 20, arc);
     for (let i = 0; i < d.n; i++) { const m = new THREE.Mesh(geo, stoneMat); m.rotation.z = i / d.n * Math.PI * 2; m.userData.a = m.rotation.z + arc / 2; g.add(m); }
@@ -238,14 +341,17 @@ function build(canvas) {
   pGeo.setAttribute('position', new THREE.BufferAttribute(aCloud, 3));
   pGeo.setAttribute('fig', new THREE.BufferAttribute(aFig, 3));
   pGeo.setAttribute('rv', new THREE.BufferAttribute(aR, 1));
+  const ATL = glyphAtlas();
   const pMat = new THREE.ShaderMaterial({
-    transparent: true, depthWrite: true,
-    uniforms: { uT: { value: 0 }, uForm: { value: 0 }, uStream: { value: 0 }, uBurst: { value: 0 }, uOp: { value: 0 }, uSize: { value: (lite ? 46 : 54) * DPR }, uWhite: { value: 1 } },
+    transparent: true, depthWrite: false,
+    uniforms: { uT: { value: 0 }, uForm: { value: 0 }, uStream: { value: 0 }, uBurst: { value: 0 }, uOp: { value: 0 }, uSize: { value: (lite ? 80 : 92) * DPR }, uWhite: { value: 1 }, uAtl: { value: ATL.tx }, uGrid: { value: new THREE.Vector3(ATL.cols, ATL.rows, ATL.n) } },
     vertexShader: `
       attribute vec3 fig; attribute float rv;
       uniform float uT, uForm, uStream, uBurst, uSize;
-      varying float vR; varying float vK;
+      varying float vR; varying float vK; varying float vG;
+      uniform vec3 uGrid;
       void main(){
+        vG = mod(floor(rv*997.0 + floor(uT*(0.6+rv*1.5))*(1.0-uForm*0.9)), uGrid.z);
         vec3 c = position; float a = uT*0.35*(0.4+rv);
         c.xz = mat2(cos(a),-sin(a),sin(a),cos(a))*c.xz;
         c.y += sin(uT*1.3 + rv*40.0)*0.05;
@@ -260,15 +366,16 @@ function build(canvas) {
         vR = rv; vK = k;
       }`,
     fragmentShader: `
-      uniform float uOp, uWhite; varying float vR; varying float vK;
+      uniform float uOp, uWhite; uniform sampler2D uAtl; uniform vec3 uGrid; varying float vR; varying float vK; varying float vG;
       void main(){
-        vec2 c = gl_PointCoord*2.0-1.0; float d = dot(c,c); if(d>1.0) discard;
-        vec3 n = vec3(c.x, -c.y, sqrt(1.0-d));
-        float l = clamp(dot(n, normalize(vec3(-0.4,0.6,0.7))),0.0,1.0);
-        vec3 clay = vec3(0.30,0.32,0.36) + vec3(0.42)*l + pow(l,24.0)*0.35;
-        vec3 snow = vec3(0.92,0.95,1.0) + l*0.1;
-        vec3 col = mix(clay, snow, uWhite*(1.0-vK*0.9));
-        gl_FragColor = vec4(col, uOp);
+        float col0 = mod(vG, uGrid.x), row0 = floor(vG / uGrid.x);
+        vec2 uv = vec2((col0 + gl_PointCoord.x) / uGrid.x, 1.0 - (row0 + gl_PointCoord.y) / uGrid.y);
+        float a = texture2D(uAtl, uv).a;
+        if (a < 0.08) discard;
+        vec3 ink = vR > 0.86 ? vec3(0.72,0.56,0.31) : vec3(0.16,0.18,0.21);
+        vec3 lit = vec3(0.93,0.96,1.0);
+        vec3 col = mix(ink, lit, uWhite*(1.0-vK*0.95));
+        gl_FragColor = vec4(col, a * uOp);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`
@@ -293,14 +400,14 @@ function build(canvas) {
   img.src = '/assets/6925aa020ce5116c12186e64c389ccd4.webp';
 
   /* --- Schnee um die Kamera --- */
-  const SN = lite ? 500 : 1200, sp = new Float32Array(SN * 3), sr = rng(21);
+  const SN = lite ? 520 : 1400, sp = new Float32Array(SN * 3), sr = rng(21);
   for (let i = 0; i < SN; i++) { sp[i * 3] = (sr() - 0.5) * 24; sp[i * 3 + 1] = sr() * 12; sp[i * 3 + 2] = (sr() - 0.5) * 24; }
   const snowGeo = new THREE.BufferGeometry(); snowGeo.setAttribute('position', new THREE.BufferAttribute(sp, 3));
   const snowMat = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false,
-    uniforms: { uT: { value: 0 }, uCam: { value: new THREE.Vector3() }, uOp: { value: 0.7 }, uS: { value: 2.4 * DPR } },
-    vertexShader: 'uniform float uT; uniform vec3 uCam; uniform float uS; varying float vA; void main(){ vec3 p = position; p.y = mod(p.y - uT*0.5 - uCam.y + 6.0, 12.0) - 6.0 + uCam.y; p.x = mod(p.x + sin(uT*0.3 + position.z)*0.6 - uCam.x + 12.0, 24.0) - 12.0 + uCam.x; p.z = mod(p.z - uCam.z + 12.0, 24.0) - 12.0 + uCam.z; vec4 mv = modelViewMatrix*vec4(p,1.0); gl_Position = projectionMatrix*mv; gl_PointSize = uS*(1.0 + fract(position.x*7.3)*1.5); vA = smoothstep(16.0, 3.0, -mv.z); }',
-    fragmentShader: 'uniform float uOp; varying float vA; void main(){ vec2 c = gl_PointCoord-0.5; float a = smoothstep(0.5,0.1,length(c)); gl_FragColor = vec4(1.0,1.0,1.0,a*vA*uOp); }'
+    uniforms: { uT: { value: 0 }, uCam: { value: new THREE.Vector3() }, uOp: { value: 0.7 }, uS: { value: 11 * DPR }, uAtl: { value: ATL.tx }, uGrid: { value: new THREE.Vector3(ATL.cols, ATL.rows, ATL.n) } },
+    vertexShader: 'uniform float uT; uniform vec3 uCam; uniform float uS; uniform vec3 uGrid; varying float vA; varying float vG; varying float vC; void main(){ vG = mod(floor(fract(position.x*13.17)*997.0 + floor(uT*2.0 + position.z)), uGrid.z); vC = fract(position.z*7.31); vec3 p = position; p.y = mod(p.y - uT*0.35 - uCam.y + 6.0, 12.0) - 6.0 + uCam.y; p.x = mod(p.x + sin(uT*0.3 + position.z)*0.6 - uCam.x + 12.0, 24.0) - 12.0 + uCam.x; p.z = mod(p.z - uCam.z + 12.0, 24.0) - 12.0 + uCam.z; vec4 mv = modelViewMatrix*vec4(p,1.0); gl_Position = projectionMatrix*mv; gl_PointSize = uS*(0.7 + fract(position.x*7.3)*0.8) * 8.0 / max(-mv.z, 2.0); vA = smoothstep(16.0, 3.0, -mv.z); }',
+    fragmentShader: 'uniform float uOp; uniform sampler2D uAtl; uniform vec3 uGrid; varying float vA; varying float vG; varying float vC; void main(){ float cx = mod(vG, uGrid.x), cy = floor(vG / uGrid.x); vec2 uv = vec2((cx + gl_PointCoord.x)/uGrid.x, 1.0 - (cy + gl_PointCoord.y)/uGrid.y); float a = texture2D(uAtl, uv).a; if (a < 0.06) discard; vec3 col = vC > 0.82 ? vec3(0.72,0.56,0.31) : vec3(0.2,0.23,0.27); gl_FragColor = vec4(col, a*vA*uOp); }'
   });
   const snow = new THREE.Points(snowGeo, snowMat); snow.frustumCulled = false; scene.add(snow);
 
@@ -395,7 +502,7 @@ function build(canvas) {
     iceMesh.instanceMatrix.needsUpdate = true; goldMesh.instanceMatrix.needsUpdate = true;
   }
 
-  return { renderer, scene, camera, resize, rt, post, postScene, postCam, setBlocks, mono, glowDisc, coreL, wireMat, plexMat, crystals, ringGroups, stoneMat, halo, haloL, pMat, parts, snowMat, night, ribbons, bubble, hemi, sun, blocks };
+  return { grid, renderer, scene, camera, resize, rt, post, postScene, postCam, setBlocks, mono, glowDisc, coreL, wireMat, plexMat, crystals, ringGroups, stoneMat, halo, haloL, pMat, parts, snowMat, night, ribbons, bubble, hemi, sun, blocks };
 }
 
 /* ================= Kamera-Pfad ================= */
@@ -431,8 +538,8 @@ function camAt(p, outP, outL) {
 const CHAPTERS = [[0, 'VONUMO'], [0.17, 'PORTFOLIO'], [0.48, 'PORTAL'], [0.62, 'KONTAKT'], [0.87, 'STUDIO']];
 const PROJ = [
   { id: 'PORTFOLIO_01', name: 'FLUX ENERGY', k: '3D', d: 'SCROLL-STORY', date: 'D 2026', url: '#studio' },
-  { id: 'PORTFOLIO_02', name: 'BAUSQO', k: 'UI/UX', d: 'MOTION', date: 'D 2026', url: 'https://bausqo.vercel.app' },
-  { id: 'PORTFOLIO_03', name: 'PAYMENT CHECKOUT', k: 'WEB-APP', d: 'ZAHLUNG', date: 'D 2026', url: 'https://payment-k7rl.vercel.app' }
+  { id: 'PORTFOLIO_02', name: 'BAUSQO', k: 'DOMAIN', d: 'bausqo.vercel.app', date: 'D 2026', url: 'https://bausqo.vercel.app' },
+  { id: 'PORTFOLIO_03', name: 'PAYMENT CHECKOUT', k: 'DOMAIN', d: 'payment-k7rl.vercel.app', date: 'D 2026', url: 'https://payment-k7rl.vercel.app' }
 ];
 const PICKS = [
   { t: 'Projekt starten', href: '#studio' },
@@ -533,6 +640,10 @@ function start() {
       g.position.set(b.x + Math.sin(t * 0.5 + i) * 0.1, b.y + Math.sin(t * 0.8 + i) * 0.12 + up * 7, b.z);
       g.rotation.y = t * 0.18 + i + loc * 0.6; g.rotation.z = Math.sin(t * 0.4 + i) * 0.08;
       g.children.forEach((ch) => { if (ch.userData.sp) { ch.rotation.x = t * ch.userData.sp; ch.rotation.y = t * ch.userData.sp * 0.7; } });
+      const inner = g.children[0];
+      inner.children.forEach((ch) => { const o = ch.userData.orbit; if (o) { const a = o.a + t * 0.6; ch.position.set(Math.cos(a) * o.r, o.y + Math.sin(t + o.a) * 0.08, Math.sin(a) * o.r * 0.6); } });
+      inner.rotation.y = -g.rotation.y + Math.sin(t * 0.5 + i) * 0.35;
+      if (loc > -0.3 && loc < 1.1 && ((now / 60) | 0) % 2 === 0) g.userData.screen.draw();
       if (loc > 0.25 && loc < 0.85) focus = i;
     });
     if (focus !== cryShown) {
@@ -597,6 +708,7 @@ function start() {
     S.camera.position.set(curP.x + smx * 0.3, curP.y - smy * 0.15, curP.z);
     S.camera.lookAt(curL);
     S.snowMat.uniforms.uT.value = t; S.snowMat.uniforms.uCam.value.copy(S.camera.position);
+    S.grid.material.uniforms.uT.value = t; S.grid.visible = p < 0.2;
 
     /* Rendern */
     glitch = Math.max(0, glitch - dt * 1.5);
