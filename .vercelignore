@@ -1,3 +1,3 @@
 tests/
-migrations/
 *.md
+node_modules/

@@ -81,6 +81,7 @@ button,select,input,textarea{font:inherit;color:inherit}
         <option value="">Alle Status</option>
       </select>
       <button id="reload" class="btn" type="button">Aktualisieren</button>
+      <button id="export" class="btn" type="button">E-Mails exportieren (CSV)</button>
     </div>
     <div id="stats" class="stats" aria-live="polite"></div>
     <p id="msg" class="note" role="status"></p>
@@ -189,6 +190,27 @@ button,select,input,textarea{font:inherit;color:inherit}
   });
   $('logout').addEventListener('click', function () { logout(); });
   $('reload').addEventListener('click', load);
+  /* Alle gespeicherten Kontakte als CSV (Excel-kompatibel) */
+  $('export').addEventListener('click', function () {
+    var btn = this; btn.disabled = true; $('msg').className = 'note'; $('msg').textContent = 'Export wird erstellt …';
+    var all = [], off = 0;
+    function page() {
+      return api('GET', '?limit=200&offset=' + off).then(function (j) {
+        all = all.concat(j.items); off += j.items.length;
+        if (j.items.length === 200 && off < j.total) return page();
+      });
+    }
+    page().then(function () {
+      function q(v) { v = v == null ? '' : String(v); if (/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; }
+      var rows = [['Referenz', 'Datum', 'Art', 'Status', 'Name', 'Unternehmen', 'E-Mail', 'Telefon', 'Leistung', 'Budget', 'Website']];
+      all.forEach(function (it) { rows.push([it.reference, it.created_at, TYPE[it.type] || it.type, STATUS[it.status] || it.status, it.name, it.company, it.email, it.phone, it.service, it.budget, it.website]); });
+      var csv = '\ufeff' + rows.map(function (r) { return r.map(q).join(';'); }).join('\r\n');
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+      a.download = 'vonumo-kontakte-' + new Date().toISOString().slice(0, 10) + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+      $('msg').className = 'ok'; $('msg').textContent = all.length + ' Einträge exportiert.';
+    }).catch(function (e) { $('msg').className = 'err'; $('msg').textContent = ERR[e.message] || 'Fehler: ' + e.message; })
+      .then(function () { btn.disabled = false; });
+  });
   $('fType').addEventListener('change', load);
   $('fStatus').addEventListener('change', load);
   $('q').addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(load, 300); });

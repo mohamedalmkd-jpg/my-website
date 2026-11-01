@@ -19,6 +19,13 @@ IP nur als Hash, RLS aktiv ohne öffentliche Policies, Admin-Schlüssel mit zeit
 
 ## Einrichtung (einmalig)
 
+**Schnellweg:** Vercel → Projekt *vonumo* → **Storage** → **Create Database** → **Supabase** → mit dem Projekt verbinden.
+Vercel setzt dabei `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` und `POSTGRES_URL*` automatisch.
+Nach dem nächsten Deployment legt die Website beim ersten Aufruf von `/api/status` alle Tabellen selbst an (Migrationen 001 + 002).
+E-Mail-Versand: Vercel → **Integrations** → **Resend** (setzt `RESEND_API_KEY`). Alle Kontakte lassen sich unter `/admin` als CSV exportieren.
+
+Manuell (alternativ):
+
 1. **Supabase SQL-Editor:** `migrations/001_inquiries.sql`, danach `migrations/002_auth_profiles.sql` ausführen.
 1b. **Supabase → Authentication → URL Configuration:** Site URL `https://vonumo.vercel.app`; Redirect URLs: `https://vonumo.vercel.app/api/auth/callback**` und `https://vonumo.vercel.app/konto**` (bei eigener Domain zusätzlich mit dieser).
 1c. **Supabase → Authentication → Providers:**

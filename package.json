@@ -1,11 +1,14 @@
 {
   "name": "vonumo-website",
   "private": true,
-  "description": "VONUMO – Website mit Serverless-API (Anfragen, KI-Assistent, Admin)",
+  "description": "VONUMO \u2013 Website mit Serverless-API (Anfragen, KI-Assistent, Admin)",
   "scripts": {
     "test": "node --test tests/api.test.js"
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "postgres": "3.4.5"
   }
 }

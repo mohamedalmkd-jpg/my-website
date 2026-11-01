@@ -81,3 +81,6 @@ grant select (reference, type, status, service, budget, website, selection, mess
 drop policy if exists "inquiries: eigene Anfragen lesen" on public.inquiries;
 create policy "inquiries: eigene Anfragen lesen" on public.inquiries
   for select to authenticated using (user_id = auth.uid());
+
+-- PostgREST sofort über neue Tabellen/Spalten informieren
+notify pgrst, 'reload schema';

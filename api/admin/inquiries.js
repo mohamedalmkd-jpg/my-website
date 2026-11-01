@@ -5,6 +5,7 @@
  * PATCH { id, status?, admin_note? }       → Status / Notiz ändern
  */
 const C = require('../_lib/core');
+const M = require('../_lib/migrate');
 
 const STATUSES = ['new', 'in_progress', 'quoted', 'won', 'closed', 'spam'];
 const TYPES = ['project', 'website_check', 'callback'];
@@ -27,6 +28,7 @@ module.exports = async function handler(req, res) {
   }
   try {
     if (!C.features().db) return C.send(res, 503, { ok: false, error: 'db_not_configured' });
+    if (M.enabled()) await M.ensure(false);
 
     if (req.method === 'GET') {
       const url = new URL(req.url, 'http://x');

@@ -6,6 +6,7 @@
  */
 const C = require('./_lib/core');
 const A = require('./_lib/auth');
+const M = require('./_lib/migrate');
 
 const TYPES = ['project', 'website_check', 'callback'];
 const SERVICES = ['Website-Entwicklung', 'UI/UX-Design', 'KI-Lösungen', 'Noch offen'];
@@ -65,6 +66,7 @@ module.exports = async function handler(req, res) {
     const v = validate(body);
     if (v.error) return C.send(res, 400, { ok: false, error: v.error, fields: v.fields || {} });
     if (!C.features().db) return C.send(res, 503, { ok: false, error: 'db_not_configured' });
+    if (M.enabled()) await M.ensure(false);
 
     const ip = C.ipHash(req);
     if (!C.rateLimit('inq:' + ip, 5, 10 * 60 * 1000)) return C.send(res, 429, { ok: false, error: 'rate_limited' });

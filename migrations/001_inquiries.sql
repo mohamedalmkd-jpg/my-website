@@ -56,3 +56,5 @@ begin
   -- Rechte für "authenticated" regelt 002_auth_profiles.sql (nur eigene Zeilen, nur freigegebene Spalten).
   -- Ohne 002 gibt es für authenticated keine Policy, RLS liefert dann keine Zeilen.
 end $$;
+
+notify pgrst, 'reload schema';

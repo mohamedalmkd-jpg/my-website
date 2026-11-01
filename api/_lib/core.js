@@ -10,7 +10,7 @@ function env(k) { return String(process.env[k] || '').trim(); }
 
 function config() {
   return {
-    sbUrl: env('SUPABASE_URL').replace(/\/+$/, ''),
+    sbUrl: (env('SUPABASE_URL') || env('NEXT_PUBLIC_SUPABASE_URL')).replace(/\/+$/, ''),
     sbKey: env('SUPABASE_SERVICE_ROLE_KEY'),
     resendKey: env('RESEND_API_KEY'),
     mailFrom: env('MAIL_FROM') || 'VONUMO <onboarding@resend.dev>',

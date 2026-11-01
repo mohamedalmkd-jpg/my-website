@@ -12,7 +12,7 @@ const RT_MAX_AGE = 60 * 60 * 24 * 90; // 90 Tage, wird bei jeder Erneuerung verl
 
 function cfg() {
   const c = C.config();
-  return { url: c.sbUrl, anon: String(process.env.SUPABASE_ANON_KEY || '').trim(), siteUrl: String(process.env.SITE_URL || '').trim().replace(/\/+$/, '') };
+  return { url: c.sbUrl, anon: String(process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '').trim(), siteUrl: String(process.env.SITE_URL || '').trim().replace(/\/+$/, '') };
 }
 function enabled() { const a = cfg(); return !!(a.url && a.anon); }
 

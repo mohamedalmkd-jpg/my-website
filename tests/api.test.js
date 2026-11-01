@@ -137,7 +137,7 @@ test('Ohne Datenbank: ehrliche 503-Antwort statt Scheinerfolg', async () => {
   assert.strictEqual(r.status, 503);
   assert.strictEqual(r.json.error, 'db_not_configured');
   const s = await call(status, { method: 'GET' });
-  assert.deepStrictEqual(s.json, { ok: true, db: false, ai: true, email: true });
+  assert.strictEqual(s.json.db, false); assert.strictEqual(s.json.ai, true); assert.strictEqual(s.json.email, true); assert.strictEqual(s.json.schema, 'unknown');
 });
 
 test('Ohne E-Mail-Dienst: Anfrage wird trotzdem gespeichert, keine Bestätigung behauptet', async () => {
