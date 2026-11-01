@@ -1,6 +1,6 @@
 # VONUMO Website
 
-Statische Startseite (`index.html` + `support.js`) mit Serverless-API auf Vercel (`/api`).
+Startseite (`index.html`): scrollgesteuerte 3D-Geschichte (`assets/story.js`, Three.js selbst gehostet unter `assets/vendor/`) und am Ende die Studio-Oberfläche (`assets/studio.js`), über die Projektanfragen an `/api/inquiries` gehen. Impressum und Datenschutz liegen unter `/impressum` und `/datenschutz`. Serverless-API auf Vercel (`/api`).
 
 ## Was echt funktioniert
 

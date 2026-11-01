@@ -1,0 +1,13 @@
+@font-face{font-family:'Manrope';font-weight:200 800;font-display:swap;src:url(/assets/fonts/manrope.woff) format('woff')}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:400 16px/1.65 Manrope,system-ui,sans-serif;color:#e8eeff;background:radial-gradient(ellipse 70% 50% at 50% 0%,#15306e,transparent 70%),#050c1e}
+header{display:flex;justify-content:space-between;align-items:center;max-width:860px;margin:0 auto;padding:22px 20px}
+header a{color:#cfe0ff;text-decoration:none}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.08em}
+main{max-width:860px;margin:0 auto 40px;padding:30px clamp(20px,4vw,48px);border-radius:22px;background:linear-gradient(160deg,rgba(28,48,98,.55),rgba(8,16,38,.7));border:1px solid rgba(130,165,255,.26)}
+h2{font-size:clamp(30px,4vw,44px);margin:.2em 0 .6em;letter-spacing:-.01em}
+h3{font-size:18px;margin:1.6em 0 .4em;color:#fff}
+p{margin:.3em 0;color:#c4cfea;white-space:pre-line}
+a{color:#9cc2ff}
+footer{text-align:center;padding:0 20px 40px;color:#8d9cc0;font-size:14px}
+footer a{color:#b9c9ee}
