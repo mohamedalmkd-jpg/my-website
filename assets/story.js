@@ -388,19 +388,20 @@ function build(canvas) {
 /* ================= Stationen ================= */
 const ST = [
   { id: 'hero', cam: [-2.5, 0.35, 9.4], look: [-2.5, 0.1, 0], mob: [0, 0.2, 10.5], mobL: [0, -2.4, 0], site: 1, ex: 0.18 },
-  { id: 'mission', cam: [-4.4, 1.2, 9.2], look: [-3.0, 0, 0], mob: [0, 0.8, 10.5], mobL: [0, -2.0, 0], site: 1, ex: 1 },
+  { id: 'mission', cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1, quiet: 1 },
+  { id: 'mission', end: true, cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1, quiet: 1 },
   { id: 'vision', cam: [0.6, -1.25, -32.4], look: [0.6, -0.55, -40], mob: [0, -1.6, -29.5], mobL: [0, -1.5, -40], pen: 1 },
   { id: 'warp', cam: [0, 0, -58], look: [0, 0, -90], type: 1 },
   { id: 'dashboard', cam: [0, -0.2, -91], look: [0, 2.0, -110], beam: 1 },
   { id: 'features', cam: [0, 0.2, -139], look: [0, 0, -150], comp: 1 },
-  { id: 'code', cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1 },
-  { id: 'code', end: true, cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1 },
+  { id: 'code', cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1, quiet: 1 },
+  { id: 'code', end: true, cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1, quiet: 1 },
   { id: 'welt', cam: [78.6, 8.6, 8.4], look: [72.4, -0.4, 1.4], mob: [70, 13, 6], mobL: [70, -0.4, 0], mood: 1 },
   { id: 'infra', cam: [140, 0.4, 8.8], look: [140, -0.4, 0], mob: [140, 0.2, 12.5], mobL: [140, -1.6, 0], dev: 1 },
   { id: 'kontakt', cam: [210, 0, 9.4], look: [210, 0, 0], ring: 1 },
   { id: 'studio', cam: [0, 3.0, -247], look: [0, 3.0, -262], night: 1 }
 ];
-const KEYS = ['site', 'ex', 'pen', 'type', 'beam', 'comp', 'code', 'mood', 'dev', 'ring', 'night'];
+const KEYS = ['quiet', 'site', 'ex', 'pen', 'type', 'beam', 'comp', 'code', 'mood', 'dev', 'ring', 'night'];
 
 function start() {
   const html = D.documentElement;
@@ -467,7 +468,12 @@ function start() {
     if (S.site.visible) {
       S.site.rotation.set(0.12 + smy * 0.06, -0.42 - cur.ex * 0.35 + Math.sin(t * 0.3) * 0.05 + smx * 0.12, 0);
       S.site.position.y = Math.sin(t * 0.6) * 0.06 + (1 - intro) * -0.6;
-      S.L.forEach((l, li) => { l.m.position.z = li * (0.06 + cur.ex * 0.55); });
+      const lp = (W.__stepP && W.__stepP.mission) || 0, inL = cur.ex > 0.6 && a.id === 'mission', li0 = Math.min(4, Math.floor(lp * 5 * 0.999));
+      S.L.forEach((l, li) => {
+        const u = l.m.userData; u.hl = lerp(u.hl || 0, inL && li === li0 ? 1 : 0, 1 - Math.pow(0.003, dt)); u.dim = lerp(u.dim == null ? 1 : u.dim, inL && li !== li0 ? 0.32 : 1, 1 - Math.pow(0.003, dt));
+        l.m.position.z = li * (0.06 + cur.ex * 0.55) + u.hl * 0.45;
+        l.m.material.uniforms.uO.value = cur.site * intro * u.dim; l.m.material.uniforms.uHot.value = Math.max(li === 4 ? l.m.material.uniforms.uHot.value : 0, u.hl * 0.16);
+      });
       // Cursor klickt den Button
       const cyc = (t % 4) / 4, bp = S.L[4].m.position;
       const cx = lerp(0.6, bp.x + 0.2, sm(0.0, 0.45, cyc)), cy = lerp(-0.2, bp.y - 0.06, sm(0.0, 0.45, cyc));
@@ -475,7 +481,7 @@ function start() {
       const click = sm(0.5, 0.55, cyc) * (1 - sm(0.62, 0.72, cyc));
       S.L[4].m.material.uniforms.uHot.value = click * 0.5; S.L[4].m.scale.set(0.78 * (1 - click * 0.06), 0.2 * (1 - click * 0.06), 0.03);
       const showTags = cur.ex > 0.6 && !mob;
-      S.L.forEach((l, li) => { const e = tags[li]; if (!showTags) { e.style.opacity = '0'; return; } v3.set(0.5, 0.5, 0).applyMatrix4(l.m.matrixWorld); v3.project(S.camera); e.style.transform = 'translate3d(' + ((v3.x * 0.5 + 0.5) * vw).toFixed(1) + 'px,' + ((-v3.y * 0.5 + 0.5) * vh).toFixed(1) + 'px,0)'; e.style.opacity = sm(0.6, 0.95, cur.ex).toFixed(2); });
+      S.L.forEach((l, li) => { const e = tags[li]; if (!showTags) { e.style.opacity = '0'; return; } v3.set(0.5, 0.5, 0).applyMatrix4(l.m.matrixWorld); v3.project(S.camera); e.style.transform = 'translate3d(' + ((v3.x * 0.5 + 0.5) * vw).toFixed(1) + 'px,' + ((-v3.y * 0.5 + 0.5) * vh).toFixed(1) + 'px,0)'; e.style.opacity = (sm(0.6, 0.95, cur.ex) * (inL && li !== li0 ? 0.35 : 1)).toFixed(2); e.classList.toggle('on', inL && li === li0); });
     } else tags.forEach((e) => { e.style.opacity = '0'; });
 
     /* 2) Zeichenstift */
@@ -512,7 +518,7 @@ function start() {
     /* 5b) Code-Kapitel */
     S.codeG.visible = cur.code > 0.02;
     if (S.codeG.visible) {
-      const cp = W.__codeP || 0, ci = Math.min(4, Math.floor(cp * 5 * 0.999)), ck2 = 1 - Math.pow(0.0004, dt);
+      const cp = (W.__stepP && W.__stepP.code) || 0, ci = Math.min(4, Math.floor(cp * 5 * 0.999)), ck2 = 1 - Math.pow(0.0004, dt);
       S.codeG.position.x = -45 + (mob ? 0 : 2.3); S.codeG.position.y = mob ? 1.7 : 0;
       S.codeHalo.material.opacity = cur.code; S.codeHalo.scale.setScalar(1 + Math.sin(t * 0.8) * 0.04);
       S.CG.forEach((m, i) => {
@@ -560,7 +566,7 @@ function start() {
     S.dustMat.uniforms.uC.value.copy(S.camera.position);
 
     /* Code-Symbole am Bildrand: folgen der Kamera mit Nachzieh-Effekt */
-    const swOn = (1 - clamp(cur.night * 2.5, 0, 1)) * (1 - clamp(cur.code * 1.4, 0, 1)) * intro;
+    const swOn = (1 - clamp(cur.night * 2.5, 0, 1)) * (1 - clamp(cur.quiet * 1.4, 0, 1)) * intro;
     S.swarm.visible = swOn > 0.02;
     if (S.swarm.visible) {
       S.camera.updateMatrixWorld();

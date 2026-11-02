@@ -372,3 +372,8 @@ html.studio-on .cd-rail{opacity:0}
   .cd-rail{position:absolute;top:84px;left:50%;transform:translateX(-50%);flex-direction:row;gap:10px}
   .cd-rail button{width:38px;height:38px;font-size:11px}
 }
+.layers{height:520vh}
+.layers .cd-txt .kicker{display:block;margin-bottom:14px}
+.layer-tag.on{color:#fff;font-weight:700;text-shadow:0 0 12px rgba(90,150,255,.9)}
+.layer-tag.on::before{width:14px;background:#fff;box-shadow:0 0 8px #7fb0ff}
+@media (max-width:700px){.layers{height:480vh}}
