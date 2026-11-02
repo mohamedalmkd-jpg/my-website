@@ -65,7 +65,7 @@
 
   if (fine) {
     /* 4) 3D-Neigung der Karten, gefedert */
-    D.querySelectorAll('.c3, .sg, .studio .card:not(.fund), .fd, .dashui, .ring-form').forEach(function (el) {
+    D.querySelectorAll('.c3, .sg, .studio .card:not(.fund), .fd, .dashui, .term, .ring-form').forEach(function (el) {
       var max = el.matches('.dashui, .ring-form, .studio .card') ? 4 : 9;
       el.style.transformStyle = 'preserve-3d';
       el.addEventListener('pointermove', function (e) {

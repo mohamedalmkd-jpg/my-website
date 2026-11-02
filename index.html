@@ -14,7 +14,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/jetbrainsmono.woff" crossorigin>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/site.css?v=202611021054">
+<link rel="stylesheet" href="/assets/site.css?v=202611021105">
 </head>
 <body>
 
@@ -32,7 +32,7 @@
 <header class="tn" id="tn">
   <a href="#hero" class="tn-logo"><img src="/assets/6925aa020ce5116c12186e64c389ccd4.webp" alt="" width="26" height="26"><span>VONUMO</span></a>
   <nav class="tn-links" aria-label="Hauptnavigation">
-    <a href="#leistungen">Leistungen</a><a href="#dashboard">Dashboard</a><a href="#welt">Design-System</a><a href="#kontakt">Kontakt</a>
+    <a href="#leistungen">Leistungen</a><a href="#dashboard">Live-Build</a><a href="#welt">Design-System</a><a href="#kontakt">Kontakt</a>
   </nav>
   <div class="tn-r">
     <span class="tn-lang"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/></svg>Deutsch</span>
@@ -88,18 +88,13 @@
     <div class="ch-in sticky low"><h2>Typografie mit <em>Charakter</em></h2></div>
   </section>
 
-  <section class="ch dash" id="dashboard" data-name="Dashboard">
+  <section class="ch dash" id="dashboard" data-name="Live-Build">
     <div class="ch-in sticky">
-      <h2>Ihr Projekt-<em>Dashboard</em></h2>
-      <div class="dashui" aria-label="Beispiel eines Projekt-Dashboards">
-        <div class="du-top"><b>VONUMO</b><span class="on">Übersicht</span><span>Anfragen</span><span>Analysen</span><span>Deploys</span><i></i></div>
-        <div class="du-grid">
-          <div class="du-card du-kpi"><small>Besucher heute</small><b data-cnt="2847">2.847</b><span class="up">+18,4 %</span></div>
-          <div class="du-card du-kpi"><small>Neue Anfragen</small><b data-cnt="36">36</b><span class="up">+9</span></div>
-          <div class="du-card du-kpi"><small>Ladezeit</small><b>0,9 s</b><span class="up">Lighthouse 98</span></div>
-          <div class="du-card du-chart"><small>Conversions · 30 Tage</small><svg viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><path class="ln" d="M0 70 C30 64 45 72 70 58 S120 40 150 46 200 22 230 30 270 12 300 8"/><path class="ar" d="M0 70 C30 64 45 72 70 58 S120 40 150 46 200 22 230 30 270 12 300 8 V90 H0z"/></svg></div>
-          <div class="du-card du-list"><small>Letzte Deploys</small><span><i class="ok"></i>main · Hero-3D <em>vor 2 Min.</em></span><span><i class="ok"></i>main · Kontaktformular <em>vor 1 Std.</em></span><span><i class="run"></i>preview · Studio <em>läuft …</em></span></div>
-        </div>
+      <h2>Code, der sich <em>selbst schreibt</em></h2>
+      <div class="card term" id="term" aria-label="Live-Build: so entsteht Ihre Website">
+        <div class="term-top"><span class="term-dots"><i></i><i></i><i></i></span><b>vonumo · build.js</b><span class="term-st" id="termSt">bereit</span></div>
+        <pre class="term-code" id="termCode" aria-hidden="true"></pre>
+        <div class="term-ok" id="termOk" role="status" aria-live="polite"><span class="term-chk" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Erfolgreich</b><small>Build fertig · Ihre Website ist online</small></span></div>
       </div>
     </div>
   </section>
@@ -192,12 +187,6 @@
       <button type="button" class="sg sg-min" data-style="Stil: Minimal – ruhig, klar und schnell mit viel Weißraum"><b>Minimal</b><span>Ruhig, klar und schnell – viel Weißraum.</span><i class="art"><i class="lines"></i></i></button>
     </div>
 
-    <div class="card term rv" id="term" aria-label="Live-Build: so entsteht Ihre Website">
-      <div class="term-top"><span class="term-dots"><i></i><i></i><i></i></span><b>vonumo · build.js</b><span class="term-st" id="termSt">bereit</span></div>
-      <pre class="term-code" id="termCode" aria-hidden="true"></pre>
-      <div class="term-ok" id="termOk" role="status" aria-live="polite"><span class="term-chk" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Erfolgreich</b><small>Build fertig · Ihre Website ist online</small></span></div>
-    </div>
-
     <div class="bottom">
       <div class="card steps rv" id="steps">
         <div class="steps-head">
@@ -256,10 +245,10 @@
 
 <noscript><style>.ld{display:none}.rv{opacity:1 !important;transform:none !important}</style></noscript>
 <script src="/assets/vendor/motion.min.js" defer></script>
-  <script src="/assets/studio.js?v=202611021054" defer></script>
-  <script src="/assets/term.js?v=202611021054" defer></script>
-  <script src="/assets/code.js?v=202611021054" defer></script>
-  <script src="/assets/fx.js?v=202611021054" defer></script>
-<script type="module" src="/assets/story.js?v=202611021054"></script>
+  <script src="/assets/studio.js?v=202611021105" defer></script>
+  <script src="/assets/term.js?v=202611021105" defer></script>
+  <script src="/assets/code.js?v=202611021105" defer></script>
+  <script src="/assets/fx.js?v=202611021105" defer></script>
+<script type="module" src="/assets/story.js?v=202611021105"></script>
 </body>
 </html>

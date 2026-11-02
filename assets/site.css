@@ -409,3 +409,6 @@ body :is(p,small,li,label,.st-links a,.tn a,.st-foot,.st-foot a,.c3 small,.sg sp
 .term-ok b{display:block;font-size:18px;color:#5ff0a6;text-shadow:0 1px 2px #000,0 0 14px rgba(79,227,154,.8)}
 .term-ok small{color:#bfe9d3;font-size:13px}
 @media (max-width:600px){.term-code{padding:14px 12px 4px;font-size:11.5px}.term-code .ln{width:2em}.term-ok{margin:6px 12px 14px}}
+.dash .term{margin:5vh 0 0;width:min(820px,100%);box-shadow:0 40px 120px -40px #000,0 0 80px -30px rgba(60,120,255,.6)}
+.dash .term-code{min-height:calc(11 * 1.75em + 20px)}
+.term-top b,.term-st{white-space:nowrap}
