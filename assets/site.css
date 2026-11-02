@@ -377,3 +377,16 @@ html.studio-on .cd-rail{opacity:0}
 .layer-tag.on{color:#fff;font-weight:700;text-shadow:0 0 12px rgba(90,150,255,.9)}
 .layer-tag.on::before{width:14px;background:#fff;box-shadow:0 0 8px #7fb0ff}
 @media (max-width:700px){.layers{height:480vh}}
+/* Schrift: schwarzer Schatten + Leuchten auf der ganzen Seite */
+:root{--sh-h:0 2px 3px rgba(0,0,0,.9),0 10px 30px rgba(0,0,0,.75),0 0 14px rgba(130,180,255,.85),0 0 46px rgba(60,120,255,.55);
+  --sh-t:0 1px 2px rgba(0,0,0,.95),0 4px 16px rgba(0,0,0,.7),0 0 12px rgba(130,175,255,.45)}
+body :is(h1,h2,h3,h4,.kicker,.ch p.big,.ch p.mid,.c3 b,.fd b,.sh-t,.st-brand b,.tn-logo,.sugg-head h3,.sg b,.du-kpi b,.ring-form h2,.dlg-in>b){text-shadow:var(--sh-h)}
+body :is(p,small,li,label,.st-links a,.tn a,.st-foot,.st-foot a,.c3 small,.sg span,.fd p,.du-card,.sh-e,.layer-tag,.drop,.build-msg,.dlg-sub,.cd-p,.st-head p,.bt-title,.chip,.cd-rail button,.fd-stack span){text-shadow:var(--sh-t)}
+.ch h1,.ch h2,.ch p,.kicker{text-shadow:var(--sh-h)}
+.ch p:not(.big):not(.mid){text-shadow:var(--sh-t)}
+.layer-tag.on{text-shadow:0 1px 2px #000,0 0 14px rgba(120,170,255,1),0 0 30px rgba(60,120,255,.7)}
+/* Verlaufsschrift: Schatten über filter, damit der Verlauf sichtbar bleibt */
+.st-head h2,.cd-h,.ic-code,.fd-g{text-shadow:none !important;filter:drop-shadow(0 3px 3px rgba(0,0,0,.9)) drop-shadow(0 10px 22px rgba(0,0,0,.6)) drop-shadow(0 0 18px rgba(110,160,255,.55))}
+/* dunkle Schrift auf hellem Grund: kein Schatten */
+.cd-label i,.bw-hero em,.rf-go,input,textarea,select{text-shadow:none !important}
+.cd-label b{text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 10px rgba(200,220,255,.6)}
