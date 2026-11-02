@@ -363,7 +363,6 @@ const ST = [
   { id: 'hero', cam: [-2.5, 0.35, 9.4], look: [-2.5, 0.1, 0], mob: [0, 0.2, 10.5], mobL: [0, -2.4, 0], site: 1, ex: 0.18 },
   { id: 'mission', cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1 },
   { id: 'mission', end: true, cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1 },
-  { id: 'vision', cam: [0.6, -1.25, -32.4], look: [0.6, -0.55, -40], mob: [0, -1.6, -29.5], mobL: [0, -1.5, -40], pen: 1 },
   { id: 'warp', cam: [0, 0, -58], look: [0, 0, -90], type: 1 },
   { id: 'dashboard', cam: [0, -0.2, -91], look: [0, 2.0, -110], beam: 1 },
   { id: 'features', cam: [0, 0.2, -139], look: [0, 0, -150], comp: 1 },
