@@ -14,7 +14,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/jetbrainsmono.woff" crossorigin>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/site.css?v=202611020928">
+<link rel="stylesheet" href="/assets/site.css?v=202611021001">
 </head>
 <body>
 
@@ -156,28 +156,13 @@
 
     <form class="card build rv" id="build" novalidate>
       <div class="build-top">
-        <span class="bt-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 14v5h16v-5"/></svg>Design hochladen oder Figma-Link</span>
-        <span class="chips">
-          <button type="button" class="chip" data-accept="image/png">PNG</button>
-          <button type="button" class="chip" data-accept="image/jpeg">JPG</button>
-          <button type="button" class="chip" id="figBtn" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg>Figma-URL</button>
-        </span>
+        <span class="bt-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>Beschreiben Sie Ihr Projekt</span>
       </div>
-      <div class="build-mid">
-        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Design-Datei auswählen">
-          <input type="file" id="file" accept="image/png,image/jpeg" hidden>
-          <span class="drop-in" id="dropIn">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 18a4.5 4.5 0 01-.6-9A6 6 0 0118 8.5a4 4 0 01-.5 9.5"/><path d="M12 12v8M9 15l3-3 3 3"/></svg>
-            <span>Design ablegen<br>oder klicken zum Hochladen</span>
-          </span>
-          <span class="drop-file" id="dropFile" hidden><img id="dropImg" alt=""><span id="dropName"></span><button type="button" id="dropX" aria-label="Datei entfernen">×</button></span>
-        </div>
-        <span class="or">oder</span>
+      <div class="build-mid one">
         <div class="prompt-wrap">
           <label for="prompt" class="sr">Beschreiben Sie Ihre Website</label>
           <textarea id="prompt" rows="3" maxlength="4000">Bau mir eine Premium-Firmenwebsite mit 3D-Bewegung, flüssigen Animationen, echter Datenbank, GitHub- und Vercel-Deployment.</textarea>
           <svg class="pen" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>
-          <input type="url" id="figma" class="figma" placeholder="https://www.figma.com/design/…" aria-label="Figma-Link" hidden>
         </div>
       </div>
       <p class="build-msg" id="buildMsg" role="status" aria-live="polite"></p>
@@ -210,6 +195,24 @@
           <li><i></i><b>Vorschau deployen</b><em></em></li>
         </ol>
       </div>
+
+      <div class="card fund rv" id="fundament" aria-labelledby="fdH">
+        <div class="steps-head">
+          <span class="sh-t"><span class="fd-g" aria-hidden="true">&lt;/&gt;</span><span id="fdH">Unser Fundament – so bauen wir</span></span>
+          <span class="sh-e">Die Basis jedes VONUMO-Projekts</span>
+        </div>
+        <div class="fd-grid">
+          <div class="fd"><span class="fd-ic" aria-hidden="true">&gt;&gt;</span><b>Performance</b><p>Ziel: Lighthouse 90+ und grüne Core Web Vitals. Bilder und 3D werden erst geladen, wenn sie gebraucht werden; Auslieferung über ein weltweites Edge-Netzwerk.</p></div>
+          <div class="fd"><span class="fd-ic" aria-hidden="true">#!</span><b>Sicherheit</b><p>HTTPS überall, Sicherheits-Header, Rate-Limiting und Spam-Schutz für Formulare. Schlüssel und Passwörter liegen nur auf dem Server – nie im Browser.</p></div>
+          <div class="fd"><span class="fd-ic" aria-hidden="true">§</span><b>DSGVO-konform</b><p>Datensparsam von Anfang an: Einwilligung vor dem Speichern, Impressum und Datenschutz inklusive, keine Tracking-Cookies ohne Zustimmung.</p></div>
+          <div class="fd"><span class="fd-ic" aria-hidden="true">{ }</span><b>Sauberer Code</b><p>Jede Änderung versioniert in Git, automatische Tests vor jedem Release und modularer, lesbarer Code. Der Code gehört Ihnen – vollständig.</p></div>
+          <div class="fd"><span class="fd-ic" aria-hidden="true">=&gt;</span><b>Infrastruktur</b><p>Automatisches Deployment bei jedem Push, Vorschau-Links zum Testen vor dem Livegang und Rückkehr zur letzten Version in Sekunden.</p></div>
+          <div class="fd"><span class="fd-ic" aria-hidden="true">ai;</span><b>Zugänglich &amp; auffindbar</b><p>Semantisches HTML, Tastaturbedienung, Rücksicht auf „reduzierte Bewegung“ und saubere Metadaten für Google – schön und für alle nutzbar.</p></div>
+        </div>
+        <div class="fd-stack"><small>Technische Grundlagen</small>
+          <span>HTML · CSS · JavaScript</span><span>Three.js / WebGL</span><span>Motion</span><span>PostgreSQL (Supabase)</span><span>Vercel</span><span>GitHub</span>
+        </div>
+      </div>
     </div>
 
     <footer class="st-foot">
@@ -236,8 +239,8 @@
 
 <noscript><style>.ld{display:none}.rv{opacity:1 !important;transform:none !important}</style></noscript>
 <script src="/assets/vendor/motion.min.js" defer></script>
-  <script src="/assets/studio.js?v=202611020928" defer></script>
-  <script src="/assets/fx.js?v=202611020928" defer></script>
-<script type="module" src="/assets/story.js?v=202611020928"></script>
+  <script src="/assets/studio.js?v=202611021001" defer></script>
+  <script src="/assets/fx.js?v=202611021001" defer></script>
+<script type="module" src="/assets/story.js?v=202611021001"></script>
 </body>
 </html>

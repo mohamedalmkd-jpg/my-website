@@ -330,3 +330,18 @@ html.scrolled .scrollhint{opacity:0}
 .fx-w{display:inline-block;perspective:700px}.fx-wi{display:inline-block;transform-origin:50% 100%;will-change:transform,opacity,filter}
 .c3,.sg,.dashui,.ring-form{will-change:transform}
 @media (max-width:900px){.hero .cards3 .ic.ic-code{transform:none;width:auto;min-width:64px;height:40px;font-size:22px}}
+/* Fundament */
+.build-mid.one{grid-template-columns:1fr}
+.fund{padding:24px 28px}
+.fd-g{font:800 18px "JetBrains Mono",ui-monospace,monospace;background:linear-gradient(135deg,#fff,#8fb6ff 55%,#e7b85a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+.fd{position:relative;padding:18px 18px 16px;border-radius:16px;background:linear-gradient(160deg,rgba(40,70,160,.28),rgba(8,16,40,.55));border:1px solid rgba(140,175,255,.2);overflow:hidden}
+.fd::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(120,170,255,.14),transparent 60%)}
+.fd-ic{display:inline-grid;place-items:center;min-width:42px;height:34px;padding:0 8px;border-radius:10px;margin-bottom:10px;font:800 16px "JetBrains Mono",ui-monospace,monospace;color:#cfe0ff;background:rgba(60,100,220,.25);border:1px solid rgba(150,185,255,.35)}
+.fd b{display:block;font-size:16px;color:#fff;margin-bottom:6px}
+.fd p{margin:0;font-size:13.5px;line-height:1.55;color:#bfcbe8}
+.fd-stack{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(130,165,255,.15)}
+.fd-stack small{color:#8fa3d0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.fd-stack span{font:500 12.5px "JetBrains Mono",ui-monospace,monospace;color:#dfe8ff;padding:6px 12px;border-radius:999px;background:rgba(30,50,110,.45);border:1px solid rgba(140,175,255,.25)}
+@media (max-width:900px){.fd-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.fund{padding:18px}.fd-grid{grid-template-columns:1fr}}

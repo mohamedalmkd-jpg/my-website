@@ -65,28 +65,6 @@
   bell.addEventListener('click', function () { var o = pop.hidden; pop.hidden = !o; bell.setAttribute('aria-expanded', o ? 'true' : 'false'); });
   document.addEventListener('click', function (e) { if (!pop.hidden && !e.target.closest('#bell,#bellPop')) { pop.hidden = true; bell.setAttribute('aria-expanded', 'false'); } });
 
-  /* Upload und Figma */
-  var file = $('file'), drop = $('drop'), chosen = null, figBtn = $('figBtn'), figma = $('figma');
-  function pick(accept) { file.accept = accept || 'image/png,image/jpeg'; file.click(); }
-  Array.prototype.forEach.call(document.querySelectorAll('.chip[data-accept]'), function (c) { c.addEventListener('click', function () { pick(c.getAttribute('data-accept')); }); });
-  figBtn.addEventListener('click', function () { var o = figma.hidden; figma.hidden = !o; figBtn.setAttribute('aria-expanded', o ? 'true' : 'false'); if (o) figma.focus(); });
-  drop.addEventListener('click', function (e) { if (e.target.closest('#dropX')) return; pick(); });
-  drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
-  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
-  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
-  drop.addEventListener('drop', function (e) { var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) setFile(f); });
-  file.addEventListener('change', function () { if (file.files && file.files[0]) setFile(file.files[0]); });
-  function setFile(f) {
-    var msg = $('buildMsg');
-    if (!/^image\/(png|jpeg)$/.test(f.type)) { msg.className = 'build-msg'; msg.textContent = 'Bitte eine PNG- oder JPG-Datei wählen.'; return; }
-    if (f.size > 15 * 1024 * 1024) { msg.className = 'build-msg'; msg.textContent = 'Die Datei ist größer als 15 MB.'; return; }
-    chosen = f; msg.textContent = '';
-    $('dropImg').src = URL.createObjectURL(f);
-    $('dropName').textContent = f.name;
-    $('dropIn').hidden = true; $('dropFile').hidden = false;
-  }
-  $('dropX').addEventListener('click', function (e) { e.stopPropagation(); chosen = null; file.value = ''; $('dropIn').hidden = false; $('dropFile').hidden = true; });
-
   /* Design-Vorschläge */
   var sugg = $('sugg'), style = '';
   Array.prototype.forEach.call(sugg.querySelectorAll('.sg'), function (b) {
@@ -130,7 +108,6 @@
     e.preventDefault();
     var p = $('prompt').value.trim();
     if (p.length < 10) { msg.className = 'build-msg'; msg.textContent = 'Beschreiben Sie Ihre Website in ein paar Worten (mindestens 10 Zeichen).'; $('prompt').focus(); return; }
-    if (!figma.hidden && figma.value && !/^https?:\/\/\S+\.\S+/.test(figma.value.trim())) { msg.className = 'build-msg'; msg.textContent = 'Der Figma-Link sieht nicht gültig aus.'; figma.focus(); return; }
     msg.textContent = '';
     openDlg();
   });
@@ -141,9 +118,6 @@
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { err.textContent = 'Bitte eine gültige E-Mail-Adresse angeben.'; $('fMail').focus(); return; }
     if (!ok) { err.textContent = 'Bitte stimmen Sie der Verarbeitung Ihrer Angaben zu.'; return; }
     var text = $('prompt').value.trim();
-    var fig = (!figma.hidden && figma.value.trim()) ? figma.value.trim() : '';
-    if (fig) text += '\nFigma: ' + fig;
-    if (chosen) text += '\nDesign-Datei: ' + chosen.name + ' (wird per E-Mail nachgereicht)';
     var btn = $('dlgGo'); btn.disabled = true; btn.querySelector('span').textContent = 'Wird gesendet …';
     fetch('/api/inquiries', {
       method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
@@ -177,7 +151,7 @@
     setStep(items[1], 'run', 'In Bearbeitung');
     for (var i = 2; i < items.length; i++) setStep(items[i], '', 'Ausstehend');
     msg.className = 'build-msg ok';
-    msg.textContent = 'Danke! Ihre Anfrage ' + ref + ' ist eingegangen.' + (mailed ? ' Eine Bestätigung ist unterwegs.' : '') + (chosen ? ' Bitte senden Sie die Design-Datei als Antwort auf unsere E-Mail.' : '');
+    msg.textContent = 'Danke! Ihre Anfrage ' + ref + ' ist eingegangen.' + (mailed ? ' Eine Bestätigung ist unterwegs.' : '');
     $('bellTxt').textContent = 'Anfrage ' + ref + ' eingegangen. Wir melden uns innerhalb von zwei Werktagen.';
     document.querySelector('.st-bell .dot').style.background = '#3ddc8c';
     $('steps').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
