@@ -323,33 +323,6 @@ function build(canvas) {
   const nl2 = new THREE.PointLight(0x6ab0ff, 50, 28, 1.6); nl2.position.set(6, 4, 1); night.add(nl2);
   const nl3 = new THREE.PointLight(0xffd08a, 18, 14, 1.8); nl3.position.set(-6, 9, -2); night.add(nl3);
 
-  /* --- Code-Symbole, die die Kamera am Bildrand begleiten --- */
-  function tubeOf(pts, r, mat) { const c = new THREE.CatmullRomCurve3(pts.map((p) => new THREE.Vector3(p[0], p[1], 0)), false, 'centripetal'); const g = new THREE.Group(); g.add(new THREE.Mesh(new THREE.TubeGeometry(c, 90, r, 12, false), mat)); [c.getPoint(0), c.getPoint(1)].forEach((p) => { const s = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat); s.position.copy(p); g.add(s); }); return g; }
-  const G = {
-    tag() { const g = new THREE.Group(); const a = lt.clone(), b = gt.clone(), c = sl.clone(); g.add(a, b, c); return g; },
-    braces() { return braces.clone(); },
-    parens() { const g = new THREE.Group(); const arc = []; for (let i = 0; i <= 12; i++) { const a = -0.95 + i / 12 * 1.9; arc.push([1.6 - 1.8 * Math.cos(a), 1.8 * Math.sin(a)]); } const l = tubeOf(arc, 0.14, chrome); l.position.x = -0.75; const r = tubeOf(arc, 0.14, chrome); r.scale.x = -1; r.position.x = 0.75; g.add(l, r); const d = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 14), gold); g.add(d); return g; },
-    arrow() { const g = new THREE.Group(); const bar = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.2, 0.3), silver); const b1 = bar.clone(); b1.position.set(-0.85, 0.28, 0); const b2 = bar.clone(); b2.position.set(-0.85, -0.28, 0); const ch = extrude(shapeOf([[0.9, 0], [-0.2, 0.85], [-0.2, 0.45], [0.35, 0], [-0.2, -0.45], [-0.2, -0.85]]), chrome); ch.position.x = 0.75; g.add(b1, b2, ch); return g; },
-    hash() { const g = new THREE.Group(); const v = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2.1, 0.3), chrome); const h = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.2, 0.3), silver); [[-0.35, 0, v], [0.4, 0, v], [0, 0.42, h], [0, -0.42, h]].forEach(([x, y, m]) => { const c = m.clone(); c.position.set(x, y, 0); if (m === v) c.rotation.z = -0.18; g.add(c); }); return g; },
-    semi() { const g = new THREE.Group(); const dot = new THREE.Shape(); dot.absarc(0, 0, 0.27, 0, Math.PI * 2, false); const d = extrude(dot, gold); d.position.y = 0.62; const cm = new THREE.Shape(); cm.moveTo(-0.27, 0); cm.absarc(0, 0, 0.27, Math.PI, 0, true); cm.quadraticCurveTo(0.3, -0.45, -0.16, -0.78); cm.quadraticCurveTo(0.02, -0.4, -0.27, 0); const c = extrude(cm, gold); c.position.y = -0.3; g.add(d, c); return g; }
-  };
-  const swarm = new THREE.Group(); scene.add(swarm);
-  const swL = new THREE.PointLight(0x7fb0ff, 30, 30, 1.4); scene.add(swL);
-  const SW = [
-    { k: 'tag', x: 0.84, y: 0.56, d: 9, s: 0.34 }, { k: 'arrow', x: 0.9, y: -0.14, d: 8, s: 0.3 },
-    { k: 'parens', x: -0.92, y: -0.8, d: 10, s: 0.3 }, { k: 'semi', x: 0.72, y: -0.78, d: 7, s: 0.4 },
-    { k: 'braces', x: -0.95, y: -0.25, d: 12, s: 0.3 }
-  ].filter((o) => !lite || (o.k !== 'arrow' && o.k !== 'braces')).map((o, i) => { const m = G[o.k](); m.scale.setScalar(o.s); m.userData = Object.assign({ ph: i * 1.3, spin: 0, init: false }, o); swarm.add(m); return m; });
-
-
-  /* --- Code-Kapitel: großes Symbol, das sich beim Scrollen dreht und wechselt --- */
-  const CX = -45, codeG = new THREE.Group(); codeG.position.set(CX, 0, 0); scene.add(codeG);
-  const CG = ['tag', 'braces', 'arrow', 'parens', 'semi'].map((k, i) => { const m = G[k](); m.userData = { s: [0.78, 0.66, 0.9, 0.78, 1.35][i], v: i === 0 ? 1 : 0 }; m.scale.setScalar(0.001); codeG.add(m); return m; });
-  const haloTex = cv(256, 256, (x, w, h) => { const g = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2); g.addColorStop(0, 'rgba(90,140,255,0.32)'); g.addColorStop(0.4, 'rgba(47,107,255,0.1)'); g.addColorStop(1, 'rgba(10,20,60,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h); });
-  const codeHalo = new THREE.Mesh(new THREE.PlaneGeometry(7, 7), new THREE.MeshBasicMaterial({ map: haloTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); codeHalo.position.z = -1.6; codeG.add(codeHalo);
-  const cl1 = new THREE.PointLight(0x6aa0ff, 40, 16, 1.5); cl1.position.set(-3, 2.5, 4); codeG.add(cl1);
-  const cl2 = new THREE.PointLight(0xffd08a, 14, 12, 1.6); cl2.position.set(3.5, -2, 3); codeG.add(cl2);
-
   /* --- Nachbearbeitung (Desktop) --- */
   let rt = null, post = null, postScene = null, postCam = null;
   if (!lite) {
@@ -382,26 +355,24 @@ function build(canvas) {
     if (rt) rt.setSize(Math.round(w * DPR), Math.round(h * DPR));
   }
   function setQ(d) { DPR = d; renderer.setPixelRatio(d); dustMat.uniforms.uS.value = 2.2 * d; resize(); }
-  return { setQ, getQ: () => DPR, codeG, CG, codeHalo, swarm, SW, swL, renderer, scene, camera, resize, rt, post, postScene, postCam, site, L, cursor, pen, tube, tubeGeo, glowTube, nib, curve, anchors, typeG, glyphs, beam, comp, toggle, knob, slider, sk, swatches, check, mood, tiles, sel, selBox, handles, frameLabel, dev, laptop, tablet, phone, ringG, ringMat, ringHalo, dustMat, night, ribbons, bubble };
+  return { setQ, getQ: () => DPR, renderer, scene, camera, resize, rt, post, postScene, postCam, site, L, cursor, pen, tube, tubeGeo, glowTube, nib, curve, anchors, typeG, glyphs, beam, comp, toggle, knob, slider, sk, swatches, check, mood, tiles, sel, selBox, handles, frameLabel, dev, laptop, tablet, phone, ringG, ringMat, ringHalo, dustMat, night, ribbons, bubble };
 }
 
 /* ================= Stationen ================= */
 const ST = [
   { id: 'hero', cam: [-2.5, 0.35, 9.4], look: [-2.5, 0.1, 0], mob: [0, 0.2, 10.5], mobL: [0, -2.4, 0], site: 1, ex: 0.18 },
-  { id: 'mission', cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1, quiet: 1 },
-  { id: 'mission', end: true, cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1, quiet: 1 },
+  { id: 'mission', cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1 },
+  { id: 'mission', end: true, cam: [-4.2, 0.5, 10.6], look: [-1.9, 0, 0], mob: [-1.4, 0.6, 11.2], mobL: [-1.4, -1.5, 0], site: 1, ex: 1 },
   { id: 'vision', cam: [0.6, -1.25, -32.4], look: [0.6, -0.55, -40], mob: [0, -1.6, -29.5], mobL: [0, -1.5, -40], pen: 1 },
   { id: 'warp', cam: [0, 0, -58], look: [0, 0, -90], type: 1 },
   { id: 'dashboard', cam: [0, -0.2, -91], look: [0, 2.0, -110], beam: 1 },
   { id: 'features', cam: [0, 0.2, -139], look: [0, 0, -150], comp: 1 },
-  { id: 'code', cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1, quiet: 1 },
-  { id: 'code', end: true, cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1, quiet: 1 },
   { id: 'welt', cam: [78.6, 8.6, 8.4], look: [72.4, -0.4, 1.4], mob: [70, 13, 6], mobL: [70, -0.4, 0], mood: 1 },
   { id: 'infra', cam: [140, 0.4, 8.8], look: [140, -0.4, 0], mob: [140, 0.2, 12.5], mobL: [140, -1.6, 0], dev: 1 },
   { id: 'kontakt', cam: [210, 0, 9.4], look: [210, 0, 0], ring: 1 },
   { id: 'studio', cam: [0, 3.0, -247], look: [0, 3.0, -262], night: 1 }
 ];
-const KEYS = ['quiet', 'site', 'ex', 'pen', 'type', 'beam', 'comp', 'code', 'mood', 'dev', 'ring', 'night'];
+const KEYS = ['site', 'ex', 'pen', 'type', 'beam', 'comp', 'mood', 'dev', 'ring', 'night'];
 
 function start() {
   const html = D.documentElement;
@@ -440,7 +411,7 @@ function start() {
   W.addEventListener('pointermove', (e) => { mx = e.clientX / W.innerWidth * 2 - 1; my = e.clientY / W.innerHeight * 2 - 1; }, { passive: true });
   D.addEventListener('visibilitychange', () => { visible = !D.hidden; if (visible) { lastT = performance.now(); requestAnimationFrame(loop); } });
   const v3 = new THREE.Vector3();
-  const swT = new THREE.Vector3(); let fAcc = 0, fN = 0;
+  let fAcc = 0, fN = 0;
 
   function loop(now) {
     if (!visible) return;
@@ -466,12 +437,14 @@ function start() {
     /* 1) Website-Ebenen */
     setO(S.site, cur.site * intro);
     if (S.site.visible) {
-      S.site.rotation.set(0.12 + smy * 0.06, -0.42 - cur.ex * 0.35 + Math.sin(t * 0.3) * 0.05 + smx * 0.12, 0);
+      const mP = (W.__stepP && W.__stepP.mission) || 0, mOn = a.id === 'mission' ? 1 : 0; S.site.userData.tw = lerp(S.site.userData.tw || 0, mOn * (mP - 0.5), 1 - Math.pow(0.01, dt));
+      S.site.rotation.set(0.12 + smy * 0.06, -0.42 - cur.ex * 0.35 + S.site.userData.tw * 0.7 + Math.sin(t * 0.3) * 0.05 + smx * 0.12, 0);
       S.site.position.y = Math.sin(t * 0.6) * 0.06 + (1 - intro) * -0.6;
       const lp = (W.__stepP && W.__stepP.mission) || 0, inL = cur.ex > 0.6 && a.id === 'mission', li0 = Math.min(4, Math.floor(lp * 5 * 0.999));
       S.L.forEach((l, li) => {
-        const u = l.m.userData; u.hl = lerp(u.hl || 0, inL && li === li0 ? 1 : 0, 1 - Math.pow(0.003, dt)); u.dim = lerp(u.dim == null ? 1 : u.dim, inL && li !== li0 ? 0.32 : 1, 1 - Math.pow(0.003, dt));
-        l.m.position.z = li * (0.06 + cur.ex * 0.55) + u.hl * 0.45;
+        const u = l.m.userData; u.hl = lerp(u.hl || 0, inL && li === li0 ? 1 : 0, 1 - Math.pow(0.003, dt)); u.dim = lerp(u.dim == null ? 1 : u.dim, inL && li !== li0 ? 0.2 : 1, 1 - Math.pow(0.003, dt));
+        l.m.position.z = li * (0.06 + cur.ex * 0.55) + u.hl * 1.1;
+        const bs = l.m.userData.bs || (l.m.userData.bs = l.m.scale.clone()); if (li !== 4) l.m.scale.set(bs.x * (1 + u.hl * 0.12), bs.y * (1 + u.hl * 0.12), bs.z);
         l.m.material.uniforms.uO.value = cur.site * intro * u.dim; l.m.material.uniforms.uHot.value = Math.max(li === 4 ? l.m.material.uniforms.uHot.value : 0, u.hl * 0.16);
       });
       // Cursor klickt den Button
@@ -515,22 +488,6 @@ function start() {
       [S.toggle, S.slider, S.swatches, S.check].forEach((o, oi) => { o.position.y += Math.sin(t * 0.7 + oi) * 0.002; o.rotation.y = Math.sin(t * 0.4 + oi) * 0.3; o.rotation.x = Math.sin(t * 0.3 + oi) * 0.15; });
     }
 
-    /* 5b) Code-Kapitel */
-    S.codeG.visible = cur.code > 0.02;
-    if (S.codeG.visible) {
-      const cp = (W.__stepP && W.__stepP.code) || 0, ci = Math.min(4, Math.floor(cp * 5 * 0.999)), ck2 = 1 - Math.pow(0.0004, dt);
-      S.codeG.position.x = -45 + (mob ? 0 : 2.3); S.codeG.position.y = mob ? 1.7 : 0;
-      S.codeHalo.material.opacity = cur.code; S.codeHalo.scale.setScalar(1 + Math.sin(t * 0.8) * 0.04);
-      S.CG.forEach((m, i) => {
-        const u = m.userData; u.v = lerp(u.v, i === ci ? 1 : 0, ck2); m.visible = u.v > 0.01;
-        if (!m.visible) return;
-        const e = ease(u.v), side = i < ci ? -1 : 1;
-        m.scale.setScalar(u.s * e * cur.code * (mob ? 0.8 : 1));
-        m.position.set((1 - e) * side * -1.2, Math.sin(t * 0.9 + i) * 0.12, (1 - e) * -2);
-        m.rotation.set(Math.sin(t * 0.6 + i) * 0.16 - smy * 0.18, (cp * 5 - (i + 0.5)) * 1.3 + (1 - e) * 2.6 * side + smx * 0.35, Math.sin(t * 0.45 + i) * 0.07);
-      });
-    }
-
     /* 6) Moodboard */
     setO(S.mood, cur.mood);
     if (S.mood.visible) {
@@ -564,27 +521,6 @@ function start() {
     S.camera.position.set(curP.x + smx * 0.25, curP.y - smy * 0.15, curP.z);
     S.camera.lookAt(curL);
     S.dustMat.uniforms.uC.value.copy(S.camera.position);
-
-    /* Code-Symbole am Bildrand: folgen der Kamera mit Nachzieh-Effekt */
-    const swOn = (1 - clamp(cur.night * 2.5, 0, 1)) * (1 - clamp(cur.quiet * 1.4, 0, 1)) * intro;
-    S.swarm.visible = swOn > 0.02;
-    if (S.swarm.visible) {
-      S.camera.updateMatrixWorld();
-      const me = S.camera.matrixWorld.elements, th = Math.tan(S.camera.fov * Math.PI / 360), sp = Math.min(Math.abs(vel) / 2600, 2.6);
-      S.SW.forEach((m) => {
-        const u = m.userData, hh = th * u.d, hw = hh * S.camera.aspect;
-        const ox = u.x * hw * (mob ? 0.92 : 1), oy = u.y * hh;
-        swT.set(S.camera.position.x + me[0] * ox + me[4] * oy - me[8] * u.d, S.camera.position.y + me[1] * ox + me[5] * oy - me[9] * u.d, S.camera.position.z + me[2] * ox + me[6] * oy - me[10] * u.d);
-        if (!u.init || jump) { m.position.copy(swT); u.init = true; } else m.position.lerp(swT, 1 - Math.pow(0.012 + u.d * 0.005, dt));
-        u.spin += dt * (0.35 + sp);
-        m.quaternion.copy(S.camera.quaternion);
-        m.rotateY(Math.sin(u.spin * 0.7 + u.ph) * 0.9 + smx * 0.3);
-        m.rotateX(Math.sin(t * 0.5 + u.ph) * 0.25 - smy * 0.2);
-        m.rotateZ(Math.sin(t * 0.35 + u.ph) * 0.12);
-        m.scale.setScalar(u.s * (mob ? 0.62 : 1) * swOn * (1 + Math.min(Math.abs(vel) / 12000, 0.18) + Math.sin(t * 1.3 + u.ph) * 0.03));
-      });
-      S.swL.position.set(S.camera.position.x + me[4] * 3, S.camera.position.y + me[5] * 3, S.camera.position.z + me[6] * 3);
-    }
 
     /* Qualität an das Gerät anpassen: bei Rucklern Auflösung senken */
     fAcc += dt; fN++;

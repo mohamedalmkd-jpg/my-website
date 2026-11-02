@@ -1,4 +1,4 @@
-/* VONUMO – Scroll-Kapitel: beim Scrollen erscheinen nacheinander Details (Code-Symbole, Website-Ebenen) */
+/* VONUMO – Scroll-Kapitel: beim Scrollen erscheinen nacheinander Details zu den Website-Ebenen */
 (function () {
   'use strict';
   var D = document, W = window;
@@ -9,13 +9,6 @@
       { tag: 'Bild', h: 'Visuelle Wirkung', p: 'Fotos, Grafiken und 3D-Elemente, optimiert für jedes Gerät: gestochen scharf und trotzdem schnell geladen.' },
       { tag: 'Typografie', h: 'Worte mit Gewicht', p: 'Schriftwahl, Hierarchie und Rhythmus lenken den Blick. Überschriften wecken Interesse, Fließtext schafft Vertrauen.' },
       { tag: 'Interaktion', h: 'Der entscheidende Klick', p: 'Buttons, Formulare und Mikro-Animationen geben sofort Feedback und führen Besucher sicher bis zur Anfrage.' }
-    ],
-    code: [
-      { tag: 'Struktur', h: 'Semantisches HTML', p: 'Jede Seite beginnt mit einem sauberen Gerüst: klare Hierarchie, kurze Ladezeit und Inhalte, die Google und Screenreader sofort verstehen.' },
-      { tag: 'Design-System', h: 'Stil mit System', p: 'Farben, Abstände und Schriften als wiederverwendbare Tokens. Jede Komponente sieht überall gleich aus – vom Button bis zum Footer.' },
-      { tag: 'Interaktion', h: 'Bewegung mit Sinn', p: 'JavaScript, WebGL und Motion erwecken die Oberfläche zum Leben: 3D-Szenen, Mikro-Animationen und flüssiges Scrollen – auch auf dem Smartphone.' },
-      { tag: 'Daten & Funktionen', h: 'Logik im Hintergrund', p: 'Formulare, Konten und Anfragen laufen über eigene Server-Funktionen und eine PostgreSQL-Datenbank – geprüft, geschützt und skalierbar.' },
-      { tag: 'Qualität', h: 'Jedes Detail sitzt', p: 'Automatische Tests und Vorschau-Links vor jedem Livegang. Erst wenn alles stimmt, geht Ihre Seite online – und bleibt jederzeit zurücksetzbar.' }
     ]
   };
   var M = W.Motion, reduce = W.matchMedia && W.matchMedia('(prefers-reduced-motion: reduce)').matches;
