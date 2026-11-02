@@ -56,6 +56,7 @@
   rise('.du-card, .du-top', '.dashui');
   rise('.ring-form > *', '#kontakt .ch-in');
   rise('.fd, .fd-stack span', '.fund');
+  rise('.plan', '.plans');
   rise('.ch-in > p, .ch-in > small, .ch-in > .eyebrow, .ch-in > .kicker', '.ch:not(.hero):not(.contact)');
 
   /* 3) Code-Symbole schweben und drehen sich bei Berührung */
@@ -65,7 +66,7 @@
 
   if (fine) {
     /* 4) 3D-Neigung der Karten, gefedert */
-    D.querySelectorAll('.c3, .sg, .studio .card:not(.fund), .fd, .dashui, .term, .ring-form').forEach(function (el) {
+    D.querySelectorAll('.c3, .plan, .studio .card:not(.fund), .fd, .dashui, .term, .ring-form').forEach(function (el) {
       var max = el.matches('.dashui, .ring-form, .studio .card') ? 4 : 9;
       el.style.transformStyle = 'preserve-3d';
       el.addEventListener('pointermove', function (e) {
@@ -81,7 +82,7 @@
     });
 
     /* 5) Magnetische Buttons */
-    D.querySelectorAll('.tn-cta, #tnLogin, .go, #rfGo, #dlgGo, .st-links a, .chip').forEach(function (b) {
+    D.querySelectorAll('.tn-cta, #tnLogin, .go, #rfGo, .pl-go, .st-links a, .pr-bill button').forEach(function (b) {
       b.addEventListener('pointermove', function (e) {
         var r = b.getBoundingClientRect();
         animate(b, { x: (e.clientX - r.left - r.width / 2) * 0.22, y: (e.clientY - r.top - r.height / 2) * 0.3 }, SOFT);

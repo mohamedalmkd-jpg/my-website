@@ -14,7 +14,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/jetbrainsmono.woff" crossorigin>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/site.css?v=202611021135">
+<link rel="stylesheet" href="/assets/site.css?v=202611021200">
 </head>
 <body>
 
@@ -139,7 +139,8 @@
       <a href="#studio" class="st-brand"><b>VONUMO STUDIO</b><span>Ihr persönlicher KI-Entwickler</span></a>
       <div class="st-links">
         <a href="#studio" class="on">Start</a>
-        <a href="#build" data-focus="prompt">Bauen</a>
+        <a href="#preise">Preise</a>
+        <a href="#termin" data-focus="bkName">Termin</a>
         <a href="#steps">Ablauf</a>
         <a href="/konto">Konto</a>
       </div>
@@ -151,48 +152,99 @@
     </nav>
 
     <header class="st-head">
-      <h2 id="stH" class="rv">Was bauen wir heute?</h2>
-      <p class="rv">Verwandeln Sie Ihre Ideen in außergewöhnliche Websites.</p>
+      <h2 id="stH" class="rv">Ihre neue Website – mit Termin</h2>
+      <p class="rv">Wählen Sie ein Paket, buchen Sie ein kostenloses Beratungsgespräch – wir bauen, betreuen und warten Ihre Website.</p>
     </header>
 
-    <form class="card build rv" id="build" novalidate>
-      <div class="build-top">
-        <span class="bt-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>Beschreiben Sie Ihr Projekt</span>
+    <div class="pr-head rv" id="preise">
+      <div class="pr-bill" role="group" aria-label="Abrechnung">
+        <button type="button" class="on" data-bill="m" aria-pressed="true">Monatlich</button>
+        <button type="button" data-bill="y" aria-pressed="false">Jährlich <span class="pr-save">−20 %</span></button>
       </div>
-      <div class="build-mid one">
-        <div class="prompt-wrap">
-          <label for="prompt" class="sr">Beschreiben Sie Ihre Website</label>
-          <textarea id="prompt" rows="3" maxlength="4000">Bau mir eine Premium-Firmenwebsite mit 3D-Bewegung, flüssigen Animationen, echter Datenbank, GitHub- und Vercel-Deployment.</textarea>
-          <svg class="pen" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>
-        </div>
-      </div>
-      <p class="build-msg" id="buildMsg" role="status" aria-live="polite"></p>
-      <button type="submit" class="go" id="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 2l1.8 5.2L17 9l-5.2 1.8L10 16l-1.8-5.2L3 9l5.2-1.8z"/><path d="M18 13l.9 2.1L21 16l-2.1.9L18 19l-.9-2.1L15 16l2.1-.9z"/></svg><span>Website bauen</span></button>
-    </form>
+      <span class="pr-deal"><b>Neukunden-Rabatt:</b> 20 % sparen bei jährlicher Zahlung</span>
+    </div>
 
-    <div class="sugg-head rv">
-      <h3><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 2l1.8 5.2L17 9l-5.2 1.8L10 16l-1.8-5.2L3 9l5.2-1.8z"/><path d="M18 13l.9 2.1L21 16l-2.1.9L18 19l-.9-2.1L15 16l2.1-.9z"/></svg>KI-Design-Vorschläge</h3>
+    <div class="plans rv">
+      <article class="plan" data-plan="Basic">
+        <span class="pl-tag">Basic</span>
+        <div class="pl-price"><b data-m="49" data-y="39">49 €</b><span>/ Monat</span><s data-y="49 €"></s></div>
+        <p class="pl-sub">Für den professionellen Start.</p>
+        <ul>
+          <li>Website bis 5 Seiten</li>
+          <li>Hosting, SSL &amp; eigene Domain</li>
+          <li>Wartung &amp; Sicherheits-Updates</li>
+          <li>Tägliche Backups</li>
+          <li>1 Inhaltsänderung pro Monat</li>
+          <li>E-Mail-Support (48 h)</li>
+        </ul>
+        <button type="button" class="pl-go" data-pick="Basic">Termin für Basic</button>
+      </article>
+      <article class="plan pop" data-plan="Business">
+        <span class="pl-badge">Beliebt</span>
+        <span class="pl-tag">Business</span>
+        <div class="pl-price"><b data-m="99" data-y="79">99 €</b><span>/ Monat</span><s data-y="99 €"></s></div>
+        <p class="pl-sub">Für Unternehmen, die wachsen wollen.</p>
+        <ul>
+          <li>Alles aus Basic</li>
+          <li>Website bis 15 Seiten</li>
+          <li>3D- &amp; Motion-Elemente</li>
+          <li>Kontaktformular mit Datenbank</li>
+          <li>SEO-Grundoptimierung</li>
+          <li>5 Änderungen pro Monat</li>
+          <li>Support innerhalb 24 h &amp; Monatsbericht</li>
+        </ul>
+        <button type="button" class="pl-go" data-pick="Business">Termin für Business</button>
+      </article>
+      <article class="plan" data-plan="Premium">
+        <span class="pl-tag">Premium</span>
+        <div class="pl-price"><b data-m="199" data-y="159">199 €</b><span>/ Monat</span><s data-y="199 €"></s></div>
+        <p class="pl-sub">Das volle Studio für Ihre Marke.</p>
+        <ul>
+          <li>Alles aus Business</li>
+          <li>Unbegrenzte Seiten</li>
+          <li>Individuelle 3D-Szenen</li>
+          <li>KI-Assistent für Ihre Kunden</li>
+          <li>Kundenkonto &amp; Login</li>
+          <li>Priorisierter Support (4 h)</li>
+          <li>Performance-Überwachung rund um die Uhr</li>
+        </ul>
+        <button type="button" class="pl-go" data-pick="Premium">Termin für Premium</button>
+      </article>
     </div>
-    <div class="sugg rv" id="sugg">
-      <button type="button" class="sg sg-future" data-style="Stil: 3D Future – futuristisch und immersiv mit 3D-Bewegung"><b>3D Future</b><span>Futuristisch und immersiv mit 3D-Bewegung.</span><i class="art"><i class="rock"></i><i class="ring"></i><i class="man"></i></i></button>
-      <button type="button" class="sg sg-lux" data-style="Stil: Luxury – elegant und cineastisch mit Premium-Look"><b>Luxury</b><span>Elegant und cineastisch mit Premium-Look.</span><i class="art"><i class="silk s1"></i><i class="silk s2"></i><i class="silk s3"></i></i></button>
-      <button type="button" class="sg sg-creative" data-style="Stil: Creative – lebendig und experimentell mit mutiger Kreativität"><b>Creative</b><span>Lebendig und experimentell mit mutiger Kreativität.</span><i class="art"><i class="blob"></i><i class="bub"></i></i></button>
-      <button type="button" class="sg sg-ice" data-style="Stil: Ice &amp; Gold – Silber-Eis und Gold wie die VONUMO-Welt"><b>Ice &amp; Gold</b><span>Silber-Eis und Gold wie die VONUMO-Welt.</span><i class="art"><i class="ice"></i></i></button>
-      <button type="button" class="sg sg-min" data-style="Stil: Minimal – ruhig, klar und schnell mit viel Weißraum"><b>Minimal</b><span>Ruhig, klar und schnell – viel Weißraum.</span><i class="art"><i class="lines"></i></i></button>
-    </div>
+    <p class="pl-note rv">Alle Preise zzgl. MwSt. · Wartung in jedem Paket enthalten · monatlich kündbar (Jahrespaket: 12 Monate)</p>
+
+    <form class="card build book rv" id="termin" novalidate>
+      <div class="build-top">
+        <span class="bt-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Kostenloses Beratungsgespräch buchen</span>
+        <span class="bk-dur">30 Min. · per Video oder Telefon</span>
+      </div>
+      <div class="bk-grid">
+        <label>Name<input id="bkName" autocomplete="name" maxlength="120"></label>
+        <label>E-Mail<input id="bkMail" type="email" autocomplete="email" maxlength="254"></label>
+        <label><span>Telefon <small>(optional)</small></span><input id="bkTel" type="tel" autocomplete="tel" maxlength="40"></label>
+        <label>Paket<select id="bkPlan"><option value="Basic">Basic</option><option value="Business" selected>Business</option><option value="Premium">Premium</option><option value="Noch unsicher">Noch unsicher</option></select></label>
+        <label>Wunschtermin<input id="bkDate" type="date"></label>
+        <label>Uhrzeit<select id="bkTime"><option>09:00</option><option>10:30</option><option>12:00</option><option selected>14:00</option><option>15:30</option><option>17:00</option></select></label>
+        <label class="wide"><span>Ihr Vorhaben <small>(optional)</small></span><textarea id="bkMsg" rows="2" maxlength="3000" placeholder="z. B. neue Firmenwebsite mit 3D-Startseite"></textarea></label>
+      </div>
+      <input id="bkHp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="dlg-ok bk-ok"><input type="checkbox" id="bkOk"> <span>Ich stimme zu, dass meine Angaben zur Terminvereinbarung verarbeitet werden (<a href="/datenschutz" target="_blank">Datenschutz</a>).</span></label>
+      <p class="build-msg" id="buildMsg" role="status" aria-live="polite"></p>
+      <button type="submit" class="go" id="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 13l3 3 5-6"/></svg><span>Termin anfragen</span></button>
+    </form>
 
     <div class="bottom">
       <div class="card steps rv" id="steps">
         <div class="steps-head">
-          <span class="sh-t"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span id="stepsTitle">Ihre Website entsteht</span></span>
-          <span class="sh-e" id="stepsEta">Beispielablauf · ca. 2–4 Wochen</span>
+          <span class="sh-t"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span id="stepsTitle">So geht es weiter</span></span>
+          <span class="sh-e" id="stepsEta">Vom Termin bis zum Livegang · ca. 2–4 Wochen</span>
         </div>
         <ol class="sl" id="sl">
-          <li><i></i><b>Design analysieren</b><em></em></li>
-          <li><i></i><b>UI generieren</b><em></em></li>
-          <li><i></i><b>Datenbank einrichten</b><em></em></li>
-          <li><i></i><b>Auf GitHub pushen</b><em></em></li>
-          <li><i></i><b>Vorschau deployen</b><em></em></li>
+          <li><i></i><b>Termin &amp; Beratung</b><em></em></li>
+          <li><i></i><b>Konzept &amp; Design</b><em></em></li>
+          <li><i></i><b>Entwicklung</b><em></em></li>
+          <li><i></i><b>Abnahme durch Sie</b><em></em></li>
+          <li><i></i><b>Livegang &amp; Wartung</b><em></em></li>
         </ol>
       </div>
 
@@ -222,27 +274,13 @@
   </section>
 </main>
 
-<!-- Kontaktdaten für die Anfrage -->
-<dialog class="dlg" id="dlg" aria-labelledby="dlgH">
-  <form class="dlg-in" id="dlgForm" novalidate>
-    <b id="dlgH">Wohin dürfen wir Ihren Entwurf senden?</b>
-    <span class="dlg-sub">Wir prüfen Ihre Idee persönlich und melden uns innerhalb von zwei Werktagen mit einem ersten Konzept.</span>
-    <label>Name<input id="fName" autocomplete="name" maxlength="120"></label>
-    <label>E-Mail<input id="fMail" type="email" autocomplete="email" maxlength="254"></label>
-    <label>Telefon <small>(optional)</small><input id="fTel" type="tel" autocomplete="tel" maxlength="40"></label>
-    <input id="fHp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <label class="dlg-ok"><input type="checkbox" id="fOk"> <span>Ich stimme zu, dass meine Angaben zur Bearbeitung der Anfrage verarbeitet werden (<a href="/datenschutz" target="_blank">Datenschutz</a>).</span></label>
-    <span class="dlg-err" id="dlgErr" role="alert"></span>
-    <span class="dlg-row"><button type="button" class="dlg-x" id="dlgX">Abbrechen</button><button type="submit" class="go sm" id="dlgGo"><span>Anfrage senden</span></button></span>
-  </form>
-</dialog>
 
 <noscript><style>.ld{display:none}.rv{opacity:1 !important;transform:none !important}</style></noscript>
 <script src="/assets/vendor/motion.min.js" defer></script>
-  <script src="/assets/studio.js?v=202611021135" defer></script>
-  <script src="/assets/term.js?v=202611021135" defer></script>
-  <script src="/assets/code.js?v=202611021135" defer></script>
-  <script src="/assets/fx.js?v=202611021135" defer></script>
-<script type="module" src="/assets/story.js?v=202611021135"></script>
+  <script src="/assets/studio.js?v=202611021200" defer></script>
+  <script src="/assets/term.js?v=202611021200" defer></script>
+  <script src="/assets/code.js?v=202611021200" defer></script>
+  <script src="/assets/fx.js?v=202611021200" defer></script>
+<script type="module" src="/assets/story.js?v=202611021200"></script>
 </body>
 </html>
