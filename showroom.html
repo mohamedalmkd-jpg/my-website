@@ -11,7 +11,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <script type="importmap">{"imports":{"three":"/assets/vendor/three.module.min.js"}}</script>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/pages.css?v=202611021303">
+<link rel="stylesheet" href="/assets/pages.css?v=202611030044">
 </head>
 <body data-page="showroom">
 <header class="pg-top">
@@ -26,34 +26,43 @@
     <p>Echtzeit-3D, flüssige Bewegung und Interaktion – Branchen-Konzepte und Live-Bausteine, genau so, wie sich Ihre neue Website anfühlt.</p>
   </section>
   <section class="demos" aria-label="Branchen-Konzepte">
-    <div class="dm-head"><span class="pg-kicker">Branchen-Konzepte · Echtzeit-3D</span><h2>So könnte <em>Ihre</em> Website aussehen</h2><p>Zwei Beispiel-Konzepte mit erfundenen Marken – echte 3D-Modelle in echten Foto-Umgebungen, live gerendert in bis zu doppelter Pixeldichte.</p></div>
+    <div class="dm-head"><span class="pg-kicker">Branchen-Konzepte · Echtzeit-3D</span><h2>So könnte <em>Ihre</em> Website aussehen</h2><p>Drei Beispiel-Konzepte mit erfundenen Marken – echte 3D-Modelle, echte Foto-Umgebungen und Szenen, die sich beim Scrollen erzählen.</p></div>
 
+    <section class="pin" id="carPin" aria-label="Konzept Autohaus – Enthüllung beim Scrollen">
+    <div class="pin-stick">
     <article class="demo car" aria-label="Konzept Autohaus">
       <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">auron-motors.de</span><span class="dm-tag">Automobil</span></div>
       <div class="dm-body">
-        <canvas id="carGl" class="dm-gl" aria-label="3D-Modell des AURON GT-E, zum Drehen ziehen"></canvas>
-        <nav class="dm-nav" aria-hidden="true"><b>AURON</b><span>Modelle</span><span>Technik</span><span>Probefahrt</span></nav>
-        <div class="dm-copy">
-          <span class="dm-k">Sportwagen · Live-Fahrt</span>
-          <h3>Pure <em>Performance.</em></h3>
-          <p>Echtes 3D-Modell, echte Spiegelungen – der Wagen beschleunigt direkt in Ihrer Website.</p>
-          <div class="dm-speed" aria-live="off"><div class="dm-speed-n"><b id="carKmh">0</b><span>km/h</span><i>Gang <b id="carGear">N</b></i></div><span class="dm-track"><i id="carBar"></i></span></div>
+        <canvas id="carGl" class="dm-gl" aria-label="Sportwagen in einer Betongarage, wird beim Scrollen enthüllt"></canvas>
+        <nav class="dm-nav" aria-hidden="true"><b>AURON</b><span>Modelle</span><span>Erbe</span><span>Probefahrt</span></nav>
+        <span class="cr-ghost" aria-hidden="true">2027</span>
+        <div class="dm-copy cp-a">
+          <span class="dm-k">Die Enthüllung</span>
+          <h3>Das Besondere <em>neu enthüllt.</em></h3>
+          <p>Scrollen Sie – das Tuch gleitet vom Wagen.</p>
+          <span class="dm-scroll">Scrollen ↓</span>
+        </div>
+        <div class="dm-copy cp-b">
+          <span class="dm-k">AURON · Fastback</span>
+          <h3>AURON <em>GT</em></h3>
+          <p>Schnell – sogar im Stillstand.</p>
           <div class="dm-sw" id="carSw" role="group" aria-label="Lackfarbe">
-            <button type="button" class="on" style="--c:#1d4fff" data-c="#1d4fff" aria-label="Electric Blue"></button>
+            <button type="button" class="on" style="--c:#0c0e14" data-c="#0c0e14" aria-label="Obsidian"></button>
+            <button type="button" style="--c:#1d4fff" data-c="#1d4fff" aria-label="Electric Blue"></button>
             <button type="button" style="--c:#e8ecf4" data-c="#e8ecf4" aria-label="Arctic White"></button>
-            <button type="button" style="--c:#0c0e14" data-c="#0c0e14" aria-label="Obsidian"></button>
             <button type="button" style="--c:#c8102e" data-c="#c8102e" aria-label="Racing Red"></button>
             <button type="button" style="--c:#c9a45c" data-c="#c9a45c" aria-label="Champagne Gold"></button>
-            <span id="carCol">Electric Blue</span>
+            <span id="carCol">Obsidian</span>
           </div>
           <span class="dm-cta">Probefahrt buchen →</span>
         </div>
-        <span class="dm-speedfx" aria-hidden="true"></span>
         <span class="dm-load" aria-hidden="true">3D-Modell wird geladen …</span>
         <span class="dm-hint">⟲ Ziehen zum Drehen</span>
-        <small class="dm-credit">Modell: Ferrari 458 Italia von vicent091036 (CC BY 4.0) · Umgebung: Poly Haven (CC0)</small>
+        <small class="dm-credit">Modell: Ferrari 458 Italia von vicent091036 (CC BY 4.0)</small>
       </div>
     </article>
+    </div>
+    </section>
 
     <article class="demo bau" aria-label="Konzept Bauunternehmen">
       <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">nordbau-gruppe.de</span><span class="dm-tag">Bau &amp; Immobilien</span></div>
@@ -75,40 +84,32 @@
     </article>
   </section>
 
-  <h2 class="sr-title">Bausteine zum <em>Ausprobieren</em></h2>
-  <div class="sr-grid">
-    <article class="card sr">
-      <div class="sr-h"><b>3D-Karte mit Lichtreflex</b><small>Interaktion</small></div>
-      <div class="sr-stage" id="d3Stage"><div class="d3" id="d3"><span>VONUMO</span><b>Ihre Marke<br>in 3D</b></div></div>
-      <p>Die Karte folgt Maus oder Finger mit echter Tiefe und Lichtreflex.</p>
-    </article>
-    <article class="card sr">
-      <div class="sr-h"><b>Code, der sich selbst schreibt</b><small>Live-Build</small></div>
-      <div class="sr-stage"><pre class="dcode" id="dCode" aria-hidden="true"></pre><div class="dok" id="dOk" role="status"><i>✓</i><span><b>Erfolgreich</b> · Website ist online</span></div></div>
-      <p>So entsteht Ihre Seite: geschrieben, getestet und veröffentlicht.</p>
-    </article>
-    <article class="card sr">
-      <div class="sr-h"><b>Magnetische Buttons</b><small>Motion</small></div>
-      <div class="sr-stage" id="magStage"><div class="dballs" id="balls"></div><div class="dmag"><button type="button" class="mg">Jetzt starten</button><button type="button" class="mg alt">Mehr erfahren</button></div></div>
-      <p>Buttons ziehen die Maus an und federn zurück – klicken Sie für einen Effekt.</p>
-    </article>
-    <article class="card sr">
-      <div class="sr-h"><b>Ein Design, viele Stile</b><small>Design-System</small></div>
-      <div class="sr-stage"><div class="dth" id="dth"><div class="dth-nav"><span>IHRE MARKE</span><i></i></div><h4>Willkommen.</h4><p>Ein Klick – und die ganze Seite trägt einen neuen Stil.</p><div class="dth-row"><span></span><span></span><span></span></div></div></div>
-      <div class="dsw" id="dsw" role="group" aria-label="Stil wählen">
-        <button type="button" class="on" style="--c:#2f6bff" data-t="blue" aria-label="Blau"></button>
-        <button type="button" style="--c:#e7b85a" data-t="gold" aria-label="Gold"></button>
-        <button type="button" style="--c:#f4f4f0" data-t="light" aria-label="Hell"></button>
-        <button type="button" style="--c:#ff5f8f" data-t="rose" aria-label="Rosé"></button>
+  <section class="pin tall" id="cryPin" aria-label="Konzept Marken-Studio – Scroll-Geschichte">
+    <div class="pin-stick">
+    <article class="demo cry" aria-label="Konzept Marken-Studio">
+      <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">vonumo-lab.de</span><span class="dm-tag">Marke &amp; Tech</span></div>
+      <div class="dm-body">
+        <canvas id="cryGl" class="dm-gl" aria-label="Weiße Schneelandschaft: aus einem Netz entsteht eine Kuppel aus Eisblöcken, die zu Kristallen zerfällt und zu Ringen wird"></canvas>
+        <div class="cr-hud" aria-hidden="true"><span>// VONUMO LAB</span><span>© 2026 · Alle Rechte vorbehalten</span></div>
+        <div class="cr-side" aria-hidden="true">Wir bauen digitale Marken für die nächste Generation – an der Schnittstelle von Design, KI und Technologie.</div>
+        <ol class="cr-steps">
+          <li class="cr-step on"><i>01 / IDEE</i><b>Alles beginnt mit einem Netz aus Gedanken.</b></li>
+          <li class="cr-step"><i>02 / STRUKTUR</i><b>Block für Block entsteht ein festes Fundament.</b></li>
+          <li class="cr-step"><i>03 / BEWEGUNG</i><b>Dann bricht es auf – und alles kommt in Bewegung.</b></li>
+          <li class="cr-step"><i>04 / MARKE</i><b>Am Ende steht ein Zeichen, das leuchtet.</b></li>
+        </ol>
+        <span class="cr-scroll" aria-hidden="true">Scrollen ↓ · Sound: aus</span>
       </div>
     </article>
-  </div>
+    </div>
+  </section>
+
   <div class="sr-cta"><a class="go" href="/termin">Gefällt Ihnen das? Termin buchen</a></div>
 
 </main>
 <footer class="pg-foot"><span>© 2026 VONUMO · Web, Design und KI aus Deutschland</span><span><a href="mailto:almoakedmohammad@gmail.com">almoakedmohammad@gmail.com</a> · <a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a></span></footer>
 <script src="/assets/vendor/motion.min.js" defer></script>
-<script type="module" src="/assets/showcase.js?v=202611021303"></script>
-<script src="/assets/pages.js?v=202611021303" defer></script>
+<script type="module" src="/assets/showcase.js?v=202611030044"></script>
+<script src="/assets/pages.js?v=202611030044" defer></script>
 </body>
 </html>
