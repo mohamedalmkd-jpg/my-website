@@ -343,7 +343,7 @@ function build(canvas) {
 
 
   /* --- Code-Kapitel: großes Symbol, das sich beim Scrollen dreht und wechselt --- */
-  const CZ = -200, codeG = new THREE.Group(); codeG.position.set(0, 0, CZ); scene.add(codeG);
+  const CX = -45, codeG = new THREE.Group(); codeG.position.set(CX, 0, 0); scene.add(codeG);
   const CG = ['tag', 'braces', 'arrow', 'parens', 'semi'].map((k, i) => { const m = G[k](); m.userData = { s: [0.78, 0.66, 0.9, 0.78, 1.35][i], v: i === 0 ? 1 : 0 }; m.scale.setScalar(0.001); codeG.add(m); return m; });
   const haloTex = cv(256, 256, (x, w, h) => { const g = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2); g.addColorStop(0, 'rgba(90,140,255,0.32)'); g.addColorStop(0.4, 'rgba(47,107,255,0.1)'); g.addColorStop(1, 'rgba(10,20,60,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h); });
   const codeHalo = new THREE.Mesh(new THREE.PlaneGeometry(7, 7), new THREE.MeshBasicMaterial({ map: haloTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); codeHalo.position.z = -1.6; codeG.add(codeHalo);
@@ -393,8 +393,8 @@ const ST = [
   { id: 'warp', cam: [0, 0, -58], look: [0, 0, -90], type: 1 },
   { id: 'dashboard', cam: [0, -0.2, -91], look: [0, 2.0, -110], beam: 1 },
   { id: 'features', cam: [0, 0.2, -139], look: [0, 0, -150], comp: 1 },
-  { id: 'code', cam: [0, 0.1, -191], look: [0, 0, -200], mob: [0, -0.6, -190], mobL: [0, 0.2, -200], code: 1 },
-  { id: 'code', end: true, cam: [0, 0.1, -191], look: [0, 0, -200], mob: [0, -0.6, -190], mobL: [0, 0.2, -200], code: 1 },
+  { id: 'code', cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1 },
+  { id: 'code', end: true, cam: [-45, 0.1, 9], look: [-45, 0, 0], mob: [-45, -0.6, 10], mobL: [-45, 0.2, 0], code: 1 },
   { id: 'welt', cam: [78.6, 8.6, 8.4], look: [72.4, -0.4, 1.4], mob: [70, 13, 6], mobL: [70, -0.4, 0], mood: 1 },
   { id: 'infra', cam: [140, 0.4, 8.8], look: [140, -0.4, 0], mob: [140, 0.2, 12.5], mobL: [140, -1.6, 0], dev: 1 },
   { id: 'kontakt', cam: [210, 0, 9.4], look: [210, 0, 0], ring: 1 },
@@ -513,7 +513,7 @@ function start() {
     S.codeG.visible = cur.code > 0.02;
     if (S.codeG.visible) {
       const cp = W.__codeP || 0, ci = Math.min(4, Math.floor(cp * 5 * 0.999)), ck2 = 1 - Math.pow(0.0004, dt);
-      S.codeG.position.x = mob ? 0 : 2.3; S.codeG.position.y = mob ? 1.7 : 0;
+      S.codeG.position.x = -45 + (mob ? 0 : 2.3); S.codeG.position.y = mob ? 1.7 : 0;
       S.codeHalo.material.opacity = cur.code; S.codeHalo.scale.setScalar(1 + Math.sin(t * 0.8) * 0.04);
       S.CG.forEach((m, i) => {
         const u = m.userData; u.v = lerp(u.v, i === ci ? 1 : 0, ck2); m.visible = u.v > 0.01;
