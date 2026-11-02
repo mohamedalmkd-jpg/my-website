@@ -14,7 +14,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/jetbrainsmono.woff" crossorigin>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/site.css?v=202611021200">
+<link rel="stylesheet" href="/assets/site.css?v=202611021210">
 </head>
 <body>
 
@@ -37,7 +37,15 @@
   <div class="tn-r">
     <span class="tn-lang"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/></svg>Deutsch</span>
     <a href="/anmelden" class="tn-login" id="tnLogin">Anmelden</a>
-    <a href="#studio" class="tn-cta">Projekt starten</a>
+    <div class="tn-pg">
+      <button type="button" class="tn-cta" id="tnPg" aria-expanded="false" aria-controls="tnPgMenu">Seiten<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <nav class="tn-pgm" id="tnPgMenu" aria-label="Seiten" hidden>
+        <a href="/anmelden"><i>⎆</i><span><b>Anmelden</b><small>Ihr Kundenkonto</small></span></a>
+        <a href="/abos"><i>€</i><span><b>Abos &amp; Preise</b><small>Basic · Business · Premium</small></span></a>
+        <a href="/showroom"><i>◆</i><span><b>Showroom</b><small>Live-Demos zum Ausprobieren</small></span></a>
+        <a href="/termin"><i>◷</i><span><b>Termin buchen</b><small>Kostenlose Beratung</small></span></a>
+      </nav>
+    </div>
   </div>
 </header>
 <div class="prog" aria-hidden="true"><span class="prog-bar"><i id="progBar"></i></span><span class="prog-n" id="progN">0%</span></div>
@@ -277,10 +285,10 @@
 
 <noscript><style>.ld{display:none}.rv{opacity:1 !important;transform:none !important}</style></noscript>
 <script src="/assets/vendor/motion.min.js" defer></script>
-  <script src="/assets/studio.js?v=202611021200" defer></script>
-  <script src="/assets/term.js?v=202611021200" defer></script>
-  <script src="/assets/code.js?v=202611021200" defer></script>
-  <script src="/assets/fx.js?v=202611021200" defer></script>
-<script type="module" src="/assets/story.js?v=202611021200"></script>
+  <script src="/assets/studio.js?v=202611021210" defer></script>
+  <script src="/assets/term.js?v=202611021210" defer></script>
+  <script src="/assets/code.js?v=202611021210" defer></script>
+  <script src="/assets/fx.js?v=202611021210" defer></script>
+<script type="module" src="/assets/story.js?v=202611021210"></script>
 </body>
 </html>
