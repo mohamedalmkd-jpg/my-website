@@ -78,9 +78,6 @@
       p.value = lines.join('\n').trim();
     });
   });
-  function slide(dir) { var c = sugg.querySelector('.sg'); sugg.scrollBy({ left: dir * (c ? c.getBoundingClientRect().width + 20 : 300), behavior: reduce ? 'auto' : 'smooth' }); }
-  $('sPrev').addEventListener('click', function () { slide(-1); });
-  $('sNext').addEventListener('click', function () { slide(1); });
 
   /* Ablauf: Beispiel bis zur echten Anfrage */
   var items = document.querySelectorAll('#sl li'), demoK = 2, demoT = null, real = false;

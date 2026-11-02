@@ -14,7 +14,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/jetbrainsmono.woff" crossorigin>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/site.css?v=202611021041">
+<link rel="stylesheet" href="/assets/site.css?v=202611021054">
 </head>
 <body>
 
@@ -183,7 +183,6 @@
 
     <div class="sugg-head rv">
       <h3><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 2l1.8 5.2L17 9l-5.2 1.8L10 16l-1.8-5.2L3 9l5.2-1.8z"/><path d="M18 13l.9 2.1L21 16l-2.1.9L18 19l-.9-2.1L15 16l2.1-.9z"/></svg>KI-Design-Vorschläge</h3>
-      <span class="sugg-nav"><button type="button" id="sPrev" aria-label="Zurück">‹</button><button type="button" id="sNext" aria-label="Weiter">›</button></span>
     </div>
     <div class="sugg rv" id="sugg">
       <button type="button" class="sg sg-future" data-style="Stil: 3D Future – futuristisch und immersiv mit 3D-Bewegung"><b>3D Future</b><span>Futuristisch und immersiv mit 3D-Bewegung.</span><i class="art"><i class="rock"></i><i class="ring"></i><i class="man"></i></i></button>
@@ -191,6 +190,12 @@
       <button type="button" class="sg sg-creative" data-style="Stil: Creative – lebendig und experimentell mit mutiger Kreativität"><b>Creative</b><span>Lebendig und experimentell mit mutiger Kreativität.</span><i class="art"><i class="blob"></i><i class="bub"></i></i></button>
       <button type="button" class="sg sg-ice" data-style="Stil: Ice &amp; Gold – Silber-Eis und Gold wie die VONUMO-Welt"><b>Ice &amp; Gold</b><span>Silber-Eis und Gold wie die VONUMO-Welt.</span><i class="art"><i class="ice"></i></i></button>
       <button type="button" class="sg sg-min" data-style="Stil: Minimal – ruhig, klar und schnell mit viel Weißraum"><b>Minimal</b><span>Ruhig, klar und schnell – viel Weißraum.</span><i class="art"><i class="lines"></i></i></button>
+    </div>
+
+    <div class="card term rv" id="term" aria-label="Live-Build: so entsteht Ihre Website">
+      <div class="term-top"><span class="term-dots"><i></i><i></i><i></i></span><b>vonumo · build.js</b><span class="term-st" id="termSt">bereit</span></div>
+      <pre class="term-code" id="termCode" aria-hidden="true"></pre>
+      <div class="term-ok" id="termOk" role="status" aria-live="polite"><span class="term-chk" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Erfolgreich</b><small>Build fertig · Ihre Website ist online</small></span></div>
     </div>
 
     <div class="bottom">
@@ -251,9 +256,10 @@
 
 <noscript><style>.ld{display:none}.rv{opacity:1 !important;transform:none !important}</style></noscript>
 <script src="/assets/vendor/motion.min.js" defer></script>
-  <script src="/assets/studio.js?v=202611021041" defer></script>
-  <script src="/assets/code.js?v=202611021041" defer></script>
-  <script src="/assets/fx.js?v=202611021041" defer></script>
-<script type="module" src="/assets/story.js?v=202611021041"></script>
+  <script src="/assets/studio.js?v=202611021054" defer></script>
+  <script src="/assets/term.js?v=202611021054" defer></script>
+  <script src="/assets/code.js?v=202611021054" defer></script>
+  <script src="/assets/fx.js?v=202611021054" defer></script>
+<script type="module" src="/assets/story.js?v=202611021054"></script>
 </body>
 </html>
