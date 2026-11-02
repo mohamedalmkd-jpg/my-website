@@ -9,7 +9,7 @@
 <meta name="description" content="Live-Demos von VONUMO: 3D, Motion, selbstschreibender Code und Design-Systeme zum Ausprobieren.">
 <link rel="icon" type="image/webp" href="/assets/6925aa020ce5116c12186e64c389ccd4.webp">
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
-<link rel="stylesheet" href="/assets/pages.css?v=202611021220">
+<link rel="stylesheet" href="/assets/pages.css?v=202611021240">
 </head>
 <body data-page="showroom">
 <header class="pg-top">
@@ -21,8 +21,54 @@
   <section class="pg-hero">
     <span class="pg-kicker">Showroom</span>
     <h1>Bewegung zum <em>Anfassen</em></h1>
-    <p>Vier kleine Live-Demos aus unserem Baukasten. Bewegen Sie die Maus, klicken Sie, probieren Sie aus – genau so fühlt sich Ihre neue Website an.</p>
+    <p>Echtzeit-3D, flüssige Bewegung und Interaktion – Branchen-Konzepte und Live-Bausteine, genau so, wie sich Ihre neue Website anfühlt.</p>
   </section>
+  <section class="demos" aria-label="Branchen-Konzepte">
+    <div class="dm-head"><span class="pg-kicker">Branchen-Konzepte · Echtzeit-3D</span><h2>So könnte <em>Ihre</em> Website aussehen</h2><p>Zwei Beispiel-Konzepte mit erfundenen Marken – live gerendert in bis zu doppelter Pixeldichte. Ziehen zum Drehen.</p></div>
+
+    <article class="demo car" aria-label="Konzept Autohaus">
+      <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">auron-motors.de</span><span class="dm-tag">Automobil</span></div>
+      <div class="dm-body">
+        <canvas id="carGl" class="dm-gl" aria-label="3D-Modell des AURON GT-E, zum Drehen ziehen"></canvas>
+        <nav class="dm-nav" aria-hidden="true"><b>AURON</b><span>Modelle</span><span>Technik</span><span>Probefahrt</span></nav>
+        <div class="dm-copy">
+          <span class="dm-k">Neu · 2027</span>
+          <h3>AURON <em>GT-E</em></h3>
+          <p>Elektrisch. Lautlos. Kompromisslos schnell.</p>
+          <div class="dm-specs"><span><b>2,9 s</b>0–100 km/h</span><span><b>760</b>PS</span><span><b>620 km</b>Reichweite</span></div>
+          <div class="dm-sw" id="carSw" role="group" aria-label="Lackfarbe">
+            <button type="button" class="on" style="--c:#1d4fff" data-c="#1d4fff" aria-label="Electric Blue"></button>
+            <button type="button" style="--c:#e8ecf4" data-c="#e8ecf4" aria-label="Arctic White"></button>
+            <button type="button" style="--c:#0c0e14" data-c="#0c0e14" aria-label="Obsidian"></button>
+            <button type="button" style="--c:#c8102e" data-c="#c8102e" aria-label="Racing Red"></button>
+            <button type="button" style="--c:#c9a45c" data-c="#c9a45c" aria-label="Champagne Gold"></button>
+            <span id="carCol">Electric Blue</span>
+          </div>
+          <span class="dm-cta">Probefahrt buchen →</span>
+        </div>
+        <span class="dm-hint">⟲ Ziehen zum Drehen</span>
+      </div>
+    </article>
+
+    <article class="demo bau" aria-label="Konzept Bauunternehmen">
+      <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">nordbau-gruppe.de</span><span class="dm-tag">Bau &amp; Immobilien</span></div>
+      <div class="dm-body">
+        <canvas id="bauGl" class="dm-gl" aria-label="3D-Baustelle: der Hafenturm wächst Etage für Etage"></canvas>
+        <nav class="dm-nav" aria-hidden="true"><b>NORDBAU</b><span>Projekte</span><span>Leistungen</span><span>Karriere</span></nav>
+        <div class="dm-copy">
+          <span class="dm-k">Live-Projekt · Hamburg</span>
+          <h3>Wir bauen <em>Zukunft.</em></h3>
+          <p>Der Hafenturm wächst – verfolgen Sie jede Etage in Echtzeit.</p>
+          <div class="dm-prog"><div class="dm-prog-h"><span>Etage <b id="bauLvl">1 / 12</b></span><b id="bauPct">0 %</b></div><span class="dm-track"><i id="bauBar"></i></span></div>
+          <div class="dm-specs"><span><b>12</b>Etagen</span><span><b>38 m</b>Höhe</span><span><b>2027</b>Fertigstellung</span></div>
+          <span class="dm-cta gold">Projekt anfragen →</span>
+        </div>
+        <span class="dm-hint">⟲ Ziehen zum Drehen</span>
+      </div>
+    </article>
+  </section>
+
+  <h2 class="sr-title">Bausteine zum <em>Ausprobieren</em></h2>
   <div class="sr-grid">
     <article class="card sr">
       <div class="sr-h"><b>3D-Karte mit Lichtreflex</b><small>Interaktion</small></div>
@@ -55,6 +101,7 @@
 </main>
 <footer class="pg-foot"><span>© 2026 VONUMO · Web, Design und KI aus Deutschland</span><span><a href="mailto:almoakedmohammad@gmail.com">almoakedmohammad@gmail.com</a> · <a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a></span></footer>
 <script src="/assets/vendor/motion.min.js" defer></script>
-<script src="/assets/pages.js?v=202611021220" defer></script>
+<script type="module" src="/assets/showcase.js?v=202611021240"></script>
+<script src="/assets/pages.js?v=202611021240" defer></script>
 </body>
 </html>
