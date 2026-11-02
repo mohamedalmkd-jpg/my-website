@@ -342,6 +342,14 @@ function build(canvas) {
   ].filter((o) => !lite || (o.k !== 'arrow' && o.k !== 'braces')).map((o, i) => { const m = G[o.k](); m.scale.setScalar(o.s); m.userData = Object.assign({ ph: i * 1.3, spin: 0, init: false }, o); swarm.add(m); return m; });
 
 
+  /* --- Code-Kapitel: großes Symbol, das sich beim Scrollen dreht und wechselt --- */
+  const CZ = -200, codeG = new THREE.Group(); codeG.position.set(0, 0, CZ); scene.add(codeG);
+  const CG = ['tag', 'braces', 'arrow', 'parens', 'semi'].map((k, i) => { const m = G[k](); m.userData = { s: [0.78, 0.66, 0.9, 0.78, 1.35][i], v: i === 0 ? 1 : 0 }; m.scale.setScalar(0.001); codeG.add(m); return m; });
+  const haloTex = cv(256, 256, (x, w, h) => { const g = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2); g.addColorStop(0, 'rgba(90,140,255,0.32)'); g.addColorStop(0.4, 'rgba(47,107,255,0.1)'); g.addColorStop(1, 'rgba(10,20,60,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h); });
+  const codeHalo = new THREE.Mesh(new THREE.PlaneGeometry(7, 7), new THREE.MeshBasicMaterial({ map: haloTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); codeHalo.position.z = -1.6; codeG.add(codeHalo);
+  const cl1 = new THREE.PointLight(0x6aa0ff, 40, 16, 1.5); cl1.position.set(-3, 2.5, 4); codeG.add(cl1);
+  const cl2 = new THREE.PointLight(0xffd08a, 14, 12, 1.6); cl2.position.set(3.5, -2, 3); codeG.add(cl2);
+
   /* --- Nachbearbeitung (Desktop) --- */
   let rt = null, post = null, postScene = null, postCam = null;
   if (!lite) {
@@ -374,7 +382,7 @@ function build(canvas) {
     if (rt) rt.setSize(Math.round(w * DPR), Math.round(h * DPR));
   }
   function setQ(d) { DPR = d; renderer.setPixelRatio(d); dustMat.uniforms.uS.value = 2.2 * d; resize(); }
-  return { setQ, getQ: () => DPR, swarm, SW, swL, renderer, scene, camera, resize, rt, post, postScene, postCam, site, L, cursor, pen, tube, tubeGeo, glowTube, nib, curve, anchors, typeG, glyphs, beam, comp, toggle, knob, slider, sk, swatches, check, mood, tiles, sel, selBox, handles, frameLabel, dev, laptop, tablet, phone, ringG, ringMat, ringHalo, dustMat, night, ribbons, bubble };
+  return { setQ, getQ: () => DPR, codeG, CG, codeHalo, swarm, SW, swL, renderer, scene, camera, resize, rt, post, postScene, postCam, site, L, cursor, pen, tube, tubeGeo, glowTube, nib, curve, anchors, typeG, glyphs, beam, comp, toggle, knob, slider, sk, swatches, check, mood, tiles, sel, selBox, handles, frameLabel, dev, laptop, tablet, phone, ringG, ringMat, ringHalo, dustMat, night, ribbons, bubble };
 }
 
 /* ================= Stationen ================= */
@@ -385,12 +393,14 @@ const ST = [
   { id: 'warp', cam: [0, 0, -58], look: [0, 0, -90], type: 1 },
   { id: 'dashboard', cam: [0, -0.2, -91], look: [0, 2.0, -110], beam: 1 },
   { id: 'features', cam: [0, 0.2, -139], look: [0, 0, -150], comp: 1 },
+  { id: 'code', cam: [0, 0.1, -191], look: [0, 0, -200], mob: [0, -0.6, -190], mobL: [0, 0.2, -200], code: 1 },
+  { id: 'code', end: true, cam: [0, 0.1, -191], look: [0, 0, -200], mob: [0, -0.6, -190], mobL: [0, 0.2, -200], code: 1 },
   { id: 'welt', cam: [78.6, 8.6, 8.4], look: [72.4, -0.4, 1.4], mob: [70, 13, 6], mobL: [70, -0.4, 0], mood: 1 },
   { id: 'infra', cam: [140, 0.4, 8.8], look: [140, -0.4, 0], mob: [140, 0.2, 12.5], mobL: [140, -1.6, 0], dev: 1 },
   { id: 'kontakt', cam: [210, 0, 9.4], look: [210, 0, 0], ring: 1 },
   { id: 'studio', cam: [0, 3.0, -247], look: [0, 3.0, -262], night: 1 }
 ];
-const KEYS = ['site', 'ex', 'pen', 'type', 'beam', 'comp', 'mood', 'dev', 'ring', 'night'];
+const KEYS = ['site', 'ex', 'pen', 'type', 'beam', 'comp', 'code', 'mood', 'dev', 'ring', 'night'];
 
 function start() {
   const html = D.documentElement;
@@ -417,7 +427,7 @@ function start() {
   let stations = [];
   function measure() {
     const vh = W.innerHeight, out = [];
-    ST.forEach((s) => { const n = $(s.id); if (!n) return; const top = n.getBoundingClientRect().top + W.scrollY; out.push(Object.assign({}, s, { y: s.id === 'hero' ? 0 : Math.max(0, top - vh * 0.15) })); });
+    ST.forEach((s) => { const n = $(s.id); if (!n) return; const top = n.getBoundingClientRect().top + W.scrollY; out.push(Object.assign({}, s, { y: s.id === 'hero' ? 0 : s.end ? top + n.offsetHeight - vh * 1.05 : Math.max(0, top - vh * 0.15) })); });
     out.sort((a, b) => a.y - b.y); stations = out;
   }
   measure(); setInterval(measure, 2000); W.addEventListener('load', measure);
@@ -499,6 +509,22 @@ function start() {
       [S.toggle, S.slider, S.swatches, S.check].forEach((o, oi) => { o.position.y += Math.sin(t * 0.7 + oi) * 0.002; o.rotation.y = Math.sin(t * 0.4 + oi) * 0.3; o.rotation.x = Math.sin(t * 0.3 + oi) * 0.15; });
     }
 
+    /* 5b) Code-Kapitel */
+    S.codeG.visible = cur.code > 0.02;
+    if (S.codeG.visible) {
+      const cp = W.__codeP || 0, ci = Math.min(4, Math.floor(cp * 5 * 0.999)), ck2 = 1 - Math.pow(0.0004, dt);
+      S.codeG.position.x = mob ? 0 : 2.3; S.codeG.position.y = mob ? 1.7 : 0;
+      S.codeHalo.material.opacity = cur.code; S.codeHalo.scale.setScalar(1 + Math.sin(t * 0.8) * 0.04);
+      S.CG.forEach((m, i) => {
+        const u = m.userData; u.v = lerp(u.v, i === ci ? 1 : 0, ck2); m.visible = u.v > 0.01;
+        if (!m.visible) return;
+        const e = ease(u.v), side = i < ci ? -1 : 1;
+        m.scale.setScalar(u.s * e * cur.code * (mob ? 0.8 : 1));
+        m.position.set((1 - e) * side * -1.2, Math.sin(t * 0.9 + i) * 0.12, (1 - e) * -2);
+        m.rotation.set(Math.sin(t * 0.6 + i) * 0.16 - smy * 0.18, (cp * 5 - (i + 0.5)) * 1.3 + (1 - e) * 2.6 * side + smx * 0.35, Math.sin(t * 0.45 + i) * 0.07);
+      });
+    }
+
     /* 6) Moodboard */
     setO(S.mood, cur.mood);
     if (S.mood.visible) {
@@ -534,7 +560,7 @@ function start() {
     S.dustMat.uniforms.uC.value.copy(S.camera.position);
 
     /* Code-Symbole am Bildrand: folgen der Kamera mit Nachzieh-Effekt */
-    const swOn = (1 - clamp(cur.night * 2.5, 0, 1)) * intro;
+    const swOn = (1 - clamp(cur.night * 2.5, 0, 1)) * (1 - clamp(cur.code * 1.4, 0, 1)) * intro;
     S.swarm.visible = swOn > 0.02;
     if (S.swarm.visible) {
       S.camera.updateMatrixWorld();
