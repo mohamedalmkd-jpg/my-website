@@ -1,0 +1,3 @@
+3D-Modell „Ferrari 458 Italia“ von vicent091036 (https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6), CC BY 4.0, übernommen aus den three.js-Beispielen.
+HDR-Umgebungen „Quarry 01“ und „Pedestrian Overpass“ von Poly Haven (https://polyhaven.com), CC0.
+three.js-Lader (GLTFLoader, DRACOLoader, RGBELoader, GroundedSkybox) und Draco-Decoder: MIT-Lizenz bzw. Apache-2.0 (Google Draco).
