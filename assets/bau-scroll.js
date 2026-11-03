@@ -6,7 +6,7 @@
   var steps = pin.querySelectorAll('.bs-step'), bar = pin.querySelector('.bs-bar i'), pct = pin.querySelector('.bs-pct');
   var reduce = W.matchMedia && W.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var P = 0, want = 0, run = false, cur = -1, last = 0, top = 0, span = 1, lastPct = -1;
-  var op = shots.map(function () { return -1; }), stage = pin.querySelector('.bs-stage'), lastCam = '';
+  var clips = Array.prototype.slice.call(pin.querySelectorAll('.bs-clip')), op = shots.map(function () { return -1; }), stage = pin.querySelector('.bs-stage'), lastCam = '';
   var scan = pin.querySelector('.bs-scan'), hots = pin.querySelectorAll('.bs-hot'), plan = pin.querySelector('.bs-plan');
   var pgs = pin.querySelectorAll('.bs-plan .pg'), nums = pin.querySelectorAll('.bs-n'), day = pin.querySelector('.bs-day');
   var pgv = [], numv = [], lastDay = -1;
@@ -25,15 +25,19 @@
     if (cam !== lastCam) { stage.style.transform = cam; lastCam = cam; }
     var front = -1, frontR = 0;
     for (var i = 1; i < N; i++) {
-      /* das Haus „wächst“ von unten nach oben: weiche Maske statt Bildwechsel */
-      var r = smooth((f - (i - 1) - 0.08) / 0.84);
-      if (Math.abs(r - op[i]) > 0.001) { shots[i].style.setProperty('--r', r.toFixed(4)); shots[i].style.visibility = r > 0 ? 'visible' : 'hidden'; op[i] = r; }
+      /* das Haus wächst von unten nach oben – reine GPU-Transformation, kein Neuzeichnen */
+      var r = smooth((f - (i - 1) - 0.08) / 0.84), c = clips[i - 1];
+      if (c && Math.abs(r - op[i]) > 0.0005) {
+        var y = ((1 - r) * 100).toFixed(3);
+        c.style.transform = 'translate3d(0,' + y + '%,0)'; c.firstElementChild.style.transform = 'translate3d(0,-' + y + '%,0)';
+        c.style.visibility = r > 0 ? 'visible' : 'hidden'; op[i] = r;
+      }
       if (r > 0.001 && r < 0.999) { front = i; frontR = r; }
     }
-    /* goldene Baulinie läuft an der Wachstumskante mit */
+    /* goldene Baulinie sitzt exakt auf der Wachstumskante */
     if (scan) {
-      if (front > 0) { scan.style.setProperty('--y', (100 - (frontR * 140 - 20)).toFixed(2) + '%'); scan.style.setProperty('--o', Math.min(1, Math.sin(frontR * Math.PI) * 2.2).toFixed(3)); }
-      else scan.style.setProperty('--o', '0');
+      scan.style.transform = 'translate3d(0,' + (front > 0 ? (1 - frontR) * 100 : 100).toFixed(3) + '%,0)';
+      scan.style.opacity = front > 0 ? Math.min(1, Math.sin(frontR * Math.PI) * 3).toFixed(3) : '0';
     }
     /* Bauplan zeichnet sich Linie für Linie – immer einen Schritt vor dem Foto */
     Array.prototype.forEach.call(pgs, function (g, k) {
@@ -67,7 +71,7 @@
     var dt = Math.min(64, t - (last || t)); last = t;
     want = target();
     /* zeitbasierte Dämpfung: gleich weich bei 60 und 120 Hz */
-    P = reduce ? want : P + (want - P) * (1 - Math.exp(-dt / 110));
+    P = reduce ? want : P + (want - P) * (1 - Math.exp(-dt / 150));
     if (Math.abs(want - P) < 0.0002) P = want;
     render();
     if (P !== want) requestAnimationFrame(frame); else { run = false; last = 0; }
