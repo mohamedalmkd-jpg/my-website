@@ -11,7 +11,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <script type="importmap">{"imports":{"three":"/assets/vendor/three.module.min.js"}}</script>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/pages.css?v=202611030816">
+<link rel="stylesheet" href="/assets/pages.css?v=202611030921">
 </head>
 <body data-page="showroom">
 <header class="pg-top">
@@ -26,39 +26,41 @@
     <p>Echtzeit-3D, flüssige Bewegung und Interaktion – Branchen-Konzepte und Live-Bausteine, genau so, wie sich Ihre neue Website anfühlt.</p>
   </section>
   <section class="demos" aria-label="Branchen-Konzepte">
-    <div class="dm-head"><span class="pg-kicker">Branchen-Konzepte · Echtzeit-3D</span><h2>So könnte <em>Ihre</em> Website aussehen</h2><p>Drei Beispiel-Konzepte mit erfundenen Marken – echte 3D-Modelle, echte Foto-Umgebungen und Szenen, die sich beim Scrollen erzählen.</p></div>
+    <div class="dm-head"><span class="pg-kicker">Branchen-Konzepte · Echtzeit-3D</span><h2>So könnte <em>Ihre</em> Website aussehen</h2><p>Drei Konzepte, die sich beim Scrollen erzählen – von der Fahrzeug-Enthüllung bis zur Baustelle in Echtzeit-3D.</p></div>
 
-    <section class="pin" id="carPin" aria-label="Konzept Autohaus – Enthüllung beim Scrollen">
+    <section class="pin xl" id="carPin" aria-label="VONUMO Signature – Enthüllung beim Scrollen">
     <div class="pin-stick">
-    <article class="demo car" aria-label="Konzept Autohaus">
-      <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">auron-motors.de</span><span class="dm-tag">Automobil</span></div>
-      <div class="dm-body">
-        <canvas id="carGl" class="dm-gl" aria-label="Sportwagen in einer Betongarage, wird beim Scrollen enthüllt"></canvas>
-        <nav class="dm-nav" aria-hidden="true"><b>AURON</b><span>Modelle</span><span>Erbe</span><span>Probefahrt</span></nav>
-        <span class="cr-ghost" aria-hidden="true">2027</span>
-        <div class="dm-copy cp-a">
+    <article class="demo car rv" id="rv" aria-label="Konzept: Enthüllung eines Sportwagens">
+      <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">vonumo.de/signature</span><span class="dm-tag">Automobil</span></div>
+      <div class="dm-body rv-body">
+        <div class="rv-stage" aria-hidden="true">
+          <img class="rv-shot" src="/assets/media/reveal/r1.webp" alt="" decoding="async" data-fx="cover">
+          <img class="rv-shot" src="/assets/media/reveal/r2.webp" alt="" decoding="async" data-fx="pull">
+          <img class="rv-shot" src="/assets/media/reveal/r3.webp" alt="" decoding="async" data-fx="front">
+          <img class="rv-shot" src="/assets/media/reveal/r4.webp" alt="" decoding="async" data-fx="rear">
+          <i class="rv-glow hl1"></i><i class="rv-glow hl2"></i><i class="rv-glow tl1"></i><i class="rv-glow tl2"></i>
+          <i class="rv-arc"></i><i class="rv-fog f1"></i><i class="rv-fog f2"></i><i class="rv-wet"></i><i class="rv-sweep"></i><i class="rv-flash"></i><i class="rv-grain"></i><i class="rv-vig"></i>
+        </div>
+        <nav class="dm-nav" aria-hidden="true"><b>VONUMO</b><span>Signature</span><span>Design</span><span>Termin</span></nav>
+        <div class="dm-copy rv-c" data-ph="0">
           <span class="dm-k">Die Enthüllung</span>
-          <h3>Das Besondere <em>neu enthüllt.</em></h3>
-          <p>Scrollen Sie – das Tuch gleitet vom Wagen.</p>
+          <h3>Etwas Großes <em>wartet.</em></h3>
+          <p>Scrollen Sie – und lüften Sie das Geheimnis.</p>
           <span class="dm-scroll">Scrollen ↓</span>
         </div>
-        <div class="dm-copy cp-b">
-          <span class="dm-k">AURON · Fastback</span>
-          <h3>AURON <em>GT</em></h3>
-          <p>Schnell – sogar im Stillstand.</p>
-          <div class="dm-sw" id="carSw" role="group" aria-label="Lackfarbe">
-            <button type="button" class="on" style="--c:#0c0e14" data-c="#0c0e14" aria-label="Obsidian"></button>
-            <button type="button" style="--c:#1d4fff" data-c="#1d4fff" aria-label="Electric Blue"></button>
-            <button type="button" style="--c:#e8ecf4" data-c="#e8ecf4" aria-label="Arctic White"></button>
-            <button type="button" style="--c:#c8102e" data-c="#c8102e" aria-label="Racing Red"></button>
-            <button type="button" style="--c:#c9a45c" data-c="#c9a45c" aria-label="Champagne Gold"></button>
-            <span id="carCol">Obsidian</span>
-          </div>
-          <span class="dm-cta">Probefahrt buchen →</span>
+        <div class="dm-copy rv-c" data-ph="1">
+          <span class="dm-k">VONUMO · Signature</span>
+          <h3>Gebaut, um <em>gesehen zu werden.</em></h3>
+          <p>Licht, Linie, Präsenz – inszeniert bis ins Detail.</p>
         </div>
-        <span class="dm-load" aria-hidden="true">3D-Modell wird geladen …</span>
-        <span class="dm-hint">⟲ Ziehen zum Drehen</span>
-        <small class="dm-credit">Modell: Ferrari 458 Italia von vicent091036 (CC BY 4.0)</small>
+        <div class="dm-copy rv-c" data-ph="2">
+          <span class="dm-k">Ihr Auftritt</span>
+          <h3>Jedes Detail. <em>Inszeniert.</em></h3>
+          <p>So enthüllen wir auch Ihre Marke – im Web, in Bewegung, in 4K-Schärfe.</p>
+          <a class="dm-cta" href="/termin">Termin buchen →</a>
+        </div>
+        <div class="rv-prog" aria-hidden="true"><i></i></div>
+        <small class="dm-credit">Konzept &amp; Design: VONUMO</small>
       </div>
     </article>
     </div>
@@ -109,7 +111,8 @@
 </main>
 <footer class="pg-foot"><span>© 2026 VONUMO · Web, Design und KI aus Deutschland</span><span><a href="mailto:almoakedmohammad@gmail.com">almoakedmohammad@gmail.com</a> · <a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a></span></footer>
 <script src="/assets/vendor/motion.min.js" defer></script>
-<script type="module" src="/assets/showcase.js?v=202611030816"></script>
-<script src="/assets/pages.js?v=202611030816" defer></script>
+<script type="module" src="/assets/showcase.js?v=202611030921"></script>
+<script src="/assets/reveal.js?v=202611030921" defer></script>
+<script src="/assets/pages.js?v=202611030921" defer></script>
 </body>
 </html>
