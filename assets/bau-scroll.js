@@ -28,15 +28,16 @@
       /* das Haus wächst von unten nach oben – reine GPU-Transformation, kein Neuzeichnen */
       var r = smooth((f - (i - 1) - 0.08) / 0.84), c = clips[i - 1];
       if (c && Math.abs(r - op[i]) > 0.0005) {
-        var y = ((1 - r) * 100).toFixed(3);
-        c.style.transform = 'translate3d(0,' + y + '%,0)'; c.firstElementChild.style.transform = 'translate3d(0,-' + y + '%,0)';
+        var y = (1 - r) * 100;
+        /* weiche Kante: Hülle 116 % hoch mit weichem Verlauf oben, Bild gegenläufig -> steht still */
+        c.style.transform = 'translate3d(0,' + y.toFixed(3) + '%,0)'; c.firstElementChild.style.transform = 'translate3d(0,-' + (y * 1.16).toFixed(3) + '%,0)';
         c.style.visibility = r > 0 ? 'visible' : 'hidden'; op[i] = r;
       }
       if (r > 0.001 && r < 0.999) { front = i; frontR = r; }
     }
     /* goldene Baulinie sitzt exakt auf der Wachstumskante */
     if (scan) {
-      scan.style.transform = 'translate3d(0,' + (front > 0 ? (1 - frontR) * 100 : 100).toFixed(3) + '%,0)';
+      scan.style.transform = 'translate3d(0,' + (front > 0 ? (1 - frontR) * 116 - 8 : 100).toFixed(3) + '%,0)';
       scan.style.opacity = front > 0 ? Math.min(1, Math.sin(frontR * Math.PI) * 3).toFixed(3) : '0';
     }
     /* Bauplan zeichnet sich Linie für Linie – immer einen Schritt vor dem Foto */
