@@ -334,5 +334,5 @@ function lazy(id, fn) {
   io.observe(el.closest('.pin') || el);
 }
 lazy('carGl', carDemo);
-lazy('bauGl', buildDemo);
+// Baustelle: jetzt Foto-Scroll-Story (bau-scroll.js)
 lazy('cryGl', crystalDemo);

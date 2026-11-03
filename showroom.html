@@ -11,7 +11,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <script type="importmap">{"imports":{"three":"/assets/vendor/three.module.min.js"}}</script>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/pages.css?v=202611031041">
+<link rel="stylesheet" href="/assets/pages.css?v=202611031146">
 </head>
 <body data-page="showroom">
 <header class="pg-top">
@@ -54,24 +54,41 @@
     </div>
     </section>
 
+    <section class="pin tall bs" id="bauPin" aria-label="Konzept Bauunternehmen – vom Grundstück zur fertigen Villa">
+    <div class="pin-stick">
     <article class="demo bau" aria-label="Konzept Bauunternehmen">
       <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">nordbau-gruppe.de</span><span class="dm-tag">Bau &amp; Immobilien</span></div>
-      <div class="dm-body">
-        <canvas id="bauGl" class="dm-gl" aria-label="3D-Baustelle: der Hafenturm wächst Etage für Etage"></canvas>
-        <nav class="dm-nav" aria-hidden="true"><b>NORDBAU</b><span>Projekte</span><span>Leistungen</span><span>Karriere</span></nav>
-        <div class="dm-copy">
-          <span class="dm-k">Live-Projekt · Hamburg</span>
-          <h3>Wir bauen <em>Zukunft.</em></h3>
-          <p>Der Hafenturm wächst mitten im echten Steinbruch – verfolgen Sie jede Etage in Echtzeit.</p>
-          <div class="dm-prog"><div class="dm-prog-h"><span>Etage <b id="bauLvl">1 / 12</b></span><b id="bauPct">0 %</b></div><span class="dm-track"><i id="bauBar"></i></span></div>
-          <div class="dm-specs"><span><b>12</b>Etagen</span><span><b>38 m</b>Höhe</span><span><b>2027</b>Fertigstellung</span></div>
-          <span class="dm-cta gold">Projekt anfragen →</span>
+      <div class="dm-body bs-body">
+        <div class="bs-stage">
+          <img class="bs-shot" src="/assets/media/bau/bau-1.webp" srcset="/assets/media/bau/bau-1-s.webp 600w, /assets/media/bau/bau-1.webp 1200w" sizes="(max-width:820px) 100vw, 1200px" width="1200" height="1011" alt="Bauphase 1: Grundstück" decoding="async">
+          <img class="bs-shot" src="/assets/media/bau/bau-2.webp" srcset="/assets/media/bau/bau-2-s.webp 600w, /assets/media/bau/bau-2.webp 1200w" sizes="(max-width:820px) 100vw, 1200px" width="1200" height="1011" alt="Bauphase 2: Fundament" decoding="async">
+          <img class="bs-shot" src="/assets/media/bau/bau-3.webp" srcset="/assets/media/bau/bau-3-s.webp 600w, /assets/media/bau/bau-3.webp 1200w" sizes="(max-width:820px) 100vw, 1200px" width="1200" height="1011" alt="Bauphase 3: Rohbau" decoding="async">
+          <img class="bs-shot" src="/assets/media/bau/bau-4.webp" srcset="/assets/media/bau/bau-4-s.webp 600w, /assets/media/bau/bau-4.webp 1200w" sizes="(max-width:820px) 100vw, 1200px" width="1200" height="1011" alt="Bauphase 4: Obergeschoss" decoding="async">
+          <img class="bs-shot" src="/assets/media/bau/bau-5.webp" srcset="/assets/media/bau/bau-5-s.webp 600w, /assets/media/bau/bau-5.webp 1200w" sizes="(max-width:820px) 100vw, 1200px" width="1200" height="1011" alt="Bauphase 5: Fassade" decoding="async">
+          <img class="bs-shot" src="/assets/media/bau/bau-6.webp" srcset="/assets/media/bau/bau-6-s.webp 600w, /assets/media/bau/bau-6.webp 1200w" sizes="(max-width:820px) 100vw, 1200px" width="1200" height="1011" alt="Bauphase 6: Übergabe" decoding="async">
         </div>
-        <span class="dm-load" aria-hidden="true">Baustelle wird geladen …</span>
-        <span class="dm-hint">⟲ Ziehen zum Drehen</span>
-        <small class="dm-credit">Umgebung: „Quarry 01“ von Poly Haven (CC0)</small>
+        <nav class="dm-nav" aria-hidden="true"><b>NORDBAU</b><span>Projekte</span><span>Leistungen</span><span>Karriere</span></nav>
+        <div class="bs-copy">
+          <span class="dm-k">Projekt · Villa Sonnenhang</span>
+          <h3>Vom Grundstück <em>zum Zuhause.</em></h3>
+          <ol class="bs-steps">
+            <li class="bs-step on"><i>01 · GRUNDSTÜCK</i><b>Ein leeres Grundstück – und eine Idee.</b></li>
+            <li class="bs-step"><i>02 · FUNDAMENT</i><b>Bewehrung, Beton, Präzision: das Fundament steht.</b></li>
+            <li class="bs-step"><i>03 · ROHBAU</i><b>Die erste Etage wächst aus dem Boden.</b></li>
+            <li class="bs-step"><i>04 · OBERGESCHOSS</i><b>Kran, Gerüst, Etage für Etage.</b></li>
+            <li class="bs-step"><i>05 · FASSADE</i><b>Weißer Putz, Glas und klare Linien.</b></li>
+            <li class="bs-step"><i>06 · ÜBERGABE</i><b>Licht an. Willkommen zu Hause.</b></li>
+          </ol>
+          <div class="bs-prog"><div class="bs-prog-h"><span>Baufortschritt</span><b class="bs-pct">0 %</b></div><span class="bs-bar"><i></i></span></div>
+          <a class="dm-cta gold" href="/termin">Projekt anfragen →</a>
+        </div>
+        <span class="bs-scroll" aria-hidden="true">Scrollen ↓ · das Haus wächst</span>
+        <small class="dm-credit">Bilder: KI-generiert mit Figma · Konzept VONUMO</small>
       </div>
     </article>
+    </div>
+    </section>
+
   </section>
 
   <section class="pin tall" id="cryPin" aria-label="Konzept Marken-Studio – Scroll-Geschichte">
@@ -99,8 +116,9 @@
 </main>
 <footer class="pg-foot"><span>© 2026 VONUMO · Web, Design und KI aus Deutschland</span><span><a href="mailto:almoakedmohammad@gmail.com">almoakedmohammad@gmail.com</a> · <a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a></span></footer>
 <script src="/assets/vendor/motion.min.js" defer></script>
-<script type="module" src="/assets/showcase.js?v=202611031041"></script>
-<script src="/assets/reveal.js?v=202611031041" defer></script>
-<script src="/assets/pages.js?v=202611031041" defer></script>
+<script type="module" src="/assets/showcase.js?v=202611031146"></script>
+<script src="/assets/reveal.js?v=202611031146" defer></script>
+<script src="/assets/bau-scroll.js?v=202611031146" defer></script>
+<script src="/assets/pages.js?v=202611031146" defer></script>
 </body>
 </html>
