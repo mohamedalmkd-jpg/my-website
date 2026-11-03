@@ -330,7 +330,7 @@ function crystalDemo() {
 function lazy(id, fn) {
   const el = D.getElementById(id); if (!el) return;
   if (!('IntersectionObserver' in W)) { fn(); return; }
-  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); setTimeout(fn, 30); } }, { rootMargin: '700px 0px' });
+  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); setTimeout(fn, 30); } }, { rootMargin: '0px 0px -30% 0px' });
   io.observe(el.closest('.pin') || el);
 }
 lazy('carGl', carDemo);
