@@ -363,7 +363,7 @@ input,select,textarea,.pr-save,.pl-badge{text-shadow:none}
 .rv-big:focus-visible i{outline:2px solid #fff;outline-offset:4px}
 
 /* Baustelle: Foto-Scroll-Story (vom Grundstück zur Villa) */
-.pin.bs{height:460vh;margin-top:34px}
+.pin.bs{height:300vh;margin-top:34px}
 .bs-body{overflow:hidden;background:#05070d}
 .bs-stage{position:absolute;inset:0}
 .bs-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(3,6,14,.88) 0%,rgba(3,6,14,.55) 32%,rgba(3,6,14,0) 58%),linear-gradient(0deg,rgba(3,6,14,.6),transparent 30%),linear-gradient(180deg,rgba(3,6,14,.55),transparent 22%)}
