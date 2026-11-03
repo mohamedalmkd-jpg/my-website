@@ -272,7 +272,7 @@ input,select,textarea,.pr-save,.pl-badge{text-shadow:none}
 .rv-stage{position:absolute;inset:0;overflow:hidden;isolation:isolate}
 .rv-shot{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;object-position:50% 50%;opacity:0;will-change:transform,opacity,filter;transform-origin:50% 60%}
 .rv-shot:first-child{opacity:1}
-.rv-glow{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:0;will-change:opacity,transform}
+.rv-glow{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:0;will-change:opacity,transform;backface-visibility:hidden}
 .rv-glow.hl1,.rv-glow.hl2{width:22%;height:16%;background:radial-gradient(closest-side,rgba(235,245,255,.95),rgba(150,190,255,.35) 45%,transparent)}
 .rv-glow.hl1{left:30%;top:52%}.rv-glow.hl2{left:79%;top:46%;width:16%;height:12%}
 .rv-glow.tl1,.rv-glow.tl2{width:20%;height:12%;background:radial-gradient(closest-side,rgba(255,60,40,.95),rgba(255,30,30,.3) 50%,transparent)}
@@ -365,9 +365,9 @@ input,select,textarea,.pr-save,.pl-badge{text-shadow:none}
 /* Baustelle: Foto-Scroll-Story (vom Grundstück zur Villa) */
 .pin.bs{height:300vh;margin-top:34px}
 .bs-body{overflow:hidden;background:#05070d}
-.bs-stage{position:absolute;inset:0}
+.bs-stage{position:absolute;inset:0;contain:paint}
 .bs-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(3,6,14,.88) 0%,rgba(3,6,14,.55) 32%,rgba(3,6,14,0) 58%),linear-gradient(0deg,rgba(3,6,14,.6),transparent 30%),linear-gradient(180deg,rgba(3,6,14,.55),transparent 22%)}
-.bs-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 60%;opacity:0;transform-origin:62% 60%;will-change:opacity,transform}
+.bs-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 60%;opacity:0;transform-origin:62% 60%;will-change:opacity,transform;backface-visibility:hidden}
 .bs-shot:first-child{opacity:1}
 .bs-copy{position:absolute;left:clamp(20px,4vw,48px);top:50%;transform:translateY(-50%);width:min(400px,42%);display:flex;flex-direction:column;gap:14px;z-index:2}
 .bs-copy h3{margin:0;font:800 clamp(34px,4.4vw,60px)/.95 var(--sans);letter-spacing:-.03em;text-transform:uppercase}
