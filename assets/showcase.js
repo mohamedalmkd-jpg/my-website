@@ -10,7 +10,8 @@ import { GroundedSkybox } from './vendor/addons/objects/GroundedSkybox.js';
 
 const W = window, D = document;
 const reduce = W.matchMedia && W.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const DPR = Math.min(W.devicePixelRatio || 1, 2);
+const LOW = (navigator.hardwareConcurrency || 4) <= 4 || W.innerWidth < 700;
+const DPR = Math.min(W.devicePixelRatio || 1, LOW ? 1.5 : 2);
 const hdr = new RGBELoader();
 const cache = {};
 const loadHDR = (url) => cache[url] || (cache[url] = new Promise((res, rej) => hdr.load(url, (t) => { t.mapping = THREE.EquirectangularReflectionMapping; res(t); }, undefined, rej)));
@@ -62,7 +63,7 @@ function carDemo() {
   const demo = canvas.closest('.demo'), pin = D.getElementById('carPin');
   const bodyMat = new THREE.MeshPhysicalMaterial({ color: 0x0c0e14, metalness: 1, roughness: 0.36, clearcoat: 1, clearcoatRoughness: 0.02 });
   const detailsMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.25 });
-  const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x222222, metalness: 0.4, roughness: 0, transmission: 0.6, transparent: true, opacity: 0.85 });
+  const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x15171c, metalness: 0.5, roughness: 0.02, transparent: true, opacity: 0.82, clearcoat: 1 });
   const target = bodyMat.color.clone();
   let car = null, cloth = null, P = 0, front = 1;
   const G = { nx: 56, nz: 96, x0: -1.75, x1: 1.75, z0: -2.85, z1: 2.85 }; let H = null, base = null;
@@ -106,7 +107,7 @@ function carDemo() {
     const m = new THREE.Mesh(new THREE.BoxGeometry(len, 0.05, 0.05), new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false })); m.material.color.setScalar(3.2);
     m.position.set(x, y, z); m.rotation.set(0, ry, rz); scene.add(m); beams.push(m);
   });
-  const spot = new THREE.SpotLight(0xffffff, 90, 18, 0.6, 0.65, 1.4); spot.position.set(0.5, 5.5, 1); spot.target.position.set(0, 0, 0); spot.castShadow = true; spot.shadow.mapSize.set(2048, 2048); spot.shadow.bias = -0.0004; scene.add(spot, spot.target);
+  const spot = new THREE.SpotLight(0xffffff, 90, 18, 0.6, 0.65, 1.4); spot.position.set(0.5, 5.5, 1); spot.target.position.set(0, 0, 0); spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024); spot.shadow.bias = -0.0004; scene.add(spot, spot.target);
   const s2 = new THREE.SpotLight(0xdfe8ff, 50, 16, 0.5, 0.7, 1.4); s2.position.set(-4, 3.5, 3); scene.add(s2);
   const warm = new THREE.PointLight(0xffb36b, 8, 7, 1.6); warm.position.set(3, 0.8, 2.5); scene.add(warm);
   loadHDR('/assets/media/pedestrian_overpass_1k.hdr').then((tex) => { scene.environment = tex; scene.environmentIntensity = 0.45; }).catch(() => {});
@@ -127,18 +128,22 @@ function carDemo() {
     const lt = car.getObjectByName('lights'); if (lt) { const p = new THREE.Vector3(); lt.getWorldPosition(p); front = p.z >= 0 ? 1 : -1; }
     [-0.62, 0.62].forEach((x) => { const hl = new THREE.SpotLight(0xfff2d6, 30, 9, 0.42, 0.5, 1.5); hl.position.set(x, 0.65, front * 2.1); hl.target.position.set(x * 1.6, 0, front * 7); scene.add(hl, hl.target); });
     const tail = new THREE.PointLight(0xff2030, 3, 3, 2); tail.position.set(0, 0.8, -front * 2.35); scene.add(tail);
-    makeCloth(meshes); loaded(demo); st.start();
+    makeCloth(); loaded(demo); st.start();
   }, undefined, () => failed(demo));
 
   /* Tuch: Höhenfeld per Raycast über dem Modell, dann gefaltet */
-  function makeCloth(meshes) {
-    const rc = new THREE.Raycaster(), dn = new THREE.Vector3(0, -1, 0), o = new THREE.Vector3();
-    const nx = G.nx, nz = G.nz; H = new Float32Array((nx + 1) * (nz + 1));
-    for (let j = 0; j <= nz; j++) for (let i = 0; i <= nx; i++) {
-      const x = G.x0 + (G.x1 - G.x0) * i / nx, z = G.z0 + (G.z1 - G.z0) * j / nz;
-      o.set(x, 3, z); rc.set(o, dn); const hit = rc.intersectObjects(meshes, false)[0];
-      H[j * (nx + 1) + i] = hit ? hit.point.y + 0.07 : 0;
-    }
+  function makeCloth() {
+    /* Höhenfeld auf der GPU: Wagen von oben rendern, Höhe als Farbe auslesen (statt tausender Raycasts) */
+    const nx = G.nx, nz = G.nz, w = nx + 1, h = nz + 1; H = new Float32Array(w * h);
+    const rt = new THREE.WebGLRenderTarget(w, h, { type: THREE.UnsignedByteType, depthBuffer: true });
+    const cam = new THREE.OrthographicCamera(G.x0, G.x1, -G.z0, -G.z1, 0.1, 10); cam.up.set(0, 0, -1); cam.position.set(0, 5, 0); cam.lookAt(0, 0, 0);
+    const hm = new THREE.ShaderMaterial({ side: THREE.DoubleSide, vertexShader: 'varying float vY; void main(){ vec4 wp = modelMatrix * vec4(position,1.0); vY = wp.y; gl_Position = projectionMatrix * viewMatrix * wp; }', fragmentShader: 'varying float vY; void main(){ gl_FragColor = vec4(clamp(vY / 1.6, 0.0, 1.0), 0.0, 0.0, 1.0); }' });
+    const tmp = new THREE.Scene(); tmp.overrideMaterial = hm; const parent = car.parent; tmp.add(car);
+    const R = st.renderer, oldC = R.getClearColor(new THREE.Color()), oldA = R.getClearAlpha(), oldT = R.toneMapping;
+    R.setRenderTarget(rt); R.setClearColor(0x000000, 1); R.toneMapping = THREE.NoToneMapping; R.clear(); R.render(tmp, cam);
+    const px = new Uint8Array(w * h * 4); R.readRenderTargetPixels(rt, 0, 0, w, h, px);
+    R.setRenderTarget(null); R.setClearColor(oldC, oldA); R.toneMapping = oldT; rt.dispose(); hm.dispose(); parent.add(car);
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) { const v = px[(j * w + i) * 4] / 255 * 1.6; H[(nz - j) * w + i] = v > 0.02 ? v + 0.07 : 0; }
     const raw = H.slice();
     for (let it = 0; it < 70; it++) for (let j = 1; j < nz; j++) for (let i = 1; i < nx; i++) {
       const k = j * (nx + 1) + i, av = (H[k - 1] + H[k + 1] + H[k - nx - 1] + H[k + nx + 1]) / 4;
@@ -204,7 +209,7 @@ function buildDemo() {
   });
   if (!st) return failed(demo);
   const { scene } = st;
-  const sun = new THREE.DirectionalLight(0xfff1dc, 2.2); sun.position.set(-10, 16, 8); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); const sc = sun.shadow.camera; sc.left = sc.bottom = -10; sc.right = sc.top = 10; sc.far = 60; sun.shadow.bias = -0.0005; scene.add(sun);
+  const sun = new THREE.DirectionalLight(0xfff1dc, 2.2); sun.position.set(-10, 16, 8); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024); const sc = sun.shadow.camera; sc.left = sc.bottom = -10; sc.right = sc.top = 10; sc.far = 60; sun.shadow.bias = -0.0005; scene.add(sun);
   const shadowFloor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: 0.45 })); shadowFloor.rotation.x = -Math.PI / 2; shadowFloor.position.y = 0.01; shadowFloor.receiveShadow = true; scene.add(shadowFloor);
   loadHDR('/assets/media/quarry_01_1k.hdr').then((tex) => {
     scene.environment = tex;
@@ -281,10 +286,10 @@ function crystalDemo() {
   const es = new THREE.Scene(); es.add(new THREE.Mesh(new THREE.SphereGeometry(30, 32, 16), new THREE.MeshBasicMaterial({ color: 0x9aa1ad, side: THREE.BackSide })));
   [[0, 12, 0, 18, 3], [10, 4, 6, 3, 10], [-10, 5, -4, 3, 10]].forEach(([x, y, z, w, h]) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); es.add(m); });
   const pm = new THREE.PMREMGenerator(st.renderer); scene.environment = pm.fromScene(es, 0.04).texture; pm.dispose();
-  const sun = new THREE.DirectionalLight(0xffffff, 2.2); sun.position.set(6, 12, 5); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); const sc = sun.shadow.camera; sc.left = sc.bottom = -8; sc.right = sc.top = 8; scene.add(sun);
+  const sun = new THREE.DirectionalLight(0xffffff, 2.2); sun.position.set(6, 12, 5); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024); const sc = sun.shadow.camera; sc.left = sc.bottom = -8; sc.right = sc.top = 8; scene.add(sun);
   scene.add(new THREE.HemisphereLight(0xffffff, 0x8a909c, 0.8));
   /* Schneelandschaft mit Relief */
-  const tg = new THREE.PlaneGeometry(80, 80, 160, 160); tg.rotateX(-Math.PI / 2);
+  const tg = new THREE.PlaneGeometry(80, 80, 110, 110); tg.rotateX(-Math.PI / 2);
   const tp = tg.attributes.position.array;
   for (let i = 0; i < tp.length; i += 3) { const x = tp[i], z = tp[i + 2], d0 = Math.hypot(x, z); tp[i + 1] = (Math.sin(x * 0.35) * Math.cos(z * 0.3) * 0.5 + Math.sin(x * 1.3 + z * 0.9) * 0.12 + Math.sin(x * 3.1 - z * 2.7) * 0.04) * Math.min(1, Math.max(0, (d0 - 3.4) / 4)) + Math.max(0, d0 - 14) * 0.25; }
   tg.computeVertexNormals();
@@ -296,7 +301,7 @@ function crystalDemo() {
   const net = new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 })); scene.add(net);
   const dots = new THREE.Points(new THREE.BufferGeometry().setFromPoints(pts), new THREE.PointsMaterial({ color: 0xffffff, size: 0.07, transparent: true, opacity: 0 })); scene.add(dots);
   /* Eisblöcke, die eine Kuppel bilden */
-  const iceM = new THREE.MeshPhysicalMaterial({ color: 0xeef3fb, roughness: 0.18, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08, iridescence: 0.35, iridescenceIOR: 1.3, sheen: 0.4, sheenColor: new THREE.Color(0xcfe0ff) });
+  const iceM = new THREE.MeshPhysicalMaterial({ color: 0xeef3fb, roughness: 0.18, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08,  });
   const bg = new THREE.BoxGeometry(0.62, 0.34, 0.3, 2, 2, 2);
   const rows = 7, R = 2.4;
   for (let r = 0; r < rows; r++) {
@@ -321,6 +326,13 @@ function crystalDemo() {
   loaded(demo); st.start();
 }
 
-if (D.getElementById('carGl')) carDemo();
-if (D.getElementById('bauGl')) buildDemo();
-if (D.getElementById('cryGl')) crystalDemo();
+/* Szenen erst starten, wenn sie in die Nähe kommen – sonst blockiert die Seite beim Laden */
+function lazy(id, fn) {
+  const el = D.getElementById(id); if (!el) return;
+  if (!('IntersectionObserver' in W)) { fn(); return; }
+  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); setTimeout(fn, 30); } }, { rootMargin: '700px 0px' });
+  io.observe(el.closest('.pin') || el);
+}
+lazy('carGl', carDemo);
+lazy('bauGl', buildDemo);
+lazy('cryGl', crystalDemo);
