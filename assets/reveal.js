@@ -10,9 +10,12 @@
   var sm = function (a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
   /* Zeitachse: 4 Einstellungen mit weichen Überblendungen */
   var K = [[0, 0.24], [0.2, 0.5], [0.46, 0.76], [0.72, 1]];
-  function prog() { var r = pin.getBoundingClientRect(), span = Math.max(1, r.height - W.innerHeight); return Math.min(1, Math.max(0, -r.top / span)); }
+  /* Läuft von selbst wie ein Film: 7 s Enthüllung, 2,5 s Halten, dann von vorn */
+  var DUR = 7, HOLD = 2.5, t0 = 0, last = 0, clock = 0;
+  function prog() { return reduce ? 1 : Math.min(1, clock / DUR); }
   function frame(now) {
-    want = prog(); P += (want - P) * (reduce ? 1 : 0.12);
+    var dt = last ? Math.min(0.1, (now - last) / 1000) : 0; last = now; if (vis) clock += dt; if (clock > DUR + HOLD) { clock = 0; P = 0; }
+    want = prog(); P += (want - P) * (reduce ? 1 : 0.35);
     smx += (mx - smx) * 0.06; smy += (my - smy) * 0.06;
     var t = now / 1000;
     for (var i = 0; i < 4; i++) {
@@ -43,13 +46,13 @@
     var p2 = P < 0.42 ? 0 : P < 0.74 ? 1 : 2;
     if (p2 !== ph) { ph = p2; Array.prototype.forEach.call(copies, function (c) { c.classList.toggle('on', +c.getAttribute('data-ph') === p2); }); }
     bar.style.transform = 'scaleY(' + P.toFixed(3) + ')';
-    if (Math.abs(want - P) > 0.0005 || vis) requestAnimationFrame(frame); else run = false;
+    if (vis) requestAnimationFrame(frame); else { run = false; last = 0; }
   }
   var vis = false;
   function kick() { if (!run) { run = true; requestAnimationFrame(frame); } }
   if ('IntersectionObserver' in W) new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) kick(); }, { rootMargin: '200px' }).observe(rv);
   else { vis = true; kick(); }
-  W.addEventListener('scroll', kick, { passive: true });
+  rv.addEventListener('click', function (e) { if (!e.target.closest('a')) { clock = 0; P = 0; } });
   rv.addEventListener('pointermove', function (e) { var r = rv.getBoundingClientRect(); mx = ((e.clientX - r.left) / r.width - 0.5) * 2; my = ((e.clientY - r.top) / r.height - 0.5) * 2; kick(); });
   rv.addEventListener('pointerleave', function () { mx = my = 0; });
   /* Bilder vorladen */

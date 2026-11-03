@@ -310,3 +310,8 @@ input,select,textarea,.pr-save,.pl-badge{text-shadow:none}
   .rv-shot[data-fx="rear"]{left:-52%}
   .rv-glow,.rv-sweep,.rv-flash{display:none}
 }
+
+/* Signature-Film: spielt von selbst, keine lange Scroll-Strecke mehr */
+.pin.xl{height:auto}
+.pin.xl .pin-stick{position:relative;top:auto;height:min(80vh,680px);min-height:520px}
+@media (max-width:820px){.pin.xl .pin-stick{height:78vh;min-height:560px}}
