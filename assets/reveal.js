@@ -5,7 +5,8 @@
   var end = rv.querySelector('.rv-end'), btn = D.getElementById('rvPlay'), big = D.getElementById('rvBig'), user = false;
   var small = W.innerWidth < 900 || (navigator.connection && navigator.connection.saveData);
   v.muted = true; v.defaultMuted = true; v.setAttribute('muted', ''); v.playsInline = true;
-  v.src = small ? v.getAttribute('data-sd') : v.getAttribute('data-hd');
+  /* Auf großen Bildschirmen auf 1080p wechseln, sobald das Video läuft */
+  if (!small) v.addEventListener('playing', function up() { v.removeEventListener('playing', up); var t = v.currentTime, src = v.getAttribute('data-hd'), canMp4 = v.canPlayType('video/mp4'); if (!canMp4) return; var h = D.createElement('video'); h.muted = true; h.preload = 'auto'; h.src = src; h.addEventListener('canplaythrough', function () { v.src = src; v.currentTime = t; play(); }, { once: true }); });
   function label() { var p = v.paused; btn.textContent = p ? '▶' : '❚❚'; btn.setAttribute('aria-label', p ? 'Video abspielen' : 'Video pausieren'); big.hidden = !p || !rv.classList.contains('blocked'); }
   function play() {
     if (user) return;
@@ -14,7 +15,9 @@
   }
   v.addEventListener('timeupdate', function () { if (end) end.classList.toggle('on', v.duration && v.currentTime > v.duration - 2.4); });
   v.addEventListener('play', label); v.addEventListener('pause', label);
-  v.addEventListener('error', function () { rv.classList.add('blocked'); label(); });
+  v.addEventListener('error', function () { rv.classList.add('blocked'); v.controls = true; label(); }, true);
+  /* Sicherheitsnetz: läuft nach 4 s noch nichts, normale Video-Steuerung anzeigen */
+  setTimeout(function () { if (v.paused || v.readyState < 2) { v.controls = true; rv.classList.add('blocked'); label(); } }, 4000);
   btn.addEventListener('click', function () { if (v.paused) { user = false; play(); } else { user = true; v.pause(); } });
   big.addEventListener('click', function () { user = false; play(); });
   if ('IntersectionObserver' in W) new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) play(); else if (!v.paused) v.pause(); }); }, { threshold: 0.25 }).observe(rv);
