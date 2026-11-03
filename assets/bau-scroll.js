@@ -6,7 +6,7 @@
   var steps = pin.querySelectorAll('.bs-step'), bar = pin.querySelector('.bs-bar i'), pct = pin.querySelector('.bs-pct');
   var reduce = W.matchMedia && W.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var P = 0, want = 0, run = false, cur = -1, last = 0, top = 0, span = 1, lastPct = -1;
-  var op = shots.map(function () { return -1; });
+  var op = shots.map(function () { return -1; }), stage = pin.querySelector('.bs-stage'), lastCam = '';
 
   /* alle Bilder vorab dekodieren – kein Aufblitzen beim ersten Wechsel */
   shots.forEach(function (im) { im.loading = 'eager'; if (im.decode) im.decode().catch(function () {}); });
@@ -17,13 +17,13 @@
 
   function render() {
     var f = P * (N - 1);
-    for (var i = 0; i < N; i++) {
-      /* Bild i blendet im mittleren Teil seines Abschnitts ein (weiche S-Kurve) */
-      var o = i === 0 ? 1 : smooth((f - (i - 1) - 0.25) / 0.5);
-      if (Math.abs(o - op[i]) > 0.002) { shots[i].style.opacity = o.toFixed(3); op[i] = o; }
-      /* jede Phase hat ihren eigenen sanften Kamera-Zoom */
-      var local = Math.min(1, Math.max(0, f - i + 1)) ;
-      shots[i].style.transform = 'translate3d(0,0,0) scale(' + (1.08 - local * 0.06).toFixed(4) + ')';
+    /* durchgehende Kamerafahrt über die ganze Geschichte (alle Ebenen gleich -> deckungsgleich) */
+    var cam = 'translate3d(0,' + (P * -1.5).toFixed(3) + '%,0) scale(' + (1.12 - P * 0.1).toFixed(4) + ')';
+    if (cam !== lastCam) { stage.style.transform = cam; lastCam = cam; }
+    for (var i = 1; i < N; i++) {
+      /* das Haus „wächst“ von unten nach oben: weiche Maske statt Bildwechsel */
+      var r = smooth((f - (i - 1) - 0.08) / 0.84);
+      if (Math.abs(r - op[i]) > 0.001) { shots[i].style.setProperty('--r', r.toFixed(4)); shots[i].style.visibility = r > 0 ? 'visible' : 'hidden'; op[i] = r; }
     }
     var s = Math.min(N - 1, Math.max(0, Math.round(f)));
     if (s !== cur) { cur = s; Array.prototype.forEach.call(steps, function (e, k) { e.classList.toggle('on', k === s); e.classList.toggle('done', k < s); }); }
@@ -35,8 +35,8 @@
     var dt = Math.min(64, t - (last || t)); last = t;
     want = target();
     /* zeitbasierte Dämpfung: gleich weich bei 60 und 120 Hz */
-    P = reduce ? want : P + (want - P) * (1 - Math.exp(-dt / 70));
-    if (Math.abs(want - P) < 0.0005) P = want;
+    P = reduce ? want : P + (want - P) * (1 - Math.exp(-dt / 110));
+    if (Math.abs(want - P) < 0.0002) P = want;
     render();
     if (P !== want) requestAnimationFrame(frame); else { run = false; last = 0; }
   }
