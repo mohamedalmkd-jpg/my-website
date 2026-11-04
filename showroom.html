@@ -11,7 +11,7 @@
 <link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
 <script type="importmap">{"imports":{"three":"/assets/vendor/three.module.min.js"}}</script>
 <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
-<link rel="stylesheet" href="/assets/pages.css?v=202611031249">
+<link rel="stylesheet" href="/assets/pages.css?v=202611040758">
 </head>
 <body data-page="showroom">
 <header class="pg-top">
@@ -26,7 +26,7 @@
     <p>Echtzeit-3D, flüssige Bewegung und Interaktion – Branchen-Konzepte und Live-Bausteine, genau so, wie sich Ihre neue Website anfühlt.</p>
   </section>
   <section class="demos" aria-label="Branchen-Konzepte">
-    <div class="dm-head"><span class="pg-kicker">Branchen-Konzepte · Echtzeit-3D</span><h2>So könnte <em>Ihre</em> Website aussehen</h2><p>Drei Konzepte – von der filmischen Fahrzeug-Enthüllung bis zur kompletten Bau-Website zum Ausprobieren.</p></div>
+    <div class="dm-head"><span class="pg-kicker">Branchen-Konzepte · Echtzeit-3D</span><h2>So könnte <em>Ihre</em> Website aussehen</h2><p>Drei Konzepte – von der filmischen Fahrzeug-Enthüllung bis zur kleinen Bau-App zum Antippen.</p></div>
 
     <section class="pin xl" id="carPin" aria-label="VONUMO Signature – filmische Enthüllung">
     <div class="pin-stick">
@@ -54,12 +54,34 @@
     </div>
     </section>
 
-    <section class="site-demo" id="bauSite" aria-label="Konzept-Website Bauunternehmen">
-    <article class="demo bau site">
-      <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">valmora-bau.de · Konzept</span><a class="dm-tag site-open" href="/demo/valmora" target="_blank" rel="noopener">Vollbild ↗</a></div>
-      <div class="site-frame"><iframe src="/demo/valmora" title="Konzept-Website VALMORA Bau – zum Scrollen und Klicken" loading="lazy"></iframe></div>
+    <section class="ux-demo" id="bauUx" aria-label="UI-Konzept Bauunternehmen">
+    <article class="demo bau ux">
+      <div class="dm-bar"><span class="dm-dots"><i></i><i></i><i></i></span><span class="dm-url">valmora-bau.de · App-Konzept</span><span class="dm-tag">Bau &amp; Immobilien</span></div>
+      <div class="ux-body">
+        <div class="ux-grid">
+          <div class="w w-photo">
+            <div class="ph-imgs"><img src="/assets/media/bau/bau-1.webp" srcset="/assets/media/bau/bau-1-s.webp 600w, /assets/media/bau/bau-1.webp 1200w" sizes="(max-width:820px) 92vw, 720px" alt="Bauphase 1: Grundstück" class="on" loading="lazy" decoding="async"><img src="/assets/media/bau/bau-2.webp" srcset="/assets/media/bau/bau-2-s.webp 600w, /assets/media/bau/bau-2.webp 1200w" sizes="(max-width:820px) 92vw, 720px" alt="Bauphase 2: Fundament" loading="lazy" decoding="async"><img src="/assets/media/bau/bau-3.webp" srcset="/assets/media/bau/bau-3-s.webp 600w, /assets/media/bau/bau-3.webp 1200w" sizes="(max-width:820px) 92vw, 720px" alt="Bauphase 3: Rohbau" loading="lazy" decoding="async"><img src="/assets/media/bau/bau-4.webp" srcset="/assets/media/bau/bau-4-s.webp 600w, /assets/media/bau/bau-4.webp 1200w" sizes="(max-width:820px) 92vw, 720px" alt="Bauphase 4: Obergeschoss" loading="lazy" decoding="async"><img src="/assets/media/bau/bau-5.webp" srcset="/assets/media/bau/bau-5-s.webp 600w, /assets/media/bau/bau-5.webp 1200w" sizes="(max-width:820px) 92vw, 720px" alt="Bauphase 5: Fassade" loading="lazy" decoding="async"><img src="/assets/media/bau/bau-6.webp" srcset="/assets/media/bau/bau-6-s.webp 600w, /assets/media/bau/bau-6.webp 1200w" sizes="(max-width:820px) 92vw, 720px" alt="Bauphase 6: Übergabe" loading="lazy" decoding="async"></div>
+            <div class="ph-top"><span class="live"><i></i>Villa Sonnenhang</span><button type="button" class="ph-play" id="uxPlay" aria-label="Zeitraffer abspielen">▶</button></div>
+            <div class="ph-seg" id="uxSeg" role="tablist" aria-label="Bauphase"><span class="ind"></span><button type="button" data-i="0" class="on">Grundstück</button><button type="button" data-i="1">Fundament</button><button type="button" data-i="2">Rohbau</button><button type="button" data-i="3">Obergeschoss</button><button type="button" data-i="4">Fassade</button><button type="button" data-i="5">Übergabe</button></div>
+          </div>
+          <div class="w w-ring">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" class="trk"/><circle cx="60" cy="60" r="50" class="val" id="uxRing" pathLength="100"/></svg>
+            <div class="ring-c"><b id="uxPct">0%</b><span id="uxWeek">Woche 1/41</span></div>
+            <small id="uxPhase">Grundstück</small>
+          </div>
+          <div class="w w-calc">
+            <div class="row"><span>Wohnfläche</span><b id="uxArea">160 m²</b></div>
+            <input type="range" id="uxRange" min="90" max="320" step="5" value="160" aria-label="Wohnfläche">
+            <div class="mini-seg" id="uxLvl"><button type="button" data-v="1" class="on">Standard</button><button type="button" data-v="1.18">Premium</button></div>
+            <div class="price"><small>ab</small><b id="uxPrice">392.000 €</b></div>
+          </div>
+          <div class="w w-cta">
+            <label class="sw"><span>Baustellen-Updates</span><input type="checkbox" id="uxSw" checked><i></i></label>
+            <button type="button" class="book" id="uxBook"><span class="t">Besichtigung buchen</span><span class="spin" aria-hidden="true"></span><span class="ok" aria-hidden="true">✓</span></button>
+          </div>
+        </div>
+      </div>
     </article>
-    <p class="site-hint">Echte Website zum Ausprobieren: scrollen, Menü, Bautagebuch, Projektfilter und Kostenrechner funktionieren.</p>
     </section>
 
   </section>
@@ -97,9 +119,10 @@
 </main>
 <footer class="pg-foot"><span>© 2026 VONUMO · Web, Design und KI aus Deutschland</span><span><a href="mailto:almoakedmohammad@gmail.com">almoakedmohammad@gmail.com</a> · <a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a></span></footer>
 <script src="/assets/vendor/motion.min.js" defer></script>
-<script type="module" src="/assets/showcase.js?v=202611031249"></script>
-<script src="/assets/reveal.js?v=202611031249" defer></script>
-<script src="/assets/ice-scroll.js?v=202611031249" defer></script>
-<script src="/assets/pages.js?v=202611031249" defer></script>
+<script type="module" src="/assets/showcase.js?v=202611040758"></script>
+<script src="/assets/reveal.js?v=202611040758" defer></script>
+<script src="/assets/bau-ui.js?v=202611040758" defer></script>
+<script src="/assets/ice-scroll.js?v=202611040758" defer></script>
+<script src="/assets/pages.js?v=202611040758" defer></script>
 </body>
 </html>
