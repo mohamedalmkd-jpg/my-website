@@ -18,7 +18,7 @@
     track.scrollTo({ left: cards[i].offsetLeft - track.offsetLeft - pl, behavior: reduce ? 'auto' : 'smooth' });
   }
   function upd() {
-    var i = idx(), max = track.scrollWidth - track.clientWidth;
+    var max = track.scrollWidth - track.clientWidth, i = track.scrollLeft > max - 8 ? N - 1 : idx();
     count.textContent = pad(i + 1) + ' / ' + pad(N);
     bar.parentNode.style.setProperty('--p', (max > 0 ? 0.25 + 0.75 * track.scrollLeft / max : 1).toFixed(3));
     prev.disabled = track.scrollLeft < 8; next.disabled = track.scrollLeft > max - 8;

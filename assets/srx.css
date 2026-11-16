@@ -58,3 +58,10 @@
   .pg-tabs .t{display:none}
 }
 @media (prefers-reduced-motion:reduce){.srx-head>*,.srx-card{animation:none;opacity:1;transform:none}.srx-frame{transition:none}}
+
+/* Soda-Vorschau */
+.srx-media.srx-soda{background:radial-gradient(circle at center,#0b8a78 0%,#044e3b 50%,#011411 100%)}
+.srx-media.srx-soda img{object-fit:contain;transform:rotate(12deg) scale(.82);filter:drop-shadow(0 30px 40px rgba(0,0,0,.5))}
+.srx-card:hover .srx-media.srx-soda img{transform:rotate(-6deg) scale(.9)}
+.srx-soda-t{position:absolute;left:7%;top:12%;font:400 clamp(40px,6vw,86px)/.8 Georgia,serif;font-style:italic;color:#fff;opacity:.9}
+.srx-card:nth-child(5){animation-delay:.6s}
