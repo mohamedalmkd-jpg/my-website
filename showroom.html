@@ -3,144 +3,95 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#050506">
+<meta name="theme-color" content="#020617">
 <meta name="color-scheme" content="dark">
-<title>Showroom – VONUMO</title>
-<meta name="description" content="VONUMO Showroom: Konzept einer Techwear-Marke – Produkt-Inszenierung, Kollektion, Technologie und FAQ mit Bewegung in jeder Ebene.">
+<title>Showroom – Interactive Experiences · VONUMO</title>
+<meta name="description" content="VONUMO Showroom: interaktive Erlebnisse zum Ausprobieren – 3D-Commerce, filmische Produkt-Enthüllung, App-UI und Scroll-Storytelling.">
 <link rel="icon" type="image/webp" href="/assets/6925aa020ce5116c12186e64c389ccd4.webp">
-<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/departure-mono.woff2" crossorigin>
-<link rel="preload" as="image" href="/assets/media/sr/hero-front.webp" imagesrcset="/assets/media/sr/hero-front-s.webp 700w, /assets/media/sr/hero-front.webp 1400w" imagesizes="(max-width:760px) 120vw, 70vw">
-<link rel="stylesheet" href="/assets/sr.css?v=202611162320">
+<link rel="preload" as="font" type="font/woff" href="/assets/fonts/manrope.woff" crossorigin>
+<link rel="stylesheet" href="/assets/pages.css?v=202611162357">
+<link rel="stylesheet" href="/assets/srx.css?v=202611162357">
 </head>
-<body class="sr">
-<div class="sr-grid" aria-hidden="true"></div>
-<div class="sr-cursor" aria-hidden="true"><i></i></div>
-
-<header class="sr-nav" id="srNav">
-  <a class="sr-logo" href="/" aria-label="VONUMO – zur Website"><img src="/assets/6925aa020ce5116c12186e64c389ccd4.webp" alt="" width="22" height="22"><span>VONUMO</span></a>
-  <nav class="sr-links" aria-label="Showroom">
-    <a href="#top" data-scr>Showroom</a>
-    <a href="#kollektion" data-scr>Kollektion <i>▾</i></a>
-    <a href="#technologie" data-scr>Technologie</a>
-    <a href="#faq" data-scr>FAQ</a>
-  </nav>
-  <a class="sr-cart" href="/termin" aria-label="Anfrage – zur Terminbuchung">Anfrage <b>[ <span id="srCount">0</span> ]</b></a>
-  <button class="sr-burger" id="srBurger" aria-label="Menü öffnen" aria-expanded="false"><span></span><span></span></button>
+<body data-page="showroom" class="srx">
+<header class="pg-top">
+  <a class="pg-logo" href="/"><img src="/assets/6925aa020ce5116c12186e64c389ccd4.webp" alt="" width="26" height="26"><span>VONUMO</span></a>
+  <nav class="pg-tabs" aria-label="Seiten"><a href="/anmelden"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.6-6 8-6s6.6 2 8 6"/></svg><span class="t">Anmelden</span></a><a href="/abos"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/></svg><span class="t">Abos</span></a><a href="/showroom" aria-current="page"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span class="t">Showroom</span></a><a href="/termin"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="t">Termin</span></a></nav>
+  <a class="pg-back" href="/">← Zur Website</a>
 </header>
-<nav class="sr-drawer" id="srDrawer" aria-label="Menü">
-  <a href="#top" data-scr>Showroom</a><a href="#kollektion" data-scr>Kollektion</a><a href="#technologie" data-scr>Technologie</a><a href="#faq" data-scr>FAQ</a><a href="/termin">Termin buchen →</a><a href="/">← VONUMO</a>
-</nav>
 
-<main id="top">
-  <!-- 1 · HERO → DETAILS (gepinnt) -->
-  <section class="sr-hero" id="srHero" aria-label="Produkt">
-    <div class="sr-stick">
-      <canvas class="sr-bolt" id="srBolt" aria-hidden="true"></canvas>
-      <div class="sr-prod" id="srProd">
-        <img class="v v-front on" src="/assets/media/sr/hero-front.webp" srcset="/assets/media/sr/hero-front-s.webp 700w, /assets/media/sr/hero-front.webp 1400w" sizes="(max-width:760px) 120vw, 70vw" alt="Glänzende schwarze Techwear-Daunenjacke" width="1400" height="787" fetchpriority="high">
-        <img class="v v-left" src="/assets/media/sr/hero-left.webp" srcset="/assets/media/sr/hero-left-s.webp 700w, /assets/media/sr/hero-left.webp 1400w" sizes="(max-width:760px) 120vw, 70vw" alt="" width="1400" height="787">
-        <img class="v v-right" src="/assets/media/sr/hero-right.webp" srcset="/assets/media/sr/hero-right-s.webp 700w, /assets/media/sr/hero-right.webp 1400w" sizes="(max-width:760px) 120vw, 70vw" alt="" width="1400" height="787">
-        <img class="v v-detail" src="/assets/media/sr/detail.webp" srcset="/assets/media/sr/detail-s.webp 700w, /assets/media/sr/detail.webp 1400w" sizes="(max-width:760px) 120vw, 70vw" alt="Nahaufnahme: Kragen, Reißverschluss und Brusttasche" width="1400" height="787" loading="lazy">
-      </div>
-      <p class="sr-side l" data-scramble>Entwickelt für Bewegung.<br>Gebaut zum Durchhalten.</p>
-      <p class="sr-side r" data-scramble>Gemacht für das Unbekannte.<br>Bereit für alles.</p>
-
-      <div class="sr-hot" id="srHot">
-        <i class="dot"></i>
-        <div class="tip"><span>Wetterfest. Thermisch isoliert.<br>Oversized Fit. Limitierte Stückzahl.</span><a href="#kollektion" data-scr class="sr-btn sm">Jetzt entdecken</a></div>
-      </div>
-
-      <div class="sr-dt" id="srDt">
-        <h2 class="sr-h" data-scramble>Details<br>zählen.</h2>
-        <p class="sr-p">Eine technische Außenschicht, gebaut für Bewegung, wechselndes Wetter und den Alltag jenseits der Komfortzone.</p>
-        <a class="sr-btn" href="#kollektion" data-scr>Jacke erkunden <span>→</span></a>
-      </div>
-
-      <ol class="sr-feat" id="srFeat">
-        <li><b>01</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9H4z"/><path d="M9 20v-6h6v6"/></svg><div><h3>Wetterfeste Hülle</h3><p>Ein glänzendes Obermaterial schützt vor Wind, Regen und Schnee.</p></div></li>
-        <li><b>02</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10"/><circle cx="12" cy="17" r="4"/><path d="M16 6h3M16 9h2"/></svg><div><h3>Thermische Isolierung</h3><p>Hält die Wärme, ohne zu beschweren.</p></div></li>
-        <li><b>03</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5"/><path d="M8 5h11v11"/><path d="M5 12v7h7"/></svg><div><h3>Verstärkte Nähte</h3><p>Robuste Konstruktion für den Alltag.</p></div></li>
-        <li><b>04</b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M5 9h14M12 9v3"/></svg><div><h3>Funktionale Taschen</h3><p>Reißverschluss-Taschen innen und außen.</p></div></li>
-        <li><b>05</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><div><h3>Oversized Fit</h3><p>Lockere Silhouette für Bewegung und Layering.</p></div></li>
-      </ol>
-      <span class="sr-scroll" aria-hidden="true">Scrollen</span>
-    </div>
+<main class="srx-main">
+  <section class="srx-head">
+    <span class="pg-kicker">Showroom</span>
+    <h1>Interactive <em>Experiences</em></h1>
+    <p>Projekte zum Erleben statt zum Anschauen: Echtzeit-3D, filmische Bewegung und Interfaces, die auf jede Geste reagieren. Wischen, ziehen oder mit den Pfeilen durchblättern.</p>
   </section>
 
-  <!-- 2 · KOLLEKTION -->
-  <section class="sr-col" id="kollektion" aria-label="Kollektion">
-    <div class="sr-col-h">
-      <h2 class="sr-h big" data-scramble data-in>Kollektion.</h2>
-      <p class="sr-p r" data-in>Technische Jacken für wechselndes<br>Wetter, Bewegung und Alltag.</p>
+  <section class="srx-car" aria-roledescription="Karussell" aria-label="Projekte">
+    <div class="srx-track" id="srxTrack" tabindex="0">
+      <a class="srx-card feat" href="/showroom/techwear" data-bg="#050506" aria-label="Techwear – 3D Commerce Experience öffnen">
+        <div class="srx-frame">
+          <div class="srx-bar"><i></i><i></i><i></i><span>vnm-wear.shop</span><b>WebGL</b></div>
+          <div class="srx-media">
+            <video muted loop playsinline preload="metadata" poster="/assets/media/sr/techwear-poster.webp"><source src="/assets/media/sr/techwear-preview.mp4" type="video/mp4"></video>
+            <span class="srx-glare" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="srx-meta">
+          <span class="srx-n">01 / 04 · Featured</span>
+          <h2>Techwear — 3D Commerce Experience</h2>
+          <p>Immersive WebGL • Interactive Motion • Creative Development</p>
+          <span class="srx-go">Erlebnis öffnen <i>→</i></span>
+        </div>
+      </a>
+      <a class="srx-card" href="/showroom/auto" data-bg="#000" aria-label="Signature Reveal öffnen">
+        <div class="srx-frame">
+          <div class="srx-bar"><i></i><i></i><i></i><span>signature-motors.de</span><b>Video</b></div>
+          <div class="srx-media">
+            <video muted loop playsinline preload="none" poster="/assets/media/reveal/poster.webp"><source src="/assets/media/reveal/vonumo-reveal-720.mp4" type="video/mp4"></video>
+            <span class="srx-glare" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="srx-meta">
+          <span class="srx-n">02 / 04</span>
+          <h2>Signature Reveal</h2>
+          <p>Filmische Produkt-Enthüllung • Autoplay-Steuerung</p>
+          <span class="srx-go">Erlebnis öffnen <i>→</i></span>
+        </div>
+      </a>
+      <a class="srx-card" href="/showroom/bau" data-bg="#f3efe8" aria-label="Bau-App öffnen">
+        <div class="srx-frame">
+          <div class="srx-bar"><i></i><i></i><i></i><span>valmora-bau.de</span><b>App-UI</b></div>
+          <div class="srx-media"><img src="/assets/media/bau/bau-6.webp" srcset="/assets/media/bau/bau-6-s.webp 600w, /assets/media/bau/bau-6.webp 1200w" sizes="(max-width:760px) 86vw, 640px" alt="Fertige Villa – Bau-App-Konzept" loading="lazy" width="1200" height="1011"><span class="srx-glare" aria-hidden="true"></span></div>
+        </div>
+        <div class="srx-meta">
+          <span class="srx-n">03 / 04</span>
+          <h2>Bau-App</h2>
+          <p>Bauphasen • Fortschrittsring • Kostenrechner</p>
+          <span class="srx-go">Erlebnis öffnen <i>→</i></span>
+        </div>
+      </a>
+      <a class="srx-card" href="/showroom/eis" data-bg="#0d1626" aria-label="Marken-Studio öffnen">
+        <div class="srx-frame">
+          <div class="srx-bar"><i></i><i></i><i></i><span>vonumo-lab.de</span><b>Story</b></div>
+          <div class="srx-media"><img src="/assets/media/ice/ice-4.webp" srcset="/assets/media/ice/ice-4-s.webp 800w, /assets/media/ice/ice-4.webp 1600w" sizes="(max-width:760px) 86vw, 640px" alt="Leuchtende Eisringe im Schnee" loading="lazy" width="1600" height="900"><span class="srx-glare" aria-hidden="true"></span></div>
+        </div>
+        <div class="srx-meta">
+          <span class="srx-n">04 / 04</span>
+          <h2>Marken-Studio</h2>
+          <p>Scroll-Storytelling • Schneefall • Tiefe</p>
+          <span class="srx-go">Erlebnis öffnen <i>→</i></span>
+        </div>
+      </a>
     </div>
-    <div class="sr-cards">
-      <article class="sr-card" data-in style="--c:#a6ff2e">
-        <header><b>01</b><button class="add" aria-label="Shadow Puffer zur Anfrage hinzufügen">+</button></header>
-        <div class="nm"><h3 data-hover-scramble>Shadow Puffer<br>Jacke</h3><span>480 €</span></div>
-        <img src="/assets/media/sr/jacket-lime.webp" srcset="/assets/media/sr/jacket-lime-s.webp 450w, /assets/media/sr/jacket-lime.webp 900w" sizes="(max-width:760px) 45vw, 25vw" alt="Daunenjacke in Limettengrün" width="900" height="709" loading="lazy">
-        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
-      </article>
-      <article class="sr-card" data-in style="--c:#ff3ea5">
-        <header><b>02</b><button class="add" aria-label="Tactical Hooded zur Anfrage hinzufügen">+</button></header>
-        <div class="nm"><h3 data-hover-scramble>Tactical Hooded<br>Jacke</h3><span>395 €</span></div>
-        <img src="/assets/media/sr/jacket-pink.webp" srcset="/assets/media/sr/jacket-pink-s.webp 450w, /assets/media/sr/jacket-pink.webp 900w" sizes="(max-width:760px) 45vw, 25vw" alt="Daunenjacke in Pink" width="900" height="709" loading="lazy">
-        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
-      </article>
-      <article class="sr-card" data-in style="--c:#ff4a1c">
-        <header><b>03</b><button class="add" aria-label="Thermal Bomber zur Anfrage hinzufügen">+</button></header>
-        <div class="nm"><h3 data-hover-scramble>Thermal Bomber<br>Jacke</h3><span>340 €</span></div>
-        <img src="/assets/media/sr/jacket-orange.webp" srcset="/assets/media/sr/jacket-orange-s.webp 450w, /assets/media/sr/jacket-orange.webp 900w" sizes="(max-width:760px) 45vw, 25vw" alt="Daunenjacke in Signalorange" width="900" height="709" loading="lazy">
-        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
-      </article>
-      <article class="sr-card" data-in style="--c:#2f6bff">
-        <header><b>04</b><button class="add" aria-label="Tech Shell zur Anfrage hinzufügen">+</button></header>
-        <div class="nm"><h3 data-hover-scramble>Tech Shell<br>Jacke</h3><span>520 €</span></div>
-        <img src="/assets/media/sr/jacket-blue.webp" srcset="/assets/media/sr/jacket-blue-s.webp 450w, /assets/media/sr/jacket-blue.webp 900w" sizes="(max-width:760px) 45vw, 25vw" alt="Daunenjacke in Royalblau" width="900" height="709" loading="lazy">
-        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
-      </article>
+    <div class="srx-ctl">
+      <button class="srx-arr" id="srxPrev" aria-label="Vorheriges Projekt">←</button>
+      <div class="srx-prog" aria-hidden="true"><i id="srxBar"></i></div>
+      <span class="srx-count" id="srxCount" aria-live="polite">01 / 04</span>
+      <button class="srx-arr" id="srxNext" aria-label="Nächstes Projekt">→</button>
     </div>
-    <div class="sr-center" data-in><a class="sr-btn" href="/termin">Alle Modelle ansehen <span>→</span></a></div>
   </section>
-
-  <!-- 3 · TECHNOLOGIE (gepinnt) -->
-  <section class="sr-tech" id="technologie" aria-label="Technologie">
-    <div class="sr-stick">
-      <h2 class="sr-h big" data-scramble data-in>Technologie,<br>gebaut zum<br>Durchhalten</h2>
-      <div class="sr-layers" id="srLayers">
-        <img src="/assets/media/sr/layers.webp" srcset="/assets/media/sr/layers-s.webp 700w, /assets/media/sr/layers.webp 1400w" sizes="(max-width:760px) 100vw, 56vw" alt="Explosionsansicht der vier Materialschichten" width="1400" height="933" loading="lazy">
-        <i class="ldot" id="srLdot"></i>
-      </div>
-      <svg class="sr-wire" id="srWire" aria-hidden="true"><line id="srLine" x1="0" y1="0" x2="0" y2="0"/></svg>
-      <div class="sr-call" id="srCall" aria-live="polite">
-        <b id="srCallN">01</b>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
-        <div><h3 id="srCallT">Außenhülle</h3><p id="srCallP">Robuste Außenschicht, die Wasser abweist und vor Wind und Regen schützt.</p></div>
-      </div>
-      <ol class="sr-ticks" id="srTicks" aria-hidden="true"><li class="on"></li><li></li><li></li><li></li></ol>
-      <p class="sr-p bl" data-in>Jedes Detail hat einen Zweck.<br>Von der schützenden Außenhülle<br>bis zur Isolierung im Inneren –<br>gebaut für Leistung ohne Kompromisse.</p>
-    </div>
-  </section>
-
-  <!-- 4 · FAQ -->
-  <section class="sr-faq" id="faq" aria-label="Häufige Fragen">
-    <div class="sr-faq-l">
-      <h2 class="sr-h big" data-scramble data-in>Gut zu<br>wissen.</h2>
-      <img class="sr-faq-img" src="/assets/media/sr/hero-right.webp" srcset="/assets/media/sr/hero-right-s.webp 700w, /assets/media/sr/hero-right.webp 1400w" sizes="(max-width:760px) 100vw, 50vw" alt="" width="1400" height="787" loading="lazy">
-    </div>
-    <dl class="sr-qa">
-      <div class="row" data-in><dt><span>Wie finde ich die richtige Größe?</span><b>01</b></dt><dd>Nutzen Sie unseren Größenratgeber. Die Jacken haben eine Oversized-Silhouette für bequemes Layering.</dd></div>
-      <div class="row" data-in><dt><span>Welche Materialien werden verwendet?</span><b>02</b></dt><dd>Technische Gewebe, Ripstop und moderne Isolierung – für Haltbarkeit, Schutz und Komfort.</dd></div>
-      <div class="row" data-in><dt><span>Wie pflege ich meine Jacke?</span><b>03</b></dt><dd>Folgen Sie den Pflegehinweisen. Vermeiden Sie aggressive Waschmittel und hohe Hitze.</dd></div>
-      <div class="row" data-in><dt><span>Versenden Sie international?</span><b>04</b></dt><dd>Ja. Weltweiter Versand mit sicherer Zustellung und Sendungsverfolgung.</dd></div>
-    </dl>
-  </section>
-
-  <footer class="sr-foot">
-    <p class="sr-p" data-in>Konzept einer fiktiven Techwear-Marke – gestaltet und entwickelt von VONUMO. Bilder KI-generiert.</p>
-    <a class="sr-btn" href="/termin" data-in>So eine Website anfragen <span>→</span></a>
-    <span class="sr-foot-big" data-scramble data-in>VONUMO</span>
-  </footer>
 </main>
-<script src="/assets/sr.js?v=202611162320" defer></script>
+<div class="srx-zoom" id="srxZoom" aria-hidden="true"></div>
+<script src="/assets/srx.js?v=202611162357" defer></script>
 </body>
 </html>

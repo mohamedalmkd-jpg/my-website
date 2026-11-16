@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050506">
+<meta name="color-scheme" content="dark">
+<title>Techwear – 3D Commerce Experience · VONUMO Showroom</title>
+<meta name="description" content="Interaktives 3D-Commerce-Konzept von VONUMO: Echtzeit-WebGL-Jacke, Kollektion, Material-Technologie und FAQ.">
+<link rel="icon" type="image/webp" href="/assets/6925aa020ce5116c12186e64c389ccd4.webp">
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/departure-mono.woff2" crossorigin>
+<script type="importmap">{"imports":{"three":"/assets/vendor/three.module.min.js"}}</script>
+<link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+<link rel="stylesheet" href="/assets/sr.css?v=202611162357">
+</head>
+<body class="sr">
+<div class="sr-grid" aria-hidden="true"></div>
+<canvas class="sr-bolt" id="srBolt" aria-hidden="true"></canvas>
+<canvas class="tw-gl" id="twGl" aria-hidden="true"></canvas>
+<div class="sr-cursor" aria-hidden="true"><i></i></div>
+<div class="tw-load" id="twLoad" aria-hidden="true"><span>Loading 3D</span><b id="twLoadP">0%</b></div>
+
+<header class="sr-nav" id="srNav">
+  <a class="sr-logo" href="#top" data-scr aria-label="VONUMO WEAR – nach oben"><svg viewBox="0 0 40 20" width="40" height="20" aria-hidden="true"><path d="M2 3h6l4 11 4-11h6l-7 15h-6zM24 3h5l9 15h-5z" fill="currentColor"/></svg><span>VNM/WEAR</span></a>
+  <nav class="sr-links" aria-label="Main">
+    <a href="#kollektion" data-scr>Shop</a>
+    <a href="#kollektion" data-scr>Collections <i>▾</i></a>
+    <a href="#technologie" data-scr>Technology</a>
+    <a href="#faq" data-scr>About</a>
+  </nav>
+  <button class="sr-cart" id="srCart" aria-label="Cart">Cart <b>[ <span id="srCount">0</span> ]</b></button>
+  <button class="sr-burger" id="srBurger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+<nav class="sr-drawer" id="srDrawer" aria-label="Menu">
+  <a href="#kollektion" data-scr>Shop</a><a href="#kollektion" data-scr>Collections</a><a href="#technologie" data-scr>Technology</a><a href="#faq" data-scr>About</a><a href="/showroom">← Showroom</a>
+</nav>
+<a class="tw-back" href="/showroom" aria-label="Zurück zum VONUMO Showroom"><span>←</span> Showroom</a>
+
+<main id="top">
+  <!-- A · HERO → B · DETAILS (gepinnt, eine durchgehende Kamerafahrt) -->
+  <section class="sr-hero" id="srHero" aria-label="Product">
+    <div class="sr-stick">
+      <div class="tw-view tw-hero" id="vHero" role="img" aria-label="3D model of a glossy black techwear puffer jacket"></div>
+      <p class="sr-side l" data-scramble>Engineered<br>for motion.<br>Built to endure.</p>
+      <p class="sr-side r" data-scramble>Designed<br>for the unknown.<br>Ready for anything.</p>
+
+      <div class="sr-hot" id="srHot">
+        <i class="dot"></i>
+        <div class="tip"><span>Weather-resistant. Thermal insulation.<br>Oversized fit. Limited quantity.</span><a href="#kollektion" data-scr class="sr-btn sm">Shop now</a></div>
+      </div>
+
+      <div class="sr-dt" id="srDt">
+        <h2 class="sr-h" data-scramble>Details<br>matter.</h2>
+        <p class="sr-p">A technical outer layer built for movement, changing weather and everyday life beyond the comfort zone.</p>
+        <a class="sr-btn" href="#kollektion" data-scr>Explore the jacket <span>→</span></a>
+      </div>
+
+      <ol class="sr-feat" id="srFeat">
+        <li><b>01</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9H4z"/><path d="M9 20v-6h6v6"/></svg><div><h3>Weather-resistant shell</h3><p>Durable outer fabric protects against wind, rain and snow.</p></div></li>
+        <li><b>02</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10"/><circle cx="12" cy="17" r="4"/><path d="M16 6h3M16 9h2"/></svg><div><h3>Thermal insulation</h3><p>Keeps you warm without adding bulk or weight.</p></div></li>
+        <li><b>03</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5"/><path d="M8 5h11v11"/><path d="M5 12v7h7"/></svg><div><h3>Reinforced construction</h3><p>Durable seams designed for everyday wear.</p></div></li>
+        <li><b>04</b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M5 9h14M12 9v3"/></svg><div><h3>Functional storage</h3><p>Zippered pockets inside and outside for essentials.</p></div></li>
+        <li><b>05</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><div><h3>Oversized fit</h3><p>Relaxed silhouette for movement, layering and comfort.</p></div></li>
+      </ol>
+      <span class="sr-scroll" aria-hidden="true">Scroll</span>
+    </div>
+  </section>
+
+  <!-- C · COLLECTIONS -->
+  <section class="sr-col" id="kollektion" aria-label="Collections">
+    <div class="sr-col-h">
+      <h2 class="sr-h big" data-scramble data-in>Collections.</h2>
+      <p class="sr-p r" data-in>Technical jackets for changing<br>weather, movement and everyday use.</p>
+    </div>
+    <div class="sr-cards" id="srCards">
+      <article class="sr-card" data-in data-i="0" data-color="#9dff1e" data-name="Shadow Puffer Jacket" data-price="480" tabindex="0" style="--c:#a6ff2e">
+        <header><b>01</b><button class="add" aria-label="Add Shadow Puffer Jacket to cart">+</button></header>
+        <div class="nm"><h3 data-hover-scramble>Shadow Puffer<br>Jacket</h3><span>€480</span></div>
+        <div class="tw-view c3d"><img src="/assets/media/sr/jacket-lime-s.webp" alt="Lime green puffer jacket" width="450" height="354" loading="lazy"></div>
+        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
+      </article>
+      <article class="sr-card" data-in data-i="1" data-color="#ff2f9a" data-name="Tactical Hooded Jacket" data-price="395" tabindex="0" style="--c:#ff3ea5">
+        <header><b>02</b><button class="add" aria-label="Add Tactical Hooded Jacket to cart">+</button></header>
+        <div class="nm"><h3 data-hover-scramble>Tactical Hooded<br>Jacket</h3><span>€395</span></div>
+        <div class="tw-view c3d"><img src="/assets/media/sr/jacket-pink-s.webp" alt="Pink puffer jacket" width="450" height="354" loading="lazy"></div>
+        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
+      </article>
+      <article class="sr-card" data-in data-i="2" data-color="#ff3d0f" data-name="Thermal Bomber Jacket" data-price="340" tabindex="0" style="--c:#ff4a1c">
+        <header><b>03</b><button class="add" aria-label="Add Thermal Bomber Jacket to cart">+</button></header>
+        <div class="nm"><h3 data-hover-scramble>Thermal Bomber<br>Jacket</h3><span>€340</span></div>
+        <div class="tw-view c3d"><img src="/assets/media/sr/jacket-orange-s.webp" alt="Orange puffer jacket" width="450" height="354" loading="lazy"></div>
+        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
+      </article>
+      <article class="sr-card" data-in data-i="3" data-color="#1f55ff" data-name="Tech Shell Jacket" data-price="520" tabindex="0" style="--c:#2f6bff">
+        <header><b>04</b><button class="add" aria-label="Add Tech Shell Jacket to cart">+</button></header>
+        <div class="nm"><h3 data-hover-scramble>Tech Shell<br>Jacket</h3><span>€520</span></div>
+        <div class="tw-view c3d"><img src="/assets/media/sr/jacket-blue-s.webp" alt="Blue puffer jacket" width="450" height="354" loading="lazy"></div>
+        <ul class="sw" aria-hidden="true"><li class="on"></li><li></li><li></li></ul>
+      </article>
+    </div>
+    <div class="sr-center" data-in><a class="sr-btn" href="#kollektion" id="viewAll">View all models <span>→</span></a></div>
+  </section>
+
+  <!-- D · TECHNOLOGY (gepinnt) -->
+  <section class="sr-tech" id="technologie" aria-label="Technology">
+    <div class="sr-stick">
+      <h2 class="sr-h big" data-scramble data-in>Technology<br>engineered<br>to endure</h2>
+      <div class="tw-view sr-layers" id="vLayers" role="img" aria-label="Exploded 3D view of four fabric layers"></div>
+      <i class="ldot" id="srLdot" aria-hidden="true"></i>
+      <svg class="sr-wire" id="srWire" aria-hidden="true"><line id="srLine" x1="0" y1="0" x2="0" y2="0"/></svg>
+      <div class="sr-call" id="srCall" aria-live="polite">
+        <b id="srCallN">01</b>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
+        <div><h3 id="srCallT">Outer shell</h3><p id="srCallP">Durable outer layer that repels water and protects against wind and rain.</p></div>
+      </div>
+      <ol class="sr-ticks" id="srTicks" aria-hidden="true"><li class="on"></li><li></li><li></li><li></li></ol>
+      <p class="sr-p bl" data-in>Every detail has a purpose.<br>From the protective outer shell<br>to the insulation inside, the jacket<br>performs without compromise.</p>
+    </div>
+  </section>
+
+  <!-- E · NEED TO KNOW -->
+  <section class="sr-faq" id="faq" aria-label="FAQ">
+    <div class="sr-faq-l">
+      <h2 class="sr-h big" data-scramble data-in>Need<br>to know.</h2>
+      <div class="tw-view sr-faq-img" id="vFaq" aria-hidden="true"></div>
+    </div>
+    <div class="sr-qa">
+      <div class="row" data-in><button class="q" aria-expanded="true"><span>How do I choose the right size?</span><b>01</b></button><div class="a"><p>Check the size guide for measurements and fit. The jackets feature an oversized silhouette for comfortable layering.</p></div></div>
+      <div class="row" data-in><button class="q" aria-expanded="true"><span>What materials are used?</span><b>02</b></button><div class="a"><p>Technical fabrics, ripstop weave and advanced insulation for durability, protection and comfort.</p></div></div>
+      <div class="row" data-in><button class="q" aria-expanded="true"><span>How should I care for my jacket?</span><b>03</b></button><div class="a"><p>Follow the care label. Avoid harsh detergents and excessive heat to preserve the materials.</p></div></div>
+      <div class="row" data-in><button class="q" aria-expanded="true"><span>Do you ship internationally?</span><b>04</b></button><div class="a"><p>Yes. Worldwide shipping with secure delivery and tracking on every order.</p></div></div>
+    </div>
+  </section>
+
+  <footer class="sr-foot">
+    <p class="sr-p" data-in>Concept for a fictional techwear label. Designed and developed by VONUMO · Real-time WebGL.</p>
+    <a class="sr-btn" href="/termin" data-in>Get a site like this <span>→</span></a>
+    <span class="sr-foot-big" data-scramble data-in>VNM/WEAR</span>
+  </footer>
+</main>
+
+<!-- Produkt-Schnellansicht -->
+<div class="tw-modal" id="twModal" role="dialog" aria-modal="true" aria-labelledby="twMName" hidden>
+  <div class="tw-m-in">
+    <canvas class="tw-m-gl" id="twMGl" aria-label="3D product view – drag to rotate"></canvas>
+    <div class="tw-m-info">
+      <b class="tw-m-n" id="twMNum">01</b>
+      <h2 id="twMName">Shadow Puffer Jacket</h2>
+      <p class="tw-m-p" id="twMPrice">€480</p>
+      <p class="sr-p">Glossy ripstop shell, thermal fill, oversized cropped fit. Drag the model to rotate.</p>
+      <span class="lab">Size</span>
+      <div class="tw-sizes" role="radiogroup" aria-label="Size"><button role="radio" aria-checked="false">S</button><button role="radio" aria-checked="true" class="on">M</button><button role="radio" aria-checked="false">L</button><button role="radio" aria-checked="false">XL</button></div>
+      <button class="sr-btn" id="twMAdd">Add to cart <span>+</span></button>
+    </div>
+    <button class="tw-m-x" id="twMClose" aria-label="Close">×</button>
+  </div>
+</div>
+<script src="/assets/sr.js?v=202611162357" defer></script>
+<script type="module" src="/assets/tw.js?v=202611162357"></script>
+</body>
+</html>
