@@ -58,7 +58,7 @@
   --accent-soft: var(--raw-color-cobalt-200);
   --muted: var(--raw-color-slate-300);
   --line: var(--raw-color-line);
-  --radius-card: var(--raw-radius-lg);
+  --card-radius: var(--raw-radius-lg);
   --type-display: var(--raw-text-display);
   --type-title: var(--raw-text-title);
   --type-lead: var(--raw-text-lead);
@@ -100,7 +100,7 @@
   --color-accent-soft: var(--accent-soft);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --radius-card: var(--radius-card);
+  --radius-card: var(--card-radius);
   --text-display: var(--type-display);
   --text-title: var(--type-title);
   --text-lead: var(--type-lead);
@@ -172,6 +172,17 @@ body {
 }
 
 @layer utilities {
+}
+
+/* The body is a centring flex column (for one-screen pages and the 404). Its
+   children shrink to their content width, so a wide nowrap row (the marquee)
+   stretched the whole page to thousands of px and centred the viewport on
+   empty space. The scroll wrappers always span the viewport instead. */
+.scroll-layout,
+.scroll-layout-content {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
 }
 
 @layer components {

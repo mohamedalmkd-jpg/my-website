@@ -24,7 +24,12 @@ For *why* the conventions are what they are, see [[decisions-log]].
 - Studio palette + type tokens added to `globals.css` (ink / cobalt, display,
   title, lead, mega sizes); the site is dark in both colour schemes; consent UI
   re-pointed at the palette.
-- `siteConfig` filled (VONUMO Studio, `de_DE`).
+- `siteConfig` filled (VONUMO Studio, `de_DE`); cookie banner copy in German.
+- Fix: `.scroll-layout` / `.scroll-layout-content` now span the viewport. The
+  body's centring flex column shrank them to content width, and the nowrap
+  marquee made the page ~10 400 px wide — the viewport showed empty space.
+- Fix: `--radius-card` bound to itself in `@theme` (cycle → no radius); the
+  semantic token is now `--card-radius`.
 - Hosted from the `studio/` folder of the VONUMO site repo as its own Vercel
   project; linked from the VONUMO showroom.
 
