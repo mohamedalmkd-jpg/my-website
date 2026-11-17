@@ -73,5 +73,22 @@
       "maxDuration": 30,
       "includeFiles": "migrations/**"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/studio",
+      "destination": "https://vonumo-studio.vercel.app",
+      "permanent": false
+    },
+    {
+      "source": "/studio/:path*",
+      "destination": "https://vonumo-studio.vercel.app",
+      "permanent": false
+    },
+    {
+      "source": "/showroom/bau",
+      "destination": "/showroom",
+      "permanent": false
+    }
+  ]
 }

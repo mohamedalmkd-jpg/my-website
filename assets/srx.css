@@ -65,3 +65,12 @@
 .srx-card:hover .srx-media.srx-soda img{transform:rotate(-6deg) scale(.9)}
 .srx-soda-t{position:absolute;left:7%;top:12%;font:400 clamp(40px,6vw,86px)/.8 Georgia,serif;font-style:italic;color:#fff;opacity:.9}
 .srx-card:nth-child(5){animation-delay:.6s}
+
+/* Studio-Vorschau (Next.js-Starter) */
+.srx-media.srx-studio{display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:7% 7% 18%;background:radial-gradient(120% 90% at 85% 0%,rgba(47,107,255,.35),transparent 60%),#04060d}
+.srx-studio-k{font:500 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#a9c6ff}
+.srx-studio-t{font:300 clamp(24px,3.2vw,46px)/1.08 var(--sans);letter-spacing:-.03em;color:#fff;max-width:14ch;transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+.srx-studio-t em{font-style:italic;color:#2f6bff}
+.srx-studio-m{position:absolute;left:0;bottom:6%;white-space:nowrap;font:300 clamp(18px,2vw,28px) var(--sans);color:rgba(169,198,255,.35);border-top:1px solid rgba(140,175,255,.18);padding-top:10px;width:200%;transition:transform 2.4s cubic-bezier(.16,1,.3,1)}
+.srx-card:hover .srx-studio-t{transform:translateY(-6px)}
+.srx-card:hover .srx-studio-m{transform:translateX(-25%)}
