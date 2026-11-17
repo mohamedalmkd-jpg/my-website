@@ -23,7 +23,7 @@ export interface StudioLink {
 
 export const studioHome = {
   brand: "VONUMO",
-  back: { label: "← Showroom", href: "https://vonumo.vercel.app/showroom" } as StudioLink,
+  back: { label: "← Zur Website", href: "https://vonumo.vercel.app" } as StudioLink,
   nav: [
     { label: "Leistungen", href: "#leistungen" },
     { label: "Ablauf", href: "#ablauf" },

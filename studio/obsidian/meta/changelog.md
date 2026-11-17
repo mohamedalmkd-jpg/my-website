@@ -31,7 +31,7 @@ For *why* the conventions are what they are, see [[decisions-log]].
 - Fix: `--radius-card` bound to itself in `@theme` (cycle → no radius); the
   semantic token is now `--card-radius`.
 - Hosted from the `studio/` folder of the VONUMO site repo as its own Vercel
-  project; linked from the VONUMO showroom.
+  project; linked from the VONUMO site (the showroom was removed).
 
 ## 2026-10-14
 

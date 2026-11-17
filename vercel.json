@@ -86,8 +86,13 @@
       "permanent": false
     },
     {
-      "source": "/showroom/bau",
-      "destination": "/showroom",
+      "source": "/showroom",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/showroom/:path*",
+      "destination": "/",
       "permanent": false
     }
   ]
